@@ -1,0 +1,11 @@
+<mat-form-field class="full-width-input" appearance="fill">
+    <mat-label>{{entry.displayName}}</mat-label>
+    <mat-select [disabled]="disabled || (entry.value?.isReadOnly ?? false)" [(ngModel)]="entry.value.current">
+        <mat-option *ngFor="let pv of entry.value?.possible" [value]="pv">
+            {{pv}}
+        </mat-option>
+    </mat-select>
+    <mat-hint [ngClass]="{'entry-editor-disabled': (disabled || (entry.value?.isReadOnly ?? false))}">
+        {{entry.description}}
+    </mat-hint>
+</mat-form-field>

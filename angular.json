@@ -3,5 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-web-framework": {
+      "projectType": "library",
+      "root": "projects/ngx-web-framework",
+      "sourceRoot": "projects/ngx-web-framework/src",
+      "prefix": "moryx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-web-framework/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-web-framework/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-web-framework/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-web-framework/src/test.ts",
+            "tsConfig": "projects/ngx-web-framework/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-web-framework/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-web-framework"
 }

@@ -1,0 +1,32 @@
+.file-editor-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+}
+
+.moryx-file-input {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+}
+
+.file-input-field {
+  flex: 1 1 auto;
+}
+
+.file-input-button {
+  padding-top: 9px;
+  padding-bottom: 6.5px;
+  width: 80px;
+  border: 0px;
+  font-size: large;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 0%;
+  cursor: pointer;
+}
+
+.file-input {
+  display: none;
+}
