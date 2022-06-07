@@ -1,0 +1,21 @@
+<mat-form-field class="full-width-input" appearance="fill">
+    <mat-label>{{entry.displayName}}</mat-label>
+    <input aria-label="Text field for changing an entry value." 
+        [type]="inputType"
+        [placeholder]="entry.description ?? 'No description available'" 
+        matInput [formControl]="inputFormControl">
+
+    <mat-error *ngIf="inputFormControl.hasError('min')">
+        Please enter a value higher than {{entry.validation?.minimum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('max')">
+        Please enter a value lower than {{entry.validation?.maximum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('pattern')">
+        Please make sure your input matches the following pattern: {{entry.validation?.regex}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('required')">
+        {{entry.displayName}} is <strong>required</strong>
+    </mat-error>
+       
+</mat-form-field>

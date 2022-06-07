@@ -11,6 +11,16 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
+    "paths": {
+      "@moryx/ngx-web-framework/*": [
+        "./projects/ngx-web-framework/*",
+        "./projects/ngx-web-framework"
+      ],
+      "@moryx/ngx-web-framework": [
+        "./dist/ngx-web-framework/*",
+        "./dist/ngx-web-framework"
+      ]
+    },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,

@@ -1,0 +1,43 @@
+@import "../entry-editor.scss";
+
+.navigation-bar{
+    margin-bottom: 15px;
+    padding: 4px 8px;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: center;
+}
+
+.navigation-entries{
+    max-height: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.navigation-bar-layers{
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 300;
+}
+.navigation-bar-item {
+    cursor: pointer;
+}
+.navigation-bar-item:hover {
+    text-decoration: underline;
+}
+.navigation-bar-divider {
+    cursor: default;
+}
+
+entry-editor{
+    max-height: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    margin: 0px 10px;
+}

@@ -1,0 +1,19 @@
+@import "../entry-editor.scss";
+
+.entry-object{
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom:  0.6em;
+    border-radius: 0%;
+    text-align: left;
+}
+
+.entry-object-text {
+    padding-right: 8px;
+}
+
+.entry-object-symbol {
+    margin-top: -2px;
+}

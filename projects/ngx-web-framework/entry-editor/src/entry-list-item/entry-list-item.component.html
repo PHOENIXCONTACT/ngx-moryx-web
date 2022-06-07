@@ -1,0 +1,56 @@
+<div class="full-width-input">
+    <div class="entry-list-item-content">
+        <ng-container [ngSwitch]="true">
+            <entry-file-editor matLine  
+                class="entry-list-item-value"
+                [entry]="entry"
+                [disabled]="disabled"
+                *ngSwitchCase="EntryValueType.Stream === entry.value?.type" >
+            </entry-file-editor>
+            <entry-object-editor matLine 
+            class="entry-list-item-value"
+                [entry]="entry"                   
+                *ngSwitchCase="EntryValueType.Class === entry.value?.type || EntryValueType.Collection === entry.value?.type" >
+            ></entry-object-editor>
+            <entry-boolean-editor matLine      
+                class="entry-list-item-value"            
+                [entry]="entry"
+                [disabled]="disabled"
+                *ngSwitchCase="EntryValueType.Boolean === entry.value?.type" >
+            </entry-boolean-editor>
+            <entry-input-editor matLine      
+                class="entry-list-item-value"     
+                [entry]="entry"
+                [disabled]="disabled"
+                *ngSwitchCase="EntryValueType.Byte === entry.value?.type ||
+                                EntryValueType.Int16 === entry.value?.type || 
+                                EntryValueType.UInt16 === entry.value?.type ||
+                                EntryValueType.Int32 === entry.value?.type ||
+                                EntryValueType.UInt32 === entry.value?.type ||
+                                EntryValueType.Int64 === entry.value?.type ||
+                                EntryValueType.UInt64 === entry.value?.type ||
+                                EntryValueType.Single === entry.value?.type ||
+                                EntryValueType.Double === entry.value?.type ||
+                                EntryValueType.String === entry.value?.type ||
+                                EntryValueType.Exception === entry.value?.type">
+            </entry-input-editor>
+            <entry-enum-editor matLine 
+                class="entry-list-item-value"
+                [entry]="entry"
+                [disabled]="disabled"
+                *ngSwitchCase="EntryValueType.Enum === entry.value?.type" >
+            </entry-enum-editor>
+        </ng-container>
+
+        <button mat-fab 
+            class="entry-list-item-delete"
+            color="warn"
+            (click)="onDelete()"
+            [disabled]="disabled" 
+            [ngClass]="{'disabled': disabled}">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="list-divider"></mat-divider>
+</div>

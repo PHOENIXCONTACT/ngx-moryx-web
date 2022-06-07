@@ -1,0 +1,26 @@
+@import "../entry-editor.scss";
+
+.mat-checkbox .mat-checkbox-inner-container {
+    transform: scale(1.3);
+    margin-right: 10px;
+}
+
+.mat-checkbox {
+    margin-left: 2px;
+    line-height: 30px;
+}
+
+.entry-checkbox-with-hint {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: center;
+    padding-bottom: 1.3625em;
+    padding-left: 2px;
+}
+
+.boolean-entry-form-hint {
+    padding-left: 0.2em;
+    font-size: 75% !important;
+}
