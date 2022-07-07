@@ -33,6 +33,110 @@
           }
         }
       }
+    },
+    "moryx-web-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/moryx-web-app",
+      "sourceRoot": "projects/moryx-web-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/moryx-web-app",
+            "index": "projects/moryx-web-app/src/index.html",
+            "main": "projects/moryx-web-app/src/main.ts",
+            "polyfills": "projects/moryx-web-app/src/polyfills.ts",
+            "tsConfig": "projects/moryx-web-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/moryx-web-app/src/favicon.ico",
+              "projects/moryx-web-app/src/assets"
+            ],
+            "styles": [
+              "projects/moryx-web-app/src/styles.scss",
+              "projects/moryx-web-app/src/theme.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/moryx-web-app/src/environments/environment.ts",
+                  "with": "projects/moryx-web-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "moryx-web-app:build:production"
+            },
+            "development": {
+              "browserTarget": "moryx-web-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "moryx-web-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/moryx-web-app/src/test.ts",
+            "polyfills": "projects/moryx-web-app/src/polyfills.ts",
+            "tsConfig": "projects/moryx-web-app/tsconfig.spec.json",
+            "karmaConfig": "projects/moryx-web-app/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/moryx-web-app/src/favicon.ico",
+              "projects/moryx-web-app/src/assets"
+            ],
+            "styles": [
+              "projects/moryx-web-app/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-web-framework"

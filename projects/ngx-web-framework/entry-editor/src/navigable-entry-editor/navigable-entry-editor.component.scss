@@ -1,21 +1,21 @@
 @import "../entry-editor.scss";
 
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    padding: 0px 8px;
+}
+
 .navigation-bar{
-    margin-bottom: 15px;
+    margin: 0px -8px 8px -8px;
     padding: 4px 8px;
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
     border-bottom: 1px solid #e5e5e5;
-    display: flex;
-    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    display: flex;
     align-items: center;
-}
-
-.navigation-entries{
-    max-height: 100%;
-    height: 100%;
-    overflow: hidden;
 }
 
 .navigation-bar-layers{
@@ -33,11 +33,8 @@
     cursor: default;
 }
 
-entry-editor{
-    max-height: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-flow: column;
-    margin: 0px 10px;
+.navigation-entries{
+    flex: 1 1;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
