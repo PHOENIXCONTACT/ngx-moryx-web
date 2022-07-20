@@ -1,6 +1,14 @@
 {
   "name": "@moryx/ngx-web-framework",
   "version": "0.0.2",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": true
+  },
   "peerDependencies": {
     "@angular/common": "^13.3.11",
     "@angular/core": "^13.3.11",
@@ -22,6 +30,8 @@
     "@angular/forms": "^13.3.11",
     "@angular/material": "^12.2.13",
     "@angular/router": "^13.3.11",
-    "rxjs": "^7.5.0"
+    "rxjs": "^7.5.0",
+    "copyfiles": "file:../../node_modules/copyfiles",
+    "typescript": "file:../../node_modules/typescript"
   }
 }
