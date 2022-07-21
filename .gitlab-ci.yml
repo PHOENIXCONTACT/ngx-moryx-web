@@ -18,6 +18,11 @@ build:
         Write-Host "Building $projectDirectory..." -ForegroundColor Green;
         cd $projectDirectory;
         ng build;
+        if ($LASTEXITCODE) {
+          exit 1;
+        }
+        
+        npm run build
         cd ..;
         
         if ($LASTEXITCODE) {
