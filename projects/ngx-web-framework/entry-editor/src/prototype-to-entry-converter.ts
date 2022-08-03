@@ -23,8 +23,11 @@ export class PrototypeToEntryConverter {
         entry.description = `${prototype.description}`;
         entry.displayName = `${prototype.displayName}`;
         if(prototype.subEntries && entry.subEntries){
-          entry.subEntries = prototype.subEntries?.map(this.cloneEntry);
-        }
+            entry.subEntries = [] as Entry[];
+            for(var i = 0; i< prototype.subEntries?.length; i++){
+              entry.subEntries[i] = this.cloneEntry(prototype.subEntries[i]);
+            }
+          }
         if(prototype.prototypes && entry.prototypes){
           entry.prototypes = [] as Entry[];
           for(var i = 0; i< prototype.prototypes?.length; i++){
