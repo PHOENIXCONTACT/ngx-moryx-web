@@ -1,5 +1,5 @@
-<div class="navigation-bar">
-    <ng-container *ngFor="let e of entryPath; last as isLast">
+<div class="navigation-bar" *ngIf="entryInformation && entryInformation.entryPath">
+    <ng-container *ngFor="let e of entryInformation.entryPath; last as isLast">
         <span class="navigation-bar-item" (click)="onNavigateSpecific(e)">
             {{e.displayName}}
         </span>
@@ -8,5 +8,7 @@
         </span>
     </ng-container>
 </div>
-<entry-editor class="navigation-entries" [entry]="currentEntry" [disabled]="disabled" [createdCounter]="createdCounter">
+
+<entry-editor 
+    [editorId]="editorId" class="navigation-entries" *ngIf="entryInformation && entryInformation.currentEntry" [entry]="entryInformation.currentEntry" [disabled]="disabled">
 </entry-editor>

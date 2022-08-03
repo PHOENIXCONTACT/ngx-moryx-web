@@ -31,9 +31,11 @@
                 <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="EntryValueType.Stream === subEntry.value?.type">
                 </entry-file-editor>
-                <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+            <ng-container *ngIf="editorId">
+                <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry" [editorId]="editorId"
                     *ngSwitchCase="EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type">
                     ></entry-object-editor>
+                    </ng-container>
                 <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="EntryValueType.Boolean === subEntry.value?.type">
                 </entry-boolean-editor>

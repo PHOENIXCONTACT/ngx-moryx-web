@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/entry-editor';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +8,5 @@ import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/e
 export class AppComponent {
   title = 'moryx-web-app';
 
-  constructor(router: Router) {
-    router.navigate([router.url + "/entry-editor-demo/RootEntry"])
-  }
+  constructor() { }
 }

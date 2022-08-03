@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EntryEditorDemoComponent } from './entry-editor-demo/entry-editor-demo.component';
 
 const routes: Routes = [
-  {path: 'entry-editor-demo/:entryParams', component:EntryEditorDemoComponent}
+
 ];
 
 @NgModule({

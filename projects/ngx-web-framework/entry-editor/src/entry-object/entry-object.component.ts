@@ -1,21 +1,22 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Entry } from '../models/entry';
-
+import { NavigableEntryService } from '../services/navigable-entry.service';
 @Component({
   selector: 'entry-object-editor',
   templateUrl: './entry-object.component.html',
   styleUrls: ['./entry-object.component.scss'],
 })
 export class EntryObjectComponent implements OnInit {
+  
   @Input() entry!:Entry;
-  constructor(private router: Router) { }
+  @Input() editorId!: number;
+  constructor(private service: NavigableEntryService) { }
 
   ngOnInit(): void {
   }
 
   onOpen(){
-    let url = this.router.url + "." + this.entry.identifier;
-    this.router.navigate([url]);
+    this.service.onOpenEntry(this.editorId, this.entry);
   }
 }
