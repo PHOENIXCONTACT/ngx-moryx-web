@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
+import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 
 @Component({
   selector: 'entry-editor',
@@ -10,6 +11,7 @@ import { EntryValueType } from '../models/entry-value-type';
 })
 export class EntryEditorComponent implements OnInit {
 
+  @Input() editorId?:number;
   private _entry!: Entry;
   @Input() set entry(value: Entry) {
     this._entry = value;
@@ -51,7 +53,7 @@ export class EntryEditorComponent implements OnInit {
     if(this.selectedListItemType && this.prototypes){
       var prototype = this.prototypes.find(x => x.displayName === this.selectedListItemType);
       if(prototype){
-        var entry = this.cloneEntry(prototype);
+        var entry = PrototypeToEntryConverter.cloneEntry(prototype);
         if(this.createdCounter){
           entry.identifier = 'CREATED' + this.createdCounter;
           this.createdCounter = this.createdCounter +1;
@@ -59,26 +61,5 @@ export class EntryEditorComponent implements OnInit {
         this.entry.subEntries?.push(entry);
       }      
     }
-  }
-
-  private cloneEntry(prototype: Entry):Entry{
-    var entry = {...prototype};
-    entry.validation = {...prototype.validation};
-    entry.value = {...prototype.value};
-    entry.description = `${prototype.description}`;
-    entry.displayName = `${prototype.displayName}`;
-    if(prototype.subEntries && entry.subEntries){
-      entry.subEntries = [] as Entry[];
-      for(var i = 0; i< prototype.subEntries?.length; i++){
-        entry.subEntries[i] = this.cloneEntry(prototype.subEntries[i]);
-      }
-    }
-    if(prototype.prototypes && entry.prototypes){
-      entry.prototypes = [] as Entry[];
-      for(var i = 0; i< prototype.prototypes?.length; i++){
-        entry.prototypes[i] = this.cloneEntry(prototype.prototypes[i]);
-      }
-    }
-    return entry;
   }
 }
