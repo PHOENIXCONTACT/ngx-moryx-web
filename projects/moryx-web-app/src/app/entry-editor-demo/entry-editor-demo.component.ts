@@ -217,6 +217,20 @@ export class EntryEditorDemoComponent implements OnInit {
           current: "",
           default: "",
           type: EntryValueType.String
+        },
+        
+      },
+      { // Object 
+        displayName: "Subentry Object Name",
+        description: "This is a Subentry Object description.",
+        identifier: "SubentryObjectIdentifier",
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Class,
+          unitType: EntryUnitType.None
         }
       }]
     }],

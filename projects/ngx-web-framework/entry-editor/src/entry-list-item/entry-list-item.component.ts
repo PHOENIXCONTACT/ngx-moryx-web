@@ -9,6 +9,7 @@ import { EntryValueType } from '../models/entry-value-type';
   styleUrls: ['./entry-list-item.component.scss']
 })
 export class EntryListItemComponent implements OnInit {
+  @Input() editorId!: number;
   @Input() entry!:Entry;
   @Input() disabled: boolean = false;
   @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();

@@ -168,17 +168,19 @@ export class NavigableEntryService {
    * @returns
    */
   onOpenEntry(editorId: number, newEntry: Entry) {
+    console.log(editorId)
     if (!this.entryEditorInformation.has(editorId)) return;
 
     const infos = this.entryEditorInformation.get(editorId);
     if (!infos) return;
 
     const parameters = this.entryEditorParameters.get(editorId);
-    if (!parameters?.queryParam) return;
+    if (!parameters) return;
 
     infos.entryPath.push(newEntry);
     infos.currentEntry = newEntry;
-    this.setQueryParam(infos, parameters.queryParam);
+    if(parameters.queryParam)
+      this.setQueryParam(infos, parameters.queryParam);
   }
 
   private setQueryParam(

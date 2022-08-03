@@ -22,20 +22,22 @@
 <mat-list class="entry-editor-subentries-list">
     <ng-container *ngFor="let subEntry of entry.subEntries ?? []">
         <ng-container *ngIf="EntryValueType.Collection === entry.value?.type; else elseBlock">
-            <entry-list-item matLine class="entry-editor-subentries-list-item" [entry]="subEntry" [disabled]="disabled"
-                (deleteRequest)="onDeleteListItem($event)">
-            </entry-list-item>
+            <ng-container *ngIf="editorId">
+                <entry-list-item matLine class="entry-editor-subentries-list-item" [editorId]="editorId" [entry]="subEntry" [disabled]="disabled"
+                    (deleteRequest)="onDeleteListItem($event)">
+                </entry-list-item>
+            </ng-container>
         </ng-container>
         <ng-template #elseBlock>
             <ng-container [ngSwitch]="true">
                 <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="EntryValueType.Stream === subEntry.value?.type">
                 </entry-file-editor>
-            <ng-container *ngIf="editorId">
-                <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry" [editorId]="editorId"
-                    *ngSwitchCase="EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type">
-                    ></entry-object-editor>
-                    </ng-container>
+                <ng-container *ngIf="editorId">
+                    <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry" [editorId]="editorId"
+                        *ngSwitchCase="EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type">
+                        ></entry-object-editor>
+                </ng-container>
                 <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="EntryValueType.Boolean === subEntry.value?.type">
                 </entry-boolean-editor>

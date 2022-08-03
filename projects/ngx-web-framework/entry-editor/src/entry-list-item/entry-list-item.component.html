@@ -4,7 +4,7 @@
             <entry-file-editor matLine class="entry-list-item-value" [entry]="entry" [disabled]="disabled"
                 *ngSwitchCase="EntryValueType.Stream === entry.value?.type">
             </entry-file-editor>
-            <entry-object-editor matLine class="entry-list-item-value" [entry]="entry"
+            <entry-object-editor matLine class="entry-list-item-value" [entry]="entry" [editorId]="editorId"
                 *ngSwitchCase="EntryValueType.Class === entry.value?.type || EntryValueType.Collection === entry.value?.type">
                 ></entry-object-editor>
             <entry-boolean-editor matLine class="entry-list-item-value" [entry]="entry" [disabled]="disabled"
