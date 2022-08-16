@@ -1,6 +1,6 @@
 // Colors
 $primary: #33969d;
-$info: hsl(0, 0%, 86%);
+$info: rgb(128, 128, 128);
 $success: #abcb3d; 
 $warning: #EBAD34;
 $danger: #e9545d;
@@ -16,6 +16,7 @@ $warn-dark: #e3232f;
 $mat-background: #fafafa;
 $mat-background-light: white;
 $mat-color: rgba(0, 0, 0, 0.87);
+$mat-color-light: hsl(0, 0%, 96%);
 
 $lighter-background-hover: hsl(0, 0%, 96%);
 $light-background-hover: hsl(0, 0%, 86%);
