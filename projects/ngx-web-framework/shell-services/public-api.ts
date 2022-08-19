@@ -1,0 +1,1 @@
+export * from './src/search-bar/search-bar.service'
