@@ -3,3 +3,4 @@
  */
 
 export * from '@moryx/ngx-web-framework/entry-editor'
+export * from '@moryx/ngx-web-framework/shell-services'
