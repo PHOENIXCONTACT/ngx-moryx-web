@@ -9,14 +9,14 @@ export class SearchBarService {
 
   searchFilter(): Observable<SearchResult> {
     return new Observable(subscriber => {
-      shell.onsearch((value: string, completed: boolean) => {
+      shell.onSearch((value: string, completed: boolean) => {
         subscriber.next(<SearchResult>{ value: value, completed: completed });
 
         if (completed) {
           subscriber.complete();
         }
 
-        return () => shell.onsearch(() => {});
+        return () => shell.onSearch(() => {});
       });
     });
   }
@@ -41,7 +41,7 @@ export interface SearchSuggestion {
 }
 
 interface MoryxShell {
-  onsearch(callback: SearchCallback): void;
+  onSearch(callback: SearchCallback): void;
   updateSuggestions(suggestions: SearchSuggestion[]): void;
 }
 

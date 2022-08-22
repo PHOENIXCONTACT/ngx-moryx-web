@@ -34,7 +34,7 @@ window.shell = function () {
     const shell = new Object();
 
     var subscriber = function (filter, complete) { alert(value); };
-    shell.onsearch = function (callback) {
+    shell.onSearch = function (callback) {
         subscriber = callback;
     };
 
