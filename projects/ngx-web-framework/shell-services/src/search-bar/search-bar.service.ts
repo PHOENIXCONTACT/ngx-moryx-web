@@ -9,20 +9,20 @@ export class SearchBarService {
 
   searchFilter(): Observable<SearchResult> {
     return new Observable(subscriber => {
-      shell.onSearch((value: string, completed: boolean) => {
+      window.shell.onSearch((value: string, completed: boolean) => {
         subscriber.next(<SearchResult>{ value: value, completed: completed });
 
         if (completed) {
           subscriber.complete();
         }
 
-        return () => shell.onSearch(() => {});
+        return () => window.shell.onSearch(() => {});
       });
     });
   }
 
   updateSuggestions(suggestions: SearchSuggestion[]) {
-    shell.updateSuggestions(suggestions);
+    window.shell.updateSuggestions(suggestions);
   }
 }
 
@@ -45,4 +45,6 @@ interface MoryxShell {
   updateSuggestions(suggestions: SearchSuggestion[]): void;
 }
 
-declare var shell: MoryxShell;
+declare global {
+  interface Window { shell: MoryxShell;}
+}
