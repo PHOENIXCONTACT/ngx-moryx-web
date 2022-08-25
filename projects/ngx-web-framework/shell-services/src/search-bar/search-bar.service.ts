@@ -1,22 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchBarService {
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
 
   searchFilter(): Observable<SearchResult> {
     return new Observable(subscriber => {
       window.shell.onsearch((value: string, completed: boolean) => {
-        subscriber.next(<SearchResult>{ value: value, completed: completed });
+        this.ngZone.run (()=> {subscriber.next(<SearchResult>{ value: value, completed: completed })});
 
         if (completed) {
-          subscriber.complete();
+          this.ngZone.run (()=>{subscriber.complete()}) 
         }
 
-        return () => window.shell.onsearch(() => {});
+        this.ngZone.run (()=>{return () => this.ngZone.run(() => { window.shell.onsearch(() => { }) })});
       });
     });
   }
