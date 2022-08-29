@@ -1,38 +1,56 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Observer, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchBarService {
-  constructor(private ngZone: NgZone) {}
+  subscription: Subscription | undefined = undefined;
 
-  searchFilter(): Observable<SearchResult> {
-    return new Observable(subscriber => {
-      window.shell.onsearch((value: string, completed: boolean) => {
-        this.ngZone.run (()=> {subscriber.next(<SearchResult>{ value: value, completed: completed })});
+  constructor(private ngZone: NgZone) { }
 
-        if (completed) {
-          this.ngZone.run (()=>{subscriber.complete()}) 
+  subscribe(observer: Partial<Observer<SearchRequest>> | undefined): void {
+    if(this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+    
+    let observable = new Observable<SearchRequest>(subscriber => {
+      window.shell.initSearchBar((term: string, submitted: boolean) => {
+        this.ngZone.run(() => { subscriber.next(<SearchRequest>{ term: term, submitted: submitted }) });
+
+        if (submitted) {
+          this.ngZone.run(() => { subscriber.complete() });
         }
-
-        this.ngZone.run (()=>{return () => this.ngZone.run(() => { window.shell.onsearch(() => { }) })});
-      });
+      },
+      false);
     });
+
+    this.subscription = observable.subscribe(observer);
   }
 
-  updateSuggestions(suggestions: SearchSuggestion[]) {
+  unsubscribe(): void {
+    if(this.subscription !== undefined) {
+      window.shell.initSearchBar(() => {}, true);
+      this.subscription.unsubscribe();
+    }
+  }
+
+  provideSuggestions(suggestions: SearchSuggestion[]) {
     window.shell.updateSuggestions(suggestions);
   }
+
+  clearSuggestions() {
+    window.shell.updateSuggestions([]);
+  }
 }
 
-export interface SearchResult {
-  value: string;
-  completed: boolean;
+export interface SearchRequest {
+  term: string;
+  submitted: boolean;
 }
 
-interface SearchCallback {
-  (filter: string, complete: boolean): void;
+interface SearchRequestCallback {
+  (term: string, complete: boolean): void;
 }
 
 export interface SearchSuggestion {
@@ -41,7 +59,7 @@ export interface SearchSuggestion {
 }
 
 interface MoryxShell {
-  onsearch(callback: SearchCallback): void;
+  initSearchBar(callback: SearchRequestCallback, disableSearchBox: boolean): void;
   updateSuggestions(suggestions: SearchSuggestion[]): void;
 }
 
