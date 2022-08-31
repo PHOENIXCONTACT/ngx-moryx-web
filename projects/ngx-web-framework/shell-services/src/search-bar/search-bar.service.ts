@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Observer, Subscription } from 'rxjs';
+import { MoryxShell } from '../shell';
 
 @Injectable({
   providedIn: 'root',
@@ -49,18 +50,9 @@ export interface SearchRequest {
   submitted: boolean;
 }
 
-interface SearchRequestCallback {
-  (term: string, complete: boolean): void;
-}
-
 export interface SearchSuggestion {
   text: string;
   url?: string;
-}
-
-interface MoryxShell {
-  initSearchBar(callback: SearchRequestCallback, disableSearchBox: boolean): void;
-  updateSuggestions(suggestions: SearchSuggestion[]): void;
 }
 
 declare global {
