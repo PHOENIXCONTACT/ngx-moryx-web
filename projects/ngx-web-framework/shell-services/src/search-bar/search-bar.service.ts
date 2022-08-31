@@ -58,3 +58,7 @@ export interface SearchSuggestion {
 declare global {
   interface Window { shell: MoryxShell;}
 }
+
+export interface SearchRequestCallback {
+  (term: string, complete: boolean): void;
+}
