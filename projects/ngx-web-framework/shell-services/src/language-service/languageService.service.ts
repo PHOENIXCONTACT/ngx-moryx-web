@@ -8,7 +8,9 @@ export class LanguageService {
   constructor() {}
 
   subscribe(callback: any): void {
-    window.shell.onLanguageChange(callback);
+    if (window.shell) {
+      window.shell.onLanguageChange(callback);
+    }
   }
 }
 
