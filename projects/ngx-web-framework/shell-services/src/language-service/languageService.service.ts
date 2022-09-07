@@ -7,10 +7,11 @@ import { MoryxShell } from '../shell';
 export class LanguageService {
   constructor() {}
 
-  subscribe(callback: any): void {
+  getDefaultLanguage(): string {
     if (window.shell) {
-      window.shell.onLanguageChange(callback);
+      return window.shell.initLanguage();
     }
+    return 'de';
   }
 }
 
