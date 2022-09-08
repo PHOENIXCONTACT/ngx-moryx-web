@@ -14,34 +14,39 @@ export class SearchBarService {
     if(this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
+
+    if(window.shell){
+      let observable = new Observable<SearchRequest>(subscriber => {
+        window.shell.initSearchBar((term: string, submitted: boolean) => {
+          this.ngZone.run(() => { subscriber.next(<SearchRequest>{ term: term, submitted: submitted }) });
+  
+          if (submitted) {
+            this.ngZone.run(() => { subscriber.complete() });
+          }
+        },
+        false);
+      });
+  
+      this.subscription = observable.subscribe(observer);
+    }
     
-    let observable = new Observable<SearchRequest>(subscriber => {
-      window.shell.initSearchBar((term: string, submitted: boolean) => {
-        this.ngZone.run(() => { subscriber.next(<SearchRequest>{ term: term, submitted: submitted }) });
-
-        if (submitted) {
-          this.ngZone.run(() => { subscriber.complete() });
-        }
-      },
-      false);
-    });
-
-    this.subscription = observable.subscribe(observer);
   }
 
   unsubscribe(): void {
-    if(this.subscription !== undefined) {
+    if(window.shell && this.subscription !== undefined) {
       window.shell.initSearchBar(() => {}, true);
       this.subscription.unsubscribe();
     }
   }
 
   provideSuggestions(suggestions: SearchSuggestion[]) {
-    window.shell.updateSuggestions(suggestions);
+    if(window.shell)
+      window.shell.updateSuggestions(suggestions);
   }
 
   clearSuggestions() {
-    window.shell.updateSuggestions([]);
+    if(window.shell)
+      window.shell.updateSuggestions([]);
   }
 }
 
