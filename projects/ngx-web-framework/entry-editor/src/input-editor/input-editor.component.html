@@ -17,7 +17,7 @@
     <mat-error *ngIf="inputFormControl.hasError('required')">
         {{entry.displayName}} is <strong>required</strong>
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')">
+    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block">
         The value entered for the {{ entry.displayName }} field is
       <strong>invalid</strong>
     </mat-error>
