@@ -14,7 +14,11 @@ import { invalidEntryValueValidator } from '../validators/entry-editor.validator
 export class InputEditorComponent implements OnInit, OnDestroy {
 
   @Input() entry!: Entry;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
   private _disabled: boolean = false;
 
   @Input() set disabled(value: boolean) {
@@ -40,7 +44,11 @@ export class InputEditorComponent implements OnInit, OnDestroy {
     if (this.entry.validation?.isRequired)
       validators.push(Validators.required);
     if (this.inputType == "number")
+<<<<<<< HEAD
       this.addNumberValidators(validators);   
+=======
+      this.addNumberValidators(validators);
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
     if (this.inputType == "text")
       this.addTextValidators(validators);
 
@@ -56,18 +64,31 @@ export class InputEditorComponent implements OnInit, OnDestroy {
         this.entry.value.current = value;
     });
   }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
   ngOnDestroy(): void {
     this.formControlSubscription?.unsubscribe()
   }
 
+<<<<<<< HEAD
   addTextValidators(validators: ValidatorFn[]) {     
     if (this.entry.validation?.regex)  
+=======
+  addTextValidators(validators: ValidatorFn[]) {
+    if (this.entry.validation?.regex)
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
       validators.push(Validators.pattern(this.entry.validation?.regex))
   }
 
   addNumberValidators(validators: ValidatorFn[]) {
+<<<<<<< HEAD
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)     
+=======
+    var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry.value?.type)
 
     validators.push(Validators.max(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
@@ -91,9 +112,15 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return Number.MAX_SAFE_INTEGER;
       case EntryValueType.Single:
+<<<<<<< HEAD
         return 3.4*10^38;  
       case EntryValueType.Double:
         return Number.MAX_VALUE;      
+=======
+        return 3.4*10^38;
+      case EntryValueType.Double:
+        return Number.MAX_VALUE;
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
       default:
         return 0;
     }
@@ -116,9 +143,9 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return 0;
       case EntryValueType.Single:
-        return -3.4*10^38; 
+        return -3.4*10^38;
       case EntryValueType.Double:
-        return -Number.MAX_VALUE;    
+        return -Number.MAX_VALUE;
       default:
         return 0;
     }
@@ -133,7 +160,11 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       return "number";
     else if (EntryUnitType.Password === this.entry.value?.unitType)
       return "password";
+<<<<<<< HEAD
     else  
+=======
+    else
+>>>>>>> 41e4b613fbaf32a21863267a2ccfa845d153f97c
       return "text";
   }
 }
