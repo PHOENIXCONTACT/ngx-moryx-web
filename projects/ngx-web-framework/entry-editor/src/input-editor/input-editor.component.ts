@@ -14,7 +14,7 @@ import { invalidEntryValueValidator } from '../validators/entry-editor.validator
 export class InputEditorComponent implements OnInit, OnDestroy {
 
   @Input() entry!: Entry;
-    
+
   private _disabled: boolean = false;
 
   @Input() set disabled(value: boolean) {
