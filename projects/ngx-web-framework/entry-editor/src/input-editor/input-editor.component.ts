@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
+import { invalidEntryValueValidator } from '../validators/entry-editor.validators';
 
 @Component({
   selector: 'entry-input-editor',
@@ -35,6 +36,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
 
     // Set up validators
     var validators = [] as ValidatorFn[];
+    validators.push(invalidEntryValueValidator(this.entry.value.type));
     if (this.entry.validation?.isRequired)
       validators.push(Validators.required);
     if (this.inputType == "number")
