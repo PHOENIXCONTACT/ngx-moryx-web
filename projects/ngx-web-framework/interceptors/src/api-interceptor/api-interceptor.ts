@@ -1,7 +1,7 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { forwardRef, Injectable, Provider } from '@angular/core';
+import { LanguageService } from '@moryx/ngx-web-framework/shell-services';
 import { Observable, tap } from 'rxjs';
-import { LanguageService } from '../language-service/languageService.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -24,3 +24,9 @@ export class ApiInterceptor implements HttpInterceptor {
     );
   }
 }
+
+export const API_INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useExisting: forwardRef(() => ApiInterceptor),
+  multi: true,
+};
