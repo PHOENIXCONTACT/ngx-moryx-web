@@ -1,0 +1,54 @@
+:host {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state-icon-container {
+  width: 220px;
+  height: 220px;
+  position: relative;
+}
+
+.empty-state-icon-background {
+  background-color: #dbdbdb;
+  border-radius: 50%;
+  transform: scale(5);
+  padding: 10px;
+  position: absolute;
+  top: 88px;
+  left: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state-icon {
+  opacity: 60%;
+  z-index: 2;
+}
+.empty-state-stars-icon {
+  opacity: 60%;
+  transform: scale(1.5);
+  z-index: 1;
+  position: absolute;
+  top: 44px;
+  left: 56px
+}
+
+.empty-state-header {
+  opacity: 60%;
+  width: 220px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.empty-state-text {
+  opacity: 50%;
+  width: 220px;
+  text-align: center;
+}
