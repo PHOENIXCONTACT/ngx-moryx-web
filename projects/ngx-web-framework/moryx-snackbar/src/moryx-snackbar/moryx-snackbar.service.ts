@@ -23,8 +23,15 @@ export class MoryxSnackbarService {
   }
 
   async showError(errorMessage: string) {
+    let msg!: string;
+    if (errorMessage && errorMessage.length > 0) {
+      msg = errorMessage;
+    } else {
+      msg = await this.translate.get(TranslationConstants.DEFAULT_MESSAGE).toAsync();
+    }
     const dismissMessage = await this.translate.get(TranslationConstants.DISMISS).toAsync();
-    this.snackbar.open(errorMessage, dismissMessage, {
+
+    this.snackbar.open(msg, dismissMessage, {
       duration: 5000,
     });
   }
