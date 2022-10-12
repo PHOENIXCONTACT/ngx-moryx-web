@@ -1,3 +1,4 @@
 {
-    "DISMISS": "Okay"
+    "DISMISS": "Okay",
+    "DEFAULT_MESSAGE":"Auf dem Server ist etwas schief gelaufen."
 }

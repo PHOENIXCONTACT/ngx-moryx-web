@@ -6,4 +6,5 @@ export class TranslationConstants {
   };
 
   public static readonly DISMISS = 'DISMISS';
+  public static readonly DEFAULT_MESSAGE = 'DEFAULT_MESSAGE';
 }
