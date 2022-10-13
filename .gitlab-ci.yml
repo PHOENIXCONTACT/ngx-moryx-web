@@ -89,5 +89,7 @@ CountManualTests:
   tags:
     - powershell
     - countManualTests
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /dev/
   script:
     - .\manualtests.ps1 -Count
