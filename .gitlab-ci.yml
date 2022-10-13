@@ -1,3 +1,8 @@
+stages:
+  - build
+  - documentation
+  - deploy
+
 variables:
   MORYX_BUILDNUMBER: "$CI_PIPELINE_ID"
 
@@ -78,3 +83,11 @@ publish:
         }
       }
     - npm config set strict-ssl true
+
+CountManualTests:
+  stage: documentation
+  tags:
+    - powershell
+    - countManualTests
+  script:
+    - .\manualtests.ps1 -Count
