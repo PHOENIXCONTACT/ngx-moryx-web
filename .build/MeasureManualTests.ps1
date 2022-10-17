@@ -57,7 +57,7 @@ function Delete-Former-Test-Results([string]$FilePath,[string]$ModuleName){
     $content = Get-Content -path $FilePath;
     
     # regex for when the text is in the middle of the file
-    $regex = '(Module ' + $ModuleName + ': (\s|\S)*Module )'
+    $regex = '(Module ' + $ModuleName + ': (\s|\S)+?Module )'
     # search for former test results
     $remove = [regex]::Match($content,$regex,[System.Text.RegularExpressions.RegexOptions]::Singleline).Groups[0].Value;
     if ([string]::IsNullOrEmpty($remove)){
