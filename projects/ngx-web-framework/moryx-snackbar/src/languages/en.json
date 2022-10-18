@@ -1,4 +1,5 @@
 {
     "DISMISS": "Dismiss",
-    "DEFAULT_MESSAGE":"Something went wrong on the server."
+    "DEFAULT_MESSAGE":"Something went wrong on the server.",
+    "SERVER_NOT_REACHABLE":"The server is unreachable, please check your internet connection or proxy settings."
 }
