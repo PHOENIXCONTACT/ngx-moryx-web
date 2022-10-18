@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LanguageService } from '@moryx/ngx-web-framework/shell-services';
@@ -34,5 +35,14 @@ export class MoryxSnackbarService {
     this.snackbar.open(msg, dismissMessage, {
       duration: 5000,
     });
+  }
+
+  async handleError(e: HttpErrorResponse) {
+    if (e.status === 0) {
+      const not_reachable_msg = await this.translate.get(TranslationConstants.SERVER_NOT_REACHABLE).toAsync();
+      await this.showError(not_reachable_msg);
+    } else {
+      await this.showError(e.error.title);
+    }
   }
 }
