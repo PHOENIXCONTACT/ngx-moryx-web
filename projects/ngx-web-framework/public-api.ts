@@ -7,4 +7,5 @@ export * from '@moryx/ngx-web-framework/interceptors'
 export * from '@moryx/ngx-web-framework/empty-state'
 export * from '@moryx/ngx-web-framework/shell-services'
 export * from '@moryx/ngx-web-framework/moryx-snackbar'
+export * from '@moryx/ngx-web-framework/iam'
 

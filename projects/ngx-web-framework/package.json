@@ -17,6 +17,8 @@
     "@angular/forms": "^13.3.11",
     "@angular/material": "^13.3.9",
     "@angular/router": "^13.3.11",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "rxjs": "^7.5.0"
   },
   "dependencies": {
@@ -30,6 +32,8 @@
     "@angular/forms": "^13.3.11",
     "@angular/material": "^13.3.9",
     "@angular/router": "^13.3.11",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "copyfiles": "file:../../node_modules/copyfiles",
     "rxjs": "^7.5.0",
     "typescript": "file:../../node_modules/typescript"
