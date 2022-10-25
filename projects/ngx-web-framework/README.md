@@ -4,7 +4,8 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Services
 
-[SearchBarService](docs/SearchBarService.md)
+- [SearchBarService](docs/SearchBarService.md)
+- [IAM Directive](docs/iam.md)
 
 ## Code scaffolding
 
