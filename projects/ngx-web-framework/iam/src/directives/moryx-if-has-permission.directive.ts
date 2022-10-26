@@ -27,8 +27,7 @@ export class MoryxIfHasPermissionDirective implements OnInit {
     if (this._ignoreIam && !this.isHidden)
     {
       this.viewContainer.createEmbeddedView(this.templateRef);
-      this.isHidden = false
-      console.log("Ignore IAM and show element")
+      this.isHidden = false;
     }
   }
 
@@ -74,11 +73,9 @@ export class MoryxIfHasPermissionDirective implements OnInit {
     if ((await this.checkPermission()) && this.isHidden) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.isHidden = false;
-      console.log("Show element based on permissions")
     } else {
       this.isHidden = true;
       this.viewContainer.clear();
-      console.log("Hide element based on permissions")
     }
   }
 
