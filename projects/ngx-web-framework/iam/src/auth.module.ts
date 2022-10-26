@@ -5,14 +5,19 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { AuthService } from './services/auth.service';
+import { MoryxIfHasPermissionDirective } from './directives/moryx-if-has-permission.directive';
 
 /**
  * Module that provides all services and configuration.
  */
 @NgModule({
   imports: [],
-  exports: [],
-  declarations: [],
+  exports: [
+    MoryxIfHasPermissionDirective
+  ],
+  declarations: [
+    MoryxIfHasPermissionDirective
+  ],
   providers: [
     AuthService,
     ApiConfiguration
