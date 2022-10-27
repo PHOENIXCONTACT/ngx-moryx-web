@@ -24,7 +24,7 @@ export class MoryxIfHasPermissionDirective implements OnInit {
   @Input('moryxIfHasPermissionExcept')
   set ignoreIam(bool: boolean) {
     this._ignoreIam = bool;
-    if (this._ignoreIam && !this.isHidden)
+    if (this._ignoreIam && this.isHidden)
     {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.isHidden = false;
@@ -74,8 +74,10 @@ export class MoryxIfHasPermissionDirective implements OnInit {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.isHidden = false;
     } else {
-      this.isHidden = true;
-      this.viewContainer.clear();
+      if(!this._ignoreIam) { // in case, _ignoreIam was set before checkPermission() finished
+        this.isHidden = true;
+        this.viewContainer.clear();
+      }
     }
   }
 
