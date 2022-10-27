@@ -2,8 +2,10 @@
   "name": "@moryx/ngx-web-framework",
   "version": "0.0.6",
   "scripts": {
+    "ng": "ng",
     "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/"
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/",
+    "test": "ng test"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {
