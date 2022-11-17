@@ -51,11 +51,11 @@
                                     EntryValueType.UInt64 === subEntry.value?.type ||
                                     EntryValueType.Single === subEntry.value?.type ||
                                     EntryValueType.Double === subEntry.value?.type ||
-                                    EntryValueType.String === subEntry.value?.type ||
+                                    (EntryValueType.String === subEntry.value?.type && !subEntry.value?.possible) ||
                                     EntryValueType.Exception === subEntry.value?.type">
                 </entry-input-editor>
                 <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                    [disabled]="disabled" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type">
+                    [disabled]="disabled" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type || (EntryValueType.String=== subEntry.value?.type && subEntry.value?.possible?.includes(subEntry.value?.default ?? subEntry.value?.current ?? '')) ">
                 </entry-enum-editor>
             </ng-container>
         </ng-template>
