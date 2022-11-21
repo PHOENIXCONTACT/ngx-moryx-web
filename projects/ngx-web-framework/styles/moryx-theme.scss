@@ -2,78 +2,78 @@ $dark: hsl(0, 0%, 14%);
 $light: hsl(0, 0%, 96%);
 
 $moryx-primary-palette: (
- 50: #E5F2F3,
- 100: #CCE5E6,
- 200: #b3d8da,
- 300: #99cbce,
- 400: #80bdc1,
- 500: #66b0b5,
- 600: #4da3a9,
- 700: #33969d,
- 800: #1a8990,
- 900: #007c84,
- contrast: (
-   50: $dark,
-   100: $dark,
-   200: $dark,
-   300: $dark,
-   400: $dark,
-   500: $dark,
-   600: $dark,
-   700: white,
-   800: white,
-   900: white,
- )
+  50: #e5f2f3,
+  100: #cce5e6,
+  200: #b3d8da,
+  300: #99cbce,
+  400: #80bdc1,
+  500: #66b0b5,
+  600: #4da3a9,
+  700: #33969d,
+  800: #1a8990,
+  900: #007c84,
+  contrast: (
+    50: $dark,
+    100: $dark,
+    200: $dark,
+    300: $dark,
+    400: $dark,
+    500: $dark,
+    600: $dark,
+    700: white,
+    800: white,
+    900: white,
+  ),
 );
 
 $moryx-accent-palette: (
- 50: #f4f8e7,
- 100: #eaf2cf,
- 200: #dfebb6,
- 300: #d5e59e,
- 400: #cbdf86,
- 500: #c0d86e,
- 600: #b6d156,
- 700: #abcb3d,
- 800: #a0c425,
- 900: #96be0d,
- contrast: (
-   50: $dark,
-   100: $dark,
-   200: $dark,
-   300: $dark,
-   400: $dark,
-   500: $dark,
-   600: $dark,
-   700: $dark,
-   800: $light,
-   900: $light,
- )
+  50: #f4f8e7,
+  100: #eaf2cf,
+  200: #dfebb6,
+  300: #d5e59e,
+  400: #cbdf86,
+  500: #c0d86e,
+  600: #b6d156,
+  700: #abcb3d,
+  800: #a0c425,
+  900: #96be0d,
+  contrast: (
+    50: $dark,
+    100: $dark,
+    200: $dark,
+    300: $dark,
+    400: $dark,
+    500: $dark,
+    600: $dark,
+    700: $dark,
+    800: $light,
+    900: $light,
+  ),
 );
 
 $moryx-warn-palette: (
- 50: #fce7e8,
- 100: #f9ced1,
- 200: #f6b6ba,
- 300: #f39da3,
- 400: #ef848b,
- 500: #ec6c74,
- 600: #e9545d,
- 700: #e63b46,
- 800: #e3232f,
- 900: #e00a18,
- contrast: (
-   50: $dark,
-   100: $dark,
-   200: $dark,
-   300: $dark,
-   400: $dark,
-   500: $dark,
-   600: $dark,
-   700: $light,
-   800: $light,
-   900: $light,
- )
+  50: #fce7e8,
+  100: #f9ced1,
+  200: #f6b6ba,
+  300: #f39da3,
+  400: #ef848b,
+  500: #ec6c74,
+  600: #e9545d,
+  700: #e63b46,
+  800: #e3232f,
+  900: #e00a18,
+  contrast: (
+    50: $dark,
+    100: $dark,
+    200: $dark,
+    300: $dark,
+    400: $dark,
+    500: $dark,
+    600: $dark,
+    700: $light,
+    800: $light,
+    900: $light,
+  ),
 );
 
 @use '@angular/material' as mat;
@@ -82,14 +82,26 @@ $moryx-theme-primary: mat.define-palette($moryx-primary-palette, 700, 300, 900);
 $moryx-theme-accent: mat.define-palette($moryx-accent-palette, 700, 300, 900);
 $moryx-theme-warn: mat.define-palette($moryx-warn-palette, 700, 300, 900);
 
-$moryx-theme: mat.define-light-theme((
- color: (
-   primary: $moryx-theme-primary,
-   accent: $moryx-theme-accent,
-   warn: $moryx-theme-warn,
- )
-));
+$moryx-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $moryx-theme-primary,
+      accent: $moryx-theme-accent,
+      warn: $moryx-theme-warn,
+    ),
+  )
+);
 
-@import '~@angular/material/theming';
-@include angular-material-theme($moryx-theme);
 @include mat.core();
+@include mat.all-component-themes($moryx-theme);
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+// @include mat.all-legacy-component-typographies();
+// @include mat.legacy-core();
+
