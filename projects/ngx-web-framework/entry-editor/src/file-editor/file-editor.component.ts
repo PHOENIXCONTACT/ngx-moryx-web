@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
-import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'entry-file-editor',
@@ -21,7 +21,7 @@ export class FileEditorComponent implements OnInit {
   }
   get disabled(): boolean { return this._disabled; }
 
-  inputFormControl!: FormControl; 
+  inputFormControl!: UntypedFormControl; 
 
   constructor() { }
 
@@ -30,11 +30,11 @@ export class FileEditorComponent implements OnInit {
     if (this.entry.validation?.isRequired)
       validators.push(Validators.required);
 
-    this.inputFormControl = new FormControl(
+    this.inputFormControl = new UntypedFormControl(
       {
         value: this.entry.description ?? '',
         disabled: this.disabled 
-          || (this.entry.value?.isReadOnly ?? false) 
+          || (this.entry.value.isReadOnly ?? false) 
           || this.entry.value?.type === EntryValueType.Stream
       }, 
       validators);
