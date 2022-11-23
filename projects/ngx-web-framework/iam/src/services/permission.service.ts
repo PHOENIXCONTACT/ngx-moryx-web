@@ -20,7 +20,11 @@ export class PermissionService {
   }
 
   hasPermission(permission: string, ignoreIam: boolean = false): boolean {
-    if (ignoreIam || window.configs.identityUrl.isNullOrWhiteSpaces()) {
+    if (ignoreIam) {
+      return true;
+    }
+
+    if(window.configs && window.configs.identityUrl && window.configs.identityUrl.isNullOrWhiteSpaces()) {
       return true;
     }
 
