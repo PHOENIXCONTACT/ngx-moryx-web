@@ -87,12 +87,7 @@
                   "with": "projects/moryx-web-app/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all",
-              "optimization": {
-                "scripts": true,
-                 "styles": true,
-                 "fonts": false
-              }
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
