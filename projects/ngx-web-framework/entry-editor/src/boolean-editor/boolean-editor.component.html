@@ -1,10 +1,10 @@
 <div (click)="clickContainer($event)" class="entry-checkbox-with-hint entry-editor-item-content">
-    <mat-checkbox [(ngModel)]="checked" disableRipple="true" [disabled]="disabled || (entry.value.isReadOnly ?? false)"
+    <mat-checkbox [(ngModel)]="checked" disableRipple="true" [disabled]="disabled || (entry.value?.isReadOnly ?? false)"
         [name]="entry.displayName ?? ''" color="primary">
         {{entry.displayName}}
     </mat-checkbox>
     <mat-hint class="boolean-entry-form-hint"
-        [ngClass]="{'entry-editor-disabled': (disabled || (entry.value.isReadOnly ?? false))}">
+        [ngClass]="{'entry-editor-disabled': (disabled || (entry.value?.isReadOnly ?? false))}">
         {{entry.description}}
     </mat-hint>
 </div>
