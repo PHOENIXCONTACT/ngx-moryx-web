@@ -24,7 +24,7 @@ export class PermissionService {
       return true;
     }
 
-    if(window.configs && window.configs.identityUrl && window.configs.identityUrl.isNullOrWhiteSpaces()) {
+    if(window.configs && !window.configs.identityUrl && window.configs.identityUrl === '') {
       return true;
     }
 
