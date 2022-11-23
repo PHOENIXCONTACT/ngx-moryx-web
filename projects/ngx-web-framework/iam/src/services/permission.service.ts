@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ApiConfiguration } from '../api-configuration';
 import './../extensions/array.extensions';
 import './../extensions/string.extensions';
 import { AuthService } from './auth.service';
@@ -10,7 +9,7 @@ import { AuthService } from './auth.service';
 export class PermissionService {
   private userPermissions: string[] = [];
 
-  constructor(private authService: AuthService, private apiConfigs: ApiConfiguration) {
+  constructor(private authService: AuthService) {
     this.getPermissions();
   }
 
@@ -21,7 +20,7 @@ export class PermissionService {
   }
 
   hasPermission(permission: string, ignoreIam: boolean = false): boolean {
-    if (ignoreIam || this.apiConfigs.rootUrl.isNullOrWhiteSpaces()) {
+    if (ignoreIam || window.configs.identityUrl.isNullOrWhiteSpaces()) {
       return true;
     }
 
