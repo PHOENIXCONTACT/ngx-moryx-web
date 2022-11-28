@@ -34,6 +34,22 @@ export class MoryxSnackbarService {
 
     this.snackbar.open(msg, dismissMessage, {
       duration: 5000,
+      panelClass: 'danger',
+    });
+  }
+
+  async showSuccess(errorMessage: string) {
+    let msg!: string;
+    if (errorMessage && errorMessage.length > 0) {
+      msg = errorMessage;
+    } else {
+      msg = await this.translate.get(TranslationConstants.SUCCESS).toAsync();
+    }
+    const dismissMessage = await this.translate.get(TranslationConstants.DISMISS).toAsync();
+
+    this.snackbar.open(msg, dismissMessage, {
+      duration: 5000,
+      panelClass: 'success',
     });
   }
 
