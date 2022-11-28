@@ -1,5 +1,6 @@
 {
     "DISMISS": "Ok",
     "DEFAULT_MESSAGE":"Qualcosa è andato storto sul server.",
+    "SUCCESS":"L'operazione è riuscita.",
     "SERVER_NOT_REACHABLE":"Il server non è raggiungibile, controllare la connessione internet o le impostazioni del proxy."
 }
