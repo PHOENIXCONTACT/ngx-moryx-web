@@ -54,9 +54,11 @@ $light-background-hover: hsl(0, 0%, 86%);
 }
 
 .danger {
-  background-color: $danger;
+  background-color: darkred;
+  color: white;
 }
 
 .success {
-  background-color: $success;
+  background-color: darkgreen;
+  color: white;
 }
