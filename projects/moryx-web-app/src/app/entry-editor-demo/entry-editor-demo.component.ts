@@ -83,6 +83,21 @@ export class EntryEditorDemoComponent implements OnInit {
         },
       },
       {
+        // Double
+        displayName: 'Test Double Name',
+        description: 'This is a Test Double description.',
+        identifier: 'Double Identifier',
+        validation: { maximum: 40.55, minimum: 0.0},
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Double,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
         // Bool
         displayName: 'Test Bool Name',
         description: 'This is a Test Bool description.',
@@ -161,6 +176,34 @@ export class EntryEditorDemoComponent implements OnInit {
           isReadOnly: false,
           possible: ['Possible 1', 'Possible 2', 'Possible 3'],
           type: EntryValueType.String,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Select
+        displayName: 'Double With Possible values',
+        description: 'Double With Possible values description.',
+        identifier: 'Double With Possible values Identifier',
+        value: {
+          current: '0',
+          default: '0.5',
+          isReadOnly: false,
+          possible: ['0.5', '2.5', '10.5'],
+          type: EntryValueType.Double,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Select
+        displayName: 'Int32 With Possible values',
+        description: 'Int32 With Possible values description.',
+        identifier: 'Int32 With Possible values Identifier',
+        value: {
+          current: '0',
+          default: '10',
+          isReadOnly: false,
+          possible: ['10', '15', '20'],
+          type: EntryValueType.Int32,
           unitType: EntryUnitType.None,
         },
       },
@@ -261,7 +304,7 @@ export class EntryEditorDemoComponent implements OnInit {
               type: EntryValueType.Class,
               unitType: EntryUnitType.None,
             },
-          },
+          }
         ],
       },
     ],
