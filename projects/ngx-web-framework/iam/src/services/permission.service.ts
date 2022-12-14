@@ -1,33 +1,27 @@
 import { Injectable } from '@angular/core';
 import './../extensions/array.extensions';
+import './../extensions/observable.extensions';
 import './../extensions/string.extensions';
 import { AuthService } from './auth.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionService {
-  private userPermissions: string[] = [];
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) {
-    this.getPermissions();
+  async getPermissions() {
+    return await this.authService.getUserPermissions$Json().toAsync();
   }
 
-  private getPermissions() {
-    this.authService.getUserPermissions$Json().subscribe({
-      next: permissions => (this.userPermissions = permissions),
-    });
-  }
-
-  hasPermission(permission: string, ignoreIam: boolean = false): boolean {
+  async hasPermission(permissions: string[], permission: string, ignoreIam: boolean = false) {
     if (ignoreIam) {
       return true;
     }
 
-    if(window.configs && !window.configs.identityUrl) {
+    if (window.configs && !window.configs.identityUrl) {
       return true;
     }
 
-    return this.userPermissions.any(p => p === permission);
+    return permissions.any(p => p === permission);
   }
 }

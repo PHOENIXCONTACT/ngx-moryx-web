@@ -52,3 +52,13 @@ $light-background-hover: hsl(0, 0%, 86%);
 .moryx-side-sheet-subtitle {
   margin-top: -20px;
 }
+
+.danger {
+  background-color: darkred;
+  color: white;
+}
+
+.success {
+  background-color: darkgreen;
+  color: white;
+}

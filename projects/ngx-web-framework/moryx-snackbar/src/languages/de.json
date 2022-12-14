@@ -1,5 +1,6 @@
 {
     "DISMISS": "Okay",
     "DEFAULT_MESSAGE":"Auf dem Server ist etwas schief gelaufen.",
+    "SUCCESS":"Die operation war erfolgreich.",
     "SERVER_NOT_REACHABLE":"Der Server ist nicht erreichbar, bitte überprüfen Sie Ihre Internetverbindung oder Proxy-Einstellungen."
 }
