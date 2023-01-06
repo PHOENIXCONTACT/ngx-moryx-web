@@ -2,6 +2,11 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.0.
 
+## Services
+
+- [SearchBarService](docs/SearchBarService.md)
+- [IAM Directive](docs/iam.md)
+
 ## Code scaffolding
 
 Run `ng generate component component-name --project ngx-web-framework` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-web-framework`.

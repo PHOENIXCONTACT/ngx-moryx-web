@@ -23,6 +23,17 @@ It has the following parameters
 <navigable-entry-editor [entry]="entry" [disabled]="disabled" queryParam="entryEditor1"></navigable-entry-editor>
 ```
 
+### Empty State Component
+The empty state component provides a styled screen to show the user when no content is available to be shown. 
+As a reference for your decision when to use this screen take a look at the respective [design guidline](https://material.io/design/communication/empty-states.html#content).
+The following parameters are available
+- **header** The header shown on the page
+- **message** The messaage shown on the page
+- **icon** The icon shown on the page. We recommend the `rocket_launch` icon for screens that get active if the user does something and the `bedtime` icon for screnns that are inactive if everything is in order. For more icons take a look [here](https://fonts.google.com/icons?selected=Material+Icons&icon.set=Material+Symbols)
+``` html
+<empty-state [header]="'Nothing to show'" [message]="'We can´t show you anything here.'" icon="bedtime"></empty-state>
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

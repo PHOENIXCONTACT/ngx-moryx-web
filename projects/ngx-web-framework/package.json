@@ -2,36 +2,42 @@
   "name": "@moryx/ngx-web-framework",
   "version": "0.0.6",
   "scripts": {
+    "ng": "ng",
     "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/"
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/",
+    "test": "ng test"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {
     "save": true
   },
   "peerDependencies": {
-    "@angular/common": "^13.3.11",
-    "@angular/core": "^13.3.11",
     "@angular/animations": "^13.3.11",
     "@angular/cdk": "^13.3.9",
+    "@angular/common": "^13.3.11",
+    "@angular/core": "^13.3.11",
     "@angular/forms": "^13.3.11",
     "@angular/material": "^13.3.9",
     "@angular/router": "^13.3.11",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "rxjs": "^7.5.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/common": "^13.3.11",
-    "@angular/core": "^13.3.11",
     "@angular/animations": "^13.3.11",
     "@angular/cdk": "^13.3.9",
+    "@angular/common": "^13.3.11",
+    "@angular/core": "^13.3.11",
     "@angular/forms": "^13.3.11",
-    "@angular/material": "^12.2.13",
+    "@angular/material": "^13.3.9",
     "@angular/router": "^13.3.11",
-    "rxjs": "^7.5.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "copyfiles": "file:../../node_modules/copyfiles",
+    "rxjs": "^7.5.0",
     "typescript": "file:../../node_modules/typescript"
   }
 }

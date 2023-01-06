@@ -19,7 +19,6 @@ import { NavigableEntryEditorComponent } from './navigable-entry-editor/navigabl
 import { EntryObjectComponent } from './entry-object/entry-object.component';
 import { FileEditorComponent } from './file-editor/file-editor.component';
 import { EntryListItemComponent } from './entry-list-item/entry-list-item.component';
-import { PrototypeToEntryConverter } from './prototype-to-entry-converter';
 
 
 

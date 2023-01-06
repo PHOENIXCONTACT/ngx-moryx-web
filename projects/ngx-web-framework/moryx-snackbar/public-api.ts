@@ -1,0 +1,1 @@
+export * from './src/moryx-snackbar/moryx-snackbar.service';

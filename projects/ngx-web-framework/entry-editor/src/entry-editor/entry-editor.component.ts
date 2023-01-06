@@ -54,11 +54,19 @@ export class EntryEditorComponent implements OnInit {
       var prototype = this.prototypes.find(x => x.displayName === this.selectedListItemType);
       if(prototype){
         var entry = PrototypeToEntryConverter.cloneEntry(prototype);
+        if(this.entry.subEntries && this.entry.subEntries.length > 0) {
+          var last = this.entry.subEntries[this.entry.subEntries.length - 1];
+          var count = /\d+/;
+          var current = last.identifier ? Number(last.identifier.match(count)) : 0;
+          this.createdCounter = current + 1;
+        }
+        else {
+          this.createdCounter = 1;
+        }
         if(this.createdCounter){
           entry.identifier = 'CREATED' + this.createdCounter;
-          this.createdCounter = this.createdCounter +1;
-        }       
-        this.entry.subEntries?.push(entry);
+          this.entry.subEntries?.push(entry);
+        }
       }      
     }
   }

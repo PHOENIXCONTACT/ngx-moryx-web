@@ -19,7 +19,8 @@
       "@moryx/ngx-web-framework": [
         "./dist/ngx-web-framework/*",
         "./dist/ngx-web-framework"
-      ]
+      ],
+      "@angular/*": [ "./node_modules/@angular/*"]
     },
     "declaration": false,
     "downlevelIteration": true,

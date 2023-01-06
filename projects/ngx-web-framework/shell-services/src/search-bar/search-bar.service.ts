@@ -1,38 +1,58 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Observer, Subscription } from 'rxjs';
+import { MoryxShell } from '../shell';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchBarService {
-  constructor(private ngZone: NgZone) {}
+  subscription: Subscription | undefined = undefined;
 
-  searchFilter(): Observable<SearchResult> {
-    return new Observable(subscriber => {
-      window.shell.onsearch((value: string, completed: boolean) => {
-        this.ngZone.run (()=> {subscriber.next(<SearchResult>{ value: value, completed: completed })});
+  constructor(private ngZone: NgZone) { }
 
-        if (completed) {
-          this.ngZone.run (()=>{subscriber.complete()}) 
-        }
+  subscribe(observer: Partial<Observer<SearchRequest>> | undefined): void {
+    if(this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
 
-        this.ngZone.run (()=>{return () => this.ngZone.run(() => { window.shell.onsearch(() => { }) })});
+    if(window.shell){
+      let observable = new Observable<SearchRequest>(subscriber => {
+        window.shell.initSearchBar((term: string, submitted: boolean) => {
+          this.ngZone.run(() => { subscriber.next(<SearchRequest>{ term: term, submitted: submitted }) });
+  
+          if (submitted) {
+            this.ngZone.run(() => { subscriber.complete() });
+          }
+        },
+        false);
       });
-    });
+  
+      this.subscription = observable.subscribe(observer);
+    }
+    
   }
 
-  updateSuggestions(suggestions: SearchSuggestion[]) {
-    window.shell.updateSuggestions(suggestions);
+  unsubscribe(): void {
+    if(window.shell && this.subscription !== undefined) {
+      window.shell.initSearchBar(() => {}, true);
+      this.subscription.unsubscribe();
+    }
+  }
+
+  provideSuggestions(suggestions: SearchSuggestion[]) {
+    if(window.shell)
+      window.shell.updateSuggestions(suggestions);
+  }
+
+  clearSuggestions() {
+    if(window.shell)
+      window.shell.updateSuggestions([]);
   }
 }
 
-export interface SearchResult {
-  value: string;
-  completed: boolean;
-}
-
-interface SearchCallback {
-  (filter: string, complete: boolean): void;
+export interface SearchRequest {
+  term: string;
+  submitted: boolean;
 }
 
 export interface SearchSuggestion {
@@ -40,11 +60,10 @@ export interface SearchSuggestion {
   url?: string;
 }
 
-interface MoryxShell {
-  onsearch(callback: SearchCallback): void;
-  updateSuggestions(suggestions: SearchSuggestion[]): void;
-}
-
 declare global {
   interface Window { shell: MoryxShell;}
+}
+
+export interface SearchRequestCallback {
+  (term: string, complete: boolean): void;
 }

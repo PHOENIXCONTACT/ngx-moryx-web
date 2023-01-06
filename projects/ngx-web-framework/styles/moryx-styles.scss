@@ -1,11 +1,12 @@
 // Colors
 $primary: #33969d;
 $info: rgb(128, 128, 128);
-$success: #abcb3d; 
-$warning: #EBAD34;
+$success: #abcb3d;
+$warning: #ebad34;
 $danger: #e9545d;
+$fatal: rgb(128, 0, 128);
 
-$accent: #abcb3d; 
+$accent: #abcb3d;
 $primary-light: #99cbce;
 $primary-dark: #007c84;
 $accent-light: #d5e59e;
@@ -17,11 +18,12 @@ $mat-background: #fafafa;
 $mat-background-light: white;
 $mat-color: rgba(0, 0, 0, 0.87);
 $mat-color-light: hsl(0, 0%, 96%);
+$mat-color-caption-light: hsl(0, 0%, 60%);
 
 $lighter-background-hover: hsl(0, 0%, 96%);
 $light-background-hover: hsl(0, 0%, 86%);
 
-//Scrollbar 
+//Scrollbar
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -44,9 +46,19 @@ $light-background-hover: hsl(0, 0%, 86%);
 }
 
 .moryx-side-sheet-title {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .moryx-side-sheet-subtitle {
-    margin-top: -20px;
+  margin-top: -20px;
+}
+
+.danger {
+  background-color: darkred;
+  color: white;
+}
+
+.success {
+  background-color: darkgreen;
+  color: white;
 }
