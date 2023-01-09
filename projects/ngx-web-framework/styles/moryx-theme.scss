@@ -93,6 +93,7 @@ $moryx-theme: mat.define-light-theme(
 );
 
 @include mat.core();
+@include mat.all-component-typographies($moryx-theme);
 @include mat.all-component-themes($moryx-theme);
 // TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
 //  The following line adds:
