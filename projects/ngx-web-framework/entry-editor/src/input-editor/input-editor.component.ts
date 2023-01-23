@@ -69,7 +69,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   addNumberValidators(validators: ValidatorFn[]) {
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry.value?.type)
-
+    
     validators.push(Validators.max(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
     validators.push(Validators.min(Math.max(typeSpecificMinimum, this.entry.validation?.minimum ?? typeSpecificMinimum)));
   }
@@ -91,7 +91,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return Number.MAX_SAFE_INTEGER;
       case EntryValueType.Single:
-        return 3.4*10^38;
+        return Math.pow(3.4*10,38);
       case EntryValueType.Double:
         return Number.MAX_VALUE;
       default:
@@ -116,7 +116,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return 0;
       case EntryValueType.Single:
-        return -3.4*10^38;
+        return -Math.pow(3.4*10,38);
       case EntryValueType.Double:
         return -Number.MAX_VALUE;
       default:
