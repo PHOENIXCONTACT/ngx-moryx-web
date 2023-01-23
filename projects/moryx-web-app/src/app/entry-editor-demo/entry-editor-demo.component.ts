@@ -98,6 +98,20 @@ export class EntryEditorDemoComponent implements OnInit {
         },
       },
       {
+        // Single
+        displayName: 'Type Single number Name',
+        description: 'This is a Test Single description.',
+        identifier: 'Single Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Single,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
         // Bool
         displayName: 'Test Bool Name',
         description: 'This is a Test Bool description.',
