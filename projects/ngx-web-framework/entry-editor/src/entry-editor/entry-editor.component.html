@@ -57,7 +57,8 @@
                                     EntryValueType.Exception === subEntry.value?.type)">
                 </entry-input-editor>
                 <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                    [disabled]="disabled" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type || subEntry.value?.possible?.includes(subEntry.value?.default ?? subEntry.value?.current ?? '')">
+                    [disabled]="disabled" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type || 
+                    (subEntry.value?.possible?.includes(subEntry.value?.default ?? subEntry.value?.current ?? '') && EntryValueType.Collection != subEntry.value?.type)">
                 </entry-enum-editor>
             </ng-container>
         </ng-template>
