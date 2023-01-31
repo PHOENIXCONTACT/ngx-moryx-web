@@ -9,10 +9,9 @@
         </mat-select>
     </mat-form-field>
 
-    <button mat-stroked-button color="primary" class="entry-editor-add-list-item-button" (click)="addItemToList()" [disabled]="disabled"
+    <button mat-icon-button color="primary" class="entry-editor-add-list-item-button" (click)="addItemToList()" [disabled]="disabled"
         [ngClass]="{'disabled': disabled}">
-        <mat-icon class="material-icons-outlined">add</mat-icon>
-        ADD
+        <span class="material-symbols-outlined entry-editor-list-item-button-icon">playlist_add</span>
     </button>
 </div>
 
