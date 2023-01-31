@@ -276,6 +276,32 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Class,
           unitType: EntryUnitType.None,
         },
+        subEntries: [
+          {
+            displayName: 'Test List Entry',
+            description: 'Test List Description',
+            identifier: 'List Entry 1',
+            value: {
+              current: '',
+              default: '',
+              type: EntryValueType.String,
+            },
+          },
+          {
+            // Object
+            displayName: 'Subentry Object Name',
+            description: 'This is a Subentry Object description.',
+            identifier: 'SubSubentryObjectIdentifier',
+            value: {
+              current: undefined,
+              default: undefined,
+              isReadOnly: true,
+              possible: undefined,
+              type: EntryValueType.Class,
+              unitType: EntryUnitType.None,
+            },
+          }
+        ],
       },
       {
         // Collection
@@ -283,15 +309,22 @@ export class EntryEditorDemoComponent implements OnInit {
         description: 'This is a Test Collection description.',
         identifier: 'CollectionIdentifier',
         value: {
-          possible: [EntryValueType.Boolean],
+          default: EntryValueType.Boolean,
+          possible: [EntryValueType.Boolean, EntryValueType.Int64],
           type: EntryValueType.Collection,
         },
         prototypes: [
           {
             displayName: `${EntryValueType.Boolean}`,
             identifier: 'BooleanPrototype',
-            description: 'Boolean Prototype Ddescription',
+            description: 'Boolean Prototype Description',
             value: { default: 'True', type: EntryValueType.Boolean },
+          },
+          {
+            displayName: `${EntryValueType.Int64}`,
+            identifier: 'Int64Prototype',
+            description: 'Int64 Prototype Ddescription',
+            value: { default: '42', type: EntryValueType.Int64 },
           },
         ],
         subEntries: [
