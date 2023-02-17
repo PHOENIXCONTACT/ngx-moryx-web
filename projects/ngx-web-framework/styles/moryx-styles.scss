@@ -62,3 +62,12 @@ $light-background-hover: hsl(0, 0%, 86%);
   background-color: darkgreen;
   color: white;
 }
+
+// Prevent Bulma override
+table {
+  border-collapse: separate !important;
+}
+
+table td, table th {
+  vertical-align: inherit !important;
+}
