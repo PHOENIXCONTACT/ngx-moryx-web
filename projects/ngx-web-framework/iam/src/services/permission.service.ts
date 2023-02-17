@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import './../extensions/array.extensions';
-import './../extensions/string.extensions';
 import './../extensions/observable.extensions';
+import './../extensions/string.extensions';
 import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',

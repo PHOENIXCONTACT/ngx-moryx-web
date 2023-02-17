@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
@@ -26,7 +26,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   }
   get disabled(): boolean { return this._disabled; }
 
-  inputFormControl!: FormControl;
+  inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
   inputType!: string;
 
@@ -45,10 +45,10 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       this.addTextValidators(validators);
 
     // Set up form control
-    this.inputFormControl = new FormControl(
+    this.inputFormControl = new UntypedFormControl(
       {
         value: this.entry.value?.current ??  this.entry.value?.default ?? '',
-        disabled: this.disabled || (this.entry.value?.isReadOnly ?? false)
+        disabled: this.disabled || (this.entry.value.isReadOnly ?? false)
       }, validators);
 
     this.formControlSubscription = this.inputFormControl.valueChanges.subscribe(value => {
@@ -69,7 +69,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   addNumberValidators(validators: ValidatorFn[]) {
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry.value?.type)
-
+    
     validators.push(Validators.max(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
     validators.push(Validators.min(Math.max(typeSpecificMinimum, this.entry.validation?.minimum ?? typeSpecificMinimum)));
   }
@@ -91,7 +91,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return Number.MAX_SAFE_INTEGER;
       case EntryValueType.Single:
-        return 3.4*10^38;
+        return Math.pow(3.4*10,38);
       case EntryValueType.Double:
         return Number.MAX_VALUE;
       default:
@@ -116,7 +116,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return 0;
       case EntryValueType.Single:
-        return -3.4*10^38;
+        return -Math.pow(3.4*10,38);
       case EntryValueType.Double:
         return -Number.MAX_VALUE;
       default:
