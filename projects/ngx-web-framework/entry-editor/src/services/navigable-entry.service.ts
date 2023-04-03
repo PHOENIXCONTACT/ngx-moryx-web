@@ -7,7 +7,7 @@ import '../extensions/observable.extensions';
   providedIn: 'root',
 })
 export class NavigableEntryService {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   public entryEditorInformation: Map<number, NavigableEntryInformation> =
     new Map<number, NavigableEntryInformation>();
@@ -82,7 +82,7 @@ export class NavigableEntryService {
         if (!parameters.queryParam) return;
         if (!parameters.baseEntry) return;
         if (!queryParams) return;
-       
+
 
         var newInformation = this.createNavigableEntryInformationAccordingToQueryParam(
           parameters.baseEntry,
@@ -90,7 +90,7 @@ export class NavigableEntryService {
           queryParams
         );
 
-        if(!newInformation) return;
+        if (!newInformation) return;
         information.currentEntry = newInformation.currentEntry;
         information.entryPath = newInformation.entryPath;
 
@@ -103,7 +103,7 @@ export class NavigableEntryService {
     baseEntry: Entry,
     queryParamName: string,
     queryParams: Params
-  ) : NavigableEntryInformation | undefined{
+  ): NavigableEntryInformation | undefined {
     let entry = baseEntry;
     const queryParamValue = queryParams[queryParamName];
     if (!queryParamValue) return undefined;
@@ -115,10 +115,10 @@ export class NavigableEntryService {
     entryPath.push(baseEntry);
 
     const newInformation = <NavigableEntryInformation>{
-      currentEntry : entry,
+      currentEntry: entry,
       entryPath: entryPath
     }
-    
+
     for (let entryIdentifier of entries) {
       if (entryIdentifier === entry.identifier) continue;
 
@@ -130,10 +130,10 @@ export class NavigableEntryService {
         entry = subEntry;
       } else {
         this.setQueryParam(newInformation, queryParamName);
-        break;  
+        break;
       }
     }
-    
+
     newInformation.currentEntry = entry;
     return newInformation;
   }
@@ -153,9 +153,8 @@ export class NavigableEntryService {
     const parameters = this.entryEditorParameters.get(editorId);
     if (!parameters?.queryParam) return;
 
-    if (entry.identifier === infos.currentEntry?.identifier) return;
     let index = infos.entryPath.indexOf(entry);
-    if (index < 0) return;
+    if (index < 0 || index === infos.entryPath.length - 1) return;
     infos.entryPath = infos.entryPath.slice(0, index + 1);
     infos.currentEntry = entry;
     this.setQueryParam(infos, parameters.queryParam);
@@ -179,7 +178,7 @@ export class NavigableEntryService {
 
     infos.entryPath.push(newEntry);
     infos.currentEntry = newEntry;
-    if(parameters.queryParam)
+    if (parameters.queryParam)
       this.setQueryParam(infos, parameters.queryParam);
   }
 
