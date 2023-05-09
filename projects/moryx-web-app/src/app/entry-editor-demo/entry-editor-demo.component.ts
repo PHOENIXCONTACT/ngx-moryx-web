@@ -84,7 +84,7 @@ export class EntryEditorDemoComponent implements OnInit {
       },
       {
         // Number
-        displayName: 'Type Single number Name',
+        displayName: 'Type Single Number Name',
         description: 'This is a Test Single description.',
         identifier: 'Single Identifier',
         value: {
@@ -98,10 +98,10 @@ export class EntryEditorDemoComponent implements OnInit {
       },
       {
         // Double
-        displayName: 'Test Double Name',
+        displayName: 'Test Double Number Name',
         description: 'This is a Test Double description.',
         identifier: 'Double Identifier',
-        validation: { maximum: 40.55, minimum: 0.0},
+        validation: { maximum: 41.5, minimum: -41.5},
         value: {
           current: undefined,
           default: undefined,

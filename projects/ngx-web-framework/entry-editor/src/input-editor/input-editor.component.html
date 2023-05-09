@@ -1,7 +1,7 @@
 <mat-form-field class="full-width-input" appearance="fill">
     <mat-label>{{entry.displayName}}</mat-label>
     <input aria-label="Text field for changing an entry value." 
-        [type]="inputType"
+        [type]="isPassword ? 'password': 'text'"
         [placeholder]="entry.description ?? 'No description available'" 
         matInput [formControl]="inputFormControl">
 
@@ -18,7 +18,6 @@
         {{entry.displayName}} is <strong>required</strong>
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block">
-        The value entered for the {{ entry.displayName }} field is
-      <strong>invalid</strong>
+        The entered value is <strong>invalid</strong>
     </mat-error>
 </mat-form-field>
