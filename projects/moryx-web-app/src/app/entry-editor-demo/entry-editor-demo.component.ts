@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/entry-editor';
-
 @Component({
   selector: 'app-entry-editor-demo',
   templateUrl: './entry-editor-demo.component.html',

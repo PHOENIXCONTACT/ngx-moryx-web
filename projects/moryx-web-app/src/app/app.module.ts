@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,7 @@ import { OverviewComponent } from './overview/overview.component';
     MatDividerModule,
     EntryEditorModule,
     EmptyStateModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

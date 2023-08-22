@@ -69,5 +69,5 @@ export class EntryEditorComponent implements OnInit {
         }
       }      
     }
-  }
+  } 
 }

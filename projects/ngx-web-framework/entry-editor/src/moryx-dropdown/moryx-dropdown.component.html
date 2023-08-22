@@ -1,0 +1,13 @@
+  <mat-form-field class="moryx-dropdown">
+    <mat-label>{{label}}</mat-label>
+    <mat-select>
+    <mat-form-field class="moryx-dropdown-search"> 
+        <mat-label>{{label}}</mat-label>
+        <input type="text" matInput placeholder="..." [(ngModel)]="keyword"
+        (keyup)="search(keyword)"> 
+      </mat-form-field>
+      <mat-option *ngFor="let item of list" [value]="item">
+        {{item}} 
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
