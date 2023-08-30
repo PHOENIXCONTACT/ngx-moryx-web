@@ -7,4 +7,4 @@ export * from './src/entry-editor/entry-editor.component';
 export * from './src/navigable-entry-editor/navigable-entry-editor.component';
 export * from './src/entry-editor.module';
 export * from './src/prototype-to-entry-converter';
-export * from './src/moryx-dropdown/moryx-dropdown.component';
+export * from './src/moryx-select/moryx-select.component';

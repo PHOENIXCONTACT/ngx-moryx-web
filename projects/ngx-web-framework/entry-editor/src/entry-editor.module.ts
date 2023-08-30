@@ -19,7 +19,7 @@ import { EnumEditorComponent } from './enum-editor/enum-editor.component';
 import { FileEditorComponent } from './file-editor/file-editor.component';
 import { InputEditorComponent } from './input-editor/input-editor.component';
 import { NavigableEntryEditorComponent } from './navigable-entry-editor/navigable-entry-editor.component';
-import { MoryxDropdownComponent } from './moryx-dropdown/moryx-dropdown.component';
+import { MoryxSelectComponent } from './moryx-select/moryx-select.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { MoryxDropdownComponent } from './moryx-dropdown/moryx-dropdown.componen
     NavigableEntryEditorComponent,
     EntryObjectComponent,
     EntryListItemComponent,
-    MoryxDropdownComponent
+    MoryxSelectComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +46,6 @@ import { MoryxDropdownComponent } from './moryx-dropdown/moryx-dropdown.componen
     MatButtonModule,
     MatIconModule,
   ],
-  exports: [EntryEditorComponent, NavigableEntryEditorComponent,MoryxDropdownComponent],
+  exports: [EntryEditorComponent, NavigableEntryEditorComponent,MoryxSelectComponent],
 })
 export class EntryEditorModule {}

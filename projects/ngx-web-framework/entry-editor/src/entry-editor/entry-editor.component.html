@@ -56,14 +56,14 @@
                                     EntryValueType.String === subEntry.value?.type ||
                                     EntryValueType.Exception === subEntry.value?.type)">
                 </entry-input-editor>
-                <moryx-dropdown
+                <moryx-select
                 *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type || 
                     (subEntry.value?.possible?.includes(subEntry.value?.default ?? subEntry.value?.current ?? '') && EntryValueType.Collection != subEntry.value?.type)"
                 [items]="subEntry.value.possible"
                 [label]="subEntry?.displayName" 
                 [uid]="subEntry?.identifier"
                 [(ngModel)]="subEntry.value.current">
-                </moryx-dropdown>
+                </moryx-select>
             </ng-container>
         </ng-template>
     </ng-container>
