@@ -51,7 +51,7 @@ export class EntryEditorComponent implements OnInit {
 
   addItemToList(){
     if(this.selectedListItemType && this.prototypes){
-      var prototype = this.prototypes.find(x => x.displayName === this.selectedListItemType);
+      var prototype = this.prototypes.find(x => x.identifier === this.selectedListItemType);
       if(prototype){
         var entry = PrototypeToEntryConverter.cloneEntry(prototype);
         if(this.entry.subEntries && this.entry.subEntries.length > 0) {
