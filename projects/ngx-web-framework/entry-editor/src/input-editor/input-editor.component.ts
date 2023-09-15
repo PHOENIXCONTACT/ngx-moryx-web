@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
-import { invalidEntryValueValidator } from '../validators/entry-editor.validators';
+import { invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
 
 @Component({
   selector: 'entry-input-editor',
@@ -28,20 +28,21 @@ export class InputEditorComponent implements OnInit, OnDestroy {
 
   inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
-  inputType!: string;
+  isPassword!: boolean;
+  isNumber!: boolean;
 
   constructor() { }
   ngOnInit(): void {
-    this.inputType = this.determineInputType()
+    this.determineInputType()
 
     // Set up validators
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(this.entry.value.type));
     if (this.entry.validation?.isRequired)
       validators.push(Validators.required);
-    if (this.inputType == "number")
+    if (this.isNumber)
       this.addNumberValidators(validators);
-    if (this.inputType == "text")
+    else
       this.addTextValidators(validators);
 
     // Set up form control
@@ -69,9 +70,9 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   addNumberValidators(validators: ValidatorFn[]) {
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry.value?.type)
-
-    validators.push(Validators.max(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
-    validators.push(Validators.min(Math.max(typeSpecificMinimum, this.entry.validation?.minimum ?? typeSpecificMinimum)));
+    
+    validators.push(maxEntryValueValidator(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
+    validators.push(minEntryValueValidator(Math.max(typeSpecificMinimum, this.entry.validation?.minimum ?? typeSpecificMinimum)));
   }
 
   getTypeSpecificMaximum(type: EntryValueType | undefined) : number {
@@ -124,16 +125,14 @@ export class InputEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  determineInputType() : string {
+  determineInputType() {
     if (EntryValueType.Int16 === this.entry.value?.type || EntryValueType.UInt16 === this.entry.value?.type ||
-          EntryValueType.Int32 === this.entry.value?.type || EntryValueType.UInt32 === this.entry.value?.type ||
-          EntryValueType.Int64 === this.entry.value?.type || EntryValueType.UInt64 === this.entry.value?.type ||
-          EntryValueType.Single === this.entry.value?.type || EntryValueType.Double === this.entry.value?.type ||
-          EntryValueType.Byte === this.entry.value?.type)
-      return "number";
+      EntryValueType.Int32 === this.entry.value?.type || EntryValueType.UInt32 === this.entry.value?.type ||
+      EntryValueType.Int64 === this.entry.value?.type || EntryValueType.UInt64 === this.entry.value?.type ||
+      EntryValueType.Single === this.entry.value?.type || EntryValueType.Double === this.entry.value?.type ||
+      EntryValueType.Byte === this.entry.value?.type)
+      this.isNumber = true;
     else if (EntryUnitType.Password === this.entry.value?.unitType)
-      return "password";
-    else
-      return "text";
+      this.isPassword = true;
   }
 }

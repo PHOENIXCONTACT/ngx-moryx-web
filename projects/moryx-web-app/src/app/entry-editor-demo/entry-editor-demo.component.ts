@@ -83,11 +83,25 @@ export class EntryEditorDemoComponent implements OnInit {
         },
       },
       {
+        // Number
+        displayName: 'Type Single Number Name',
+        description: 'This is a Test Single description.',
+        identifier: 'Single Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Single,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
         // Double
-        displayName: 'Test Double Name',
+        displayName: 'Test Double Number Name',
         description: 'This is a Test Double description.',
         identifier: 'Double Identifier',
-        validation: { maximum: 40.55, minimum: 0.0},
+        validation: { maximum: 41.5, minimum: -41.5 },
         value: {
           current: undefined,
           default: undefined,
@@ -153,31 +167,33 @@ export class EntryEditorDemoComponent implements OnInit {
           unitType: EntryUnitType.None,
         },
       },
-      { // Select
-        displayName: "Test Select Name",
-        description: "This is a Test Select description.",
-        identifier: "Select Identifier",
+      {
+        // Select
+        displayName: 'Test Select Name',
+        description: 'This is a Test Select description.',
+        identifier: 'Select Identifier',
         value: {
-          current: "Option 1",
+          current: 'Option 1',
           default: undefined,
           isReadOnly: false,
-          possible: ["Option 1", "Option 2", "Option 3"],
+          possible: ['Option 1', 'Option 2', 'Option 3'],
           type: EntryValueType.Enum,
-          unitType: EntryUnitType.None
-        }
+          unitType: EntryUnitType.None,
+        },
       },
-      { // Select
-        displayName: "Test Default Select Name",
-        description: "This is a Test Default Select description.",
-        identifier: "Default Select Identifier",
+      {
+        // Select
+        displayName: 'Test Default Select Name',
+        description: 'This is a Test Default Select description.',
+        identifier: 'Default Select Identifier',
         value: {
           current: undefined,
-          default: "Option 2",
+          default: 'Option 2',
           isReadOnly: false,
-          possible: ["Option 1", "Option 2", "Option 3"],
+          possible: ['Option 1', 'Option 2', 'Option 3'],
           type: EntryValueType.Enum,
-          unitType: EntryUnitType.None
-        }
+          unitType: EntryUnitType.None,
+        },
       },
       {
         // Select
@@ -300,7 +316,7 @@ export class EntryEditorDemoComponent implements OnInit {
               type: EntryValueType.Class,
               unitType: EntryUnitType.None,
             },
-          }
+          },
         ],
       },
       {
@@ -351,8 +367,137 @@ export class EntryEditorDemoComponent implements OnInit {
               type: EntryValueType.Class,
               unitType: EntryUnitType.None,
             },
-          }
+          },
         ],
+      },
+      {
+        displayName: 'Localized Class',
+        identifier: 'LocalizedClass',
+        description: null,
+        value: {
+          type: EntryValueType.Class,
+          unitType: EntryUnitType.None,
+          current: 'LocalizedClass',
+          default: 'LocalizedClass',
+          possible: null,
+          isReadOnly: false,
+        },
+        validation: {
+          minimum: -1.7976931348623157e308,
+          maximum: 1.7976931348623157e308,
+          regex: null,
+          isRequired: false,
+        },
+        subEntries: [
+          {
+            displayName: 'Ein Schtring',
+            identifier: 'PropDisplayAttribute',
+            description: 'Eigenschaftsbeschreibung',
+            value: {
+              type: EntryValueType.String,
+              unitType: EntryUnitType.None,
+              current: null,
+              default: null,
+              possible: null,
+              isReadOnly: false,
+            },
+            validation: {
+              minimum: -1.7976931348623157e308,
+              maximum: 1.7976931348623157e308,
+              regex: null,
+              isRequired: false,
+            },
+            subEntries: [],
+            prototypes: [],
+          },
+          {
+            displayName: 'Display Name',
+            identifier: 'PropDisplayNameAttribute',
+            description: null,
+            value: {
+              type: EntryValueType.String,
+              unitType: EntryUnitType.None,
+              current: null,
+              default: null,
+              possible: null,
+              isReadOnly: false,
+            },
+            validation: {
+              minimum: -1.7976931348623157e308,
+              maximum: 1.7976931348623157e308,
+              regex: null,
+              isRequired: false,
+            },
+            subEntries: [],
+            prototypes: [],
+          },
+          {
+            displayName: 'PropSubClasses',
+            identifier: 'PropSubClasses',
+            description: null,
+            value: {
+              type: EntryValueType.Collection,
+              unitType: EntryUnitType.None,
+              current: 'LocalizedSubClass',
+              default: 'LocalizedSubClass',
+              possible: ['LocalizedSubClass'],
+              isReadOnly: false,
+            },
+            validation: {
+              minimum: -1.7976931348623157e308,
+              maximum: 1.7976931348623157e308,
+              regex: null,
+              isRequired: false,
+            },
+            subEntries: [],
+            prototypes: [
+              {
+                displayName: 'Fame Document',
+                identifier: 'LocalizedSubClass',
+                description: null,
+                value: {
+                  type: EntryValueType.Class,
+                  unitType: EntryUnitType.None,
+                  current: 'LocalizedSubClass',
+                  default: 'LocalizedSubClass',
+                  possible: null,
+                  isReadOnly: false,
+                },
+                validation: {
+                  minimum: -1.7976931348623157e308,
+                  maximum: 1.7976931348623157e308,
+                  regex: null,
+                  isRequired: false,
+                },
+                subEntries: [
+                  {
+                    displayName: 'MyProperty',
+                    identifier: 'MyProperty',
+                    description: null,
+                    value: {
+                      type: EntryValueType.Int32,
+                      unitType: EntryUnitType.None,
+                      current: '0',
+                      default: '0',
+                      possible: null,
+                      isReadOnly: false,
+                    },
+                    validation: {
+                      minimum: -1.7976931348623157e308,
+                      maximum: 1.7976931348623157e308,
+                      regex: null,
+                      isRequired: false,
+                    },
+                    subEntries: [],
+                    prototypes: [],
+                  },
+                ],
+                prototypes: [],
+              },
+            ],
+          },
+        ],
+        prototypes: [],
       },
     ],
     value: {},
