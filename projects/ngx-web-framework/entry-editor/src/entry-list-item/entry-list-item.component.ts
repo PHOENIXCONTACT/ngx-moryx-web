@@ -9,6 +9,7 @@ import { EntryValueType } from '../models/entry-value-type';
   styleUrls: ['./entry-list-item.component.scss']
 })
 export class EntryListItemComponent implements OnInit {
+
   @Input() editorId!: number;
   @Input() entry!:Entry;
   @Input() disabled: boolean = false;
@@ -24,5 +25,7 @@ export class EntryListItemComponent implements OnInit {
   onDelete(){
     this.deleteRequest.emit(this.entry);
   }
-
+  valueChanged(value : string, entry: Entry){
+    entry.value.current = value;
+  }
 }

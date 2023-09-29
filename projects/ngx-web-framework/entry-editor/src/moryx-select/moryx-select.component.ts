@@ -1,12 +1,21 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'moryx-select',
   templateUrl: './moryx-select.component.html',
   styleUrls: ['./moryx-select.component.css'],
+  providers: [
+    {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => MoryxSelectComponent),
+        multi: true
+    }
+]
 })
 
-export class MoryxSelectComponent  {
+export class MoryxSelectComponent implements ControlValueAccessor  {
   list: string[] = [];
   search_list: string[] = [];
   _label: string | undefined | null;
@@ -18,9 +27,23 @@ export class MoryxSelectComponent  {
   }
   @Input("label") label: string | undefined | null;
   @Input("uid") uid: string | undefined | null;
-  value: string = "Select";
+  @Output() selectedValue = new EventEmitter<string>();
+  value: string | undefined;
+  @Input("disabled") disabled: boolean = false;
 
   constructor() {
+  }
+  writeValue(value: any): void {
+    
+  }
+  registerOnChange(fn: any): void {
+    
+  }
+  registerOnTouched(fn: any): void {
+    
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    
   }
 
   search(request: string){
@@ -33,5 +56,10 @@ export class MoryxSelectComponent  {
       this.list = this.search_list;
     }
     return this.list;
+  }
+
+  valueChanged(event: MatSelectChange)
+  {
+    this.selectedValue.emit(event.value);
   }
 }

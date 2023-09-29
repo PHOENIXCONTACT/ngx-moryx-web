@@ -42,15 +42,17 @@
           EntryValueType.Exception === entry.value?.type
         ">
       </entry-input-editor>
-      <entry-enum-editor
-        matLine
-        class="entry-list-item-value"
-        [entry]="entry"
-        [disabled]="disabled"
-        *ngSwitchCase="EntryValueType.Enum === entry.value?.type">
-      </entry-enum-editor>
+      <moryx-select
+        *ngSwitchCase="EntryValueType.Enum === entry.value?.type || 
+            (entry.value?.possible?.includes(entry.value?.default ?? entry.value?.current ?? '') && EntryValueType.Collection != entry.value?.type)"
+        [items]="entry.value.possible"
+        [label]="entry.displayName" 
+        [uid]="entry.identifier"
+        [(ngModel)]="entry.value.current"
+        (selectedValue)="valueChanged($event,entry)"
+        [disabled]="entry.value.isReadOnly??false">
+      </moryx-select>
     </ng-container>
-
     <button
       mat-icon-button
       class="entry-list-item-delete"

@@ -62,8 +62,11 @@
                 [items]="subEntry.value.possible"
                 [label]="subEntry?.displayName" 
                 [uid]="subEntry?.identifier"
-                [(ngModel)]="subEntry.value.current">
+                [(ngModel)]="subEntry.value.current"
+                (selectedValue)="valueChanged($event,subEntry)"
+                [disabled]="subEntry.value.isReadOnly??false">
                 </moryx-select>
+                <div>{{subEntry.value.current}}</div>
             </ng-container>
         </ng-template>
     </ng-container>

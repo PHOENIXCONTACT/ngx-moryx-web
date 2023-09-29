@@ -70,4 +70,9 @@ export class EntryEditorComponent implements OnInit {
       }      
     }
   } 
+
+  valueChanged(value : string, entry: Entry){
+    entry.value.current = value;
+  }
+
 }

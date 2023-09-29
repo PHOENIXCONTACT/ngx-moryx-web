@@ -15,7 +15,6 @@ import { BooleanEditorComponent } from './boolean-editor/boolean-editor.componen
 import { EntryEditorComponent } from './entry-editor/entry-editor.component';
 import { EntryListItemComponent } from './entry-list-item/entry-list-item.component';
 import { EntryObjectComponent } from './entry-object/entry-object.component';
-import { EnumEditorComponent } from './enum-editor/enum-editor.component';
 import { FileEditorComponent } from './file-editor/file-editor.component';
 import { InputEditorComponent } from './input-editor/input-editor.component';
 import { NavigableEntryEditorComponent } from './navigable-entry-editor/navigable-entry-editor.component';
@@ -26,7 +25,6 @@ import { MoryxSelectComponent } from './moryx-select/moryx-select.component';
     EntryEditorComponent,
     BooleanEditorComponent,
     InputEditorComponent,
-    EnumEditorComponent,
     FileEditorComponent,
     NavigableEntryEditorComponent,
     EntryObjectComponent,
