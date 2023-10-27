@@ -2,5 +2,11 @@
     "DISMISS": "Ok",
     "DEFAULT_MESSAGE":"Qualcosa è andato storto sul server.",
     "SUCCESS":"L'operazione è riuscita.",
-    "SERVER_NOT_REACHABLE":"Il server non è raggiungibile, controllare la connessione internet o le impostazioni del proxy."
+    "SERVER_NOT_REACHABLE":"Il server non è raggiungibile, controllare la connessione internet o le impostazioni del proxy.",
+    "UNKNOWN_ERROR": "An unknown error occurred.",
+    "HTTP_BAD_REQUEST": "Bad request",
+    "HTTP_UNAUTHORIZED": "Unauthorized",
+    "HTTP_FORBIDDEN": "Forbidden",
+    "HTTP_NOT_FOUND": "Not found",
+    "HTTP_METHOD_NOT_ALLOWED": "Method not allowed"
 }

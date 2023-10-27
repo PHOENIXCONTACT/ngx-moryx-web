@@ -1,6 +1,12 @@
 {
     "DISMISS": "Okay",
-    "DEFAULT_MESSAGE":"Auf dem Server ist etwas schief gelaufen.",
-    "SUCCESS":"Die operation war erfolgreich.",
-    "SERVER_NOT_REACHABLE":"Der Server ist nicht erreichbar, bitte überprüfen Sie Ihre Internetverbindung oder Proxy-Einstellungen."
+    "DEFAULT_MESSAGE": "Auf dem Server ist etwas schief gelaufen.",
+    "SUCCESS": "Die Operation war erfolgreich.",
+    "SERVER_NOT_REACHABLE": "Der Server ist nicht erreichbar, bitte überprüfen Sie Ihre Internetverbindung oder Proxy-Einstellungen.",
+    "UNKNOWN_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
+    "HTTP_BAD_REQUEST": "Bad request",
+    "HTTP_UNAUTHORIZED": "Unauthorized",
+    "HTTP_FORBIDDEN": "Forbidden",
+    "HTTP_NOT_FOUND": "Not found",
+    "HTTP_METHOD_NOT_ALLOWED": "Method not allowed"
 }
