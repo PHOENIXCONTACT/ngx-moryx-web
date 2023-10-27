@@ -1,6 +1,12 @@
 {
     "DISMISS": "Dismiss",
-    "DEFAULT_MESSAGE":"Something went wrong on the server.",
-    "SUCCESS":"The operation was successful.",
-    "SERVER_NOT_REACHABLE":"The server is unreachable, please check your internet connection or proxy settings."
+    "DEFAULT_MESSAGE": "Something went wrong on the server.",
+    "SUCCESS": "The operation was successful.",
+    "SERVER_NOT_REACHABLE": "The server is unreachable, please check your internet connection or proxy settings.",
+    "UNKNOWN_ERROR": "An unknown error occurred.",
+    "HTTP_BAD_REQUEST": "Bad request",
+    "HTTP_UNAUTHORIZED": "Unauthorized",
+    "HTTP_FORBIDDEN": "Forbidden",
+    "HTTP_NOT_FOUND": "Not found",
+    "HTTP_METHOD_NOT_ALLOWED": "Method not allowed"
 }
