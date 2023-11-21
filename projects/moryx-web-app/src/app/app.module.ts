@@ -40,7 +40,6 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-
   ],
   providers: [],
   bootstrap: [AppComponent],

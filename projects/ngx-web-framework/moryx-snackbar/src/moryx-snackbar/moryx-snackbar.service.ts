@@ -72,8 +72,10 @@ export class MoryxSnackbarService {
         msg = await this.translate.get(TranslationConstants.HTTP_UNAUTHORIZED).toAsync();
       }
       else if (e.status == 403) {
-        if (Array.isArray(e.error) && e.error.length > 0)
-          msg = "MISSING PERMISSION: " + e.error.join(', ')
+        if (Array.isArray(e.error) && e.error.length > 0) {
+          msg = await this.translate.get(TranslationConstants.MISSING_PERMISSION).toAsync();
+          msg += ": " + e.error.join(', ')
+        }
         else
           msg = await this.translate.get(TranslationConstants.HTTP_FORBIDDEN).toAsync();
       }
