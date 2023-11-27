@@ -67,29 +67,28 @@ export class MoryxSnackbarService {
     if (e.status >= 500) {
       msg = await this.translate.get(TranslationConstants.DEFAULT_MESSAGE).toAsync();
     }
+    else if (e.status == 401) {
+      msg = await this.translate.get(TranslationConstants.HTTP_UNAUTHORIZED).toAsync();
+    }
+    else if (e.status == 403) {
+      if (Array.isArray(e.error) && e.error.length > 0) {
+        msg = await this.translate.get(TranslationConstants.MISSING_PERMISSION).toAsync();
+        msg += ": " + e.error.join(', ')
+      }
+      else
+        msg = await this.translate.get(TranslationConstants.HTTP_FORBIDDEN).toAsync();
+    }
+    else if (e.status == 404) {
+      msg = await this.translate.get(TranslationConstants.HTTP_NOT_FOUND).toAsync();
+    }
+    else if (e.status == 405) {
+      msg = await this.translate.get(TranslationConstants.HTTP_METHOD_NOT_ALLOWED).toAsync();
+    }
+    else if (e.status >= 400 && (typeof e.error === 'string' || e.error instanceof String)) {
+      msg = e.error as string;
+    }
     else if (e.status >= 400) {
-      if (e.status == 401) {
-        msg = await this.translate.get(TranslationConstants.HTTP_UNAUTHORIZED).toAsync();
-      }
-      else if (e.status == 403) {
-        if (Array.isArray(e.error) && e.error.length > 0) {
-          msg = await this.translate.get(TranslationConstants.MISSING_PERMISSION).toAsync();
-          msg += ": " + e.error.join(', ')
-        }
-        else
-          msg = await this.translate.get(TranslationConstants.HTTP_FORBIDDEN).toAsync();
-      }
-      else if (e.status == 404) {
-        msg = await this.translate.get(TranslationConstants.HTTP_NOT_FOUND).toAsync();
-      }
-      else if (e.status == 405) {
-        msg = await this.translate.get(TranslationConstants.HTTP_METHOD_NOT_ALLOWED).toAsync();
-      }
-      else if (typeof e.error === 'string' || e.error instanceof String) {
-        msg = e.error as string;
-      } else {
-        msg = await this.translate.get(TranslationConstants.HTTP_BAD_REQUEST).toAsync();
-      }
+      msg = await this.translate.get(TranslationConstants.HTTP_BAD_REQUEST).toAsync();
     }
     else {
       msg = await this.translate.get(TranslationConstants.UNKNOWN_ERROR).toAsync();

@@ -15,10 +15,11 @@ import { OverviewComponent } from './overview/overview.component';
 import { SnackbarDemoComponent } from './snackbar-demo/snackbar-demo.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { environment } from '../environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 export function httpTranslateLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, environment.assets + 'assets/languages/');
 }
 
 @NgModule({
@@ -44,4 +45,4 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
