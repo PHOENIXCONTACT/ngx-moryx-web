@@ -1,6 +1,6 @@
 {
   "name": "@moryx/ngx-web-framework",
-  "version": "6.1.5",
+  "version": "6.2.1",
   "scripts": {
     "ng": "ng",
     "build": "tsc -p tsconfig.schematics.json",
