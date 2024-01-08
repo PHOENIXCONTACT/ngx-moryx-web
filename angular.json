@@ -109,10 +109,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "moryx-web-app:build:production"
+              "buildTarget": "moryx-web-app:build:production"
             },
             "development": {
-              "browserTarget": "moryx-web-app:build:development"
+              "buildTarget": "moryx-web-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -120,7 +120,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "moryx-web-app:build"
+            "buildTarget": "moryx-web-app:build"
           }
         },
         "test": {
@@ -143,6 +143,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ngx-web-framework"
+  }
 }

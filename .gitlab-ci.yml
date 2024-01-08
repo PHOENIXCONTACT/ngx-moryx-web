@@ -22,7 +22,7 @@ build:
       foreach($projectDirectory in Get-ChildItem -Name) {
         Write-Host "Building $projectDirectory..." -ForegroundColor Green;
         cd $projectDirectory;
-        ng build;
+        npm run build;
         if ($LASTEXITCODE) {
           exit 1;
         }
