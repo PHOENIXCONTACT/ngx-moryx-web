@@ -8,7 +8,8 @@ variables:
 
 build:
   tags:
-    - angular 
+    - angular
+    - marvin01    
   stage: build
   artifacts:
     expire_in: 1 hrs
