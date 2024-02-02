@@ -45,8 +45,19 @@ export class FileEditorComponent implements OnInit {
     if (file) {
       this.inputFormControl.setValue(file.name);
       const reader = new FileReader();
-      reader.readAsBinaryString(file);
-      reader.onload = (event) => this.entry.value.current = event.target?.result?.toString();
+      reader.onloadend = (event) => {
+        const result = event.target?.result as String;
+        if (result) {
+          // Use a regex to remove data url part
+          const base64String = result
+            .replace('data:', '')
+            .replace(/^.+,/, '');
+
+          this.entry.value.current = base64String;
+        }
+      }
+      reader.readAsDataURL(file);
+
     }
   }
 }
