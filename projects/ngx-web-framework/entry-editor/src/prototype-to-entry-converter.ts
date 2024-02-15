@@ -4,6 +4,18 @@ export class PrototypeToEntryConverter {
     static convertToEntry(prototype:Entry){
         this.replaceCreated(prototype);
     }
+    
+    static entryFromPrototype(prototype:Entry, parent: Entry): Entry{
+      const entryPrototype = JSON.parse(JSON.stringify(prototype));
+
+      this.patchParent(entryPrototype, parent);
+      return entryPrototype;
+    }
+
+    private static patchParent(entry: Entry, parentEntry: Entry): void {
+      entry.parent = parentEntry;
+      entry.subEntries?.forEach((subEntry) => this.patchParent(subEntry, entry));
+   }
 
     private static replaceCreated(prototype:Entry){
         if(prototype.identifier?.includes('CREATED')){

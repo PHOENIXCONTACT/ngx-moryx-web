@@ -503,6 +503,533 @@ export class EntryEditorDemoComponent implements OnInit {
     value: {},
   };
 
+  entry2: Entry = {
+      "displayName": "TcpDriverSample",
+      "identifier": "TcpDriverSample",
+      "description": null,
+      "value": {
+        "type": EntryValueType.Class,
+        "unitType": EntryUnitType.None,
+        "current": "TcpDriverSample",
+        "default": "TcpDriverSample",
+        "possible": null,
+        "isReadOnly": false
+      },
+      "validation": {
+        "minimum": -1.7976931348623157e+308,
+        "maximum": 1.7976931348623157e+308,
+        "regex": null,
+        "isRequired": false
+      },
+      "subEntries": [
+        {
+          "displayName": "TcpConfig",
+          "identifier": "TcpConfig",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Class,
+            "unitType": EntryUnitType.None,
+            "current": "TcpClientConfig",
+            "default": "BinaryConnectionConfig",
+            "possible": [
+              "BinaryConnectionConfig",
+              "TcpClientConfig",
+              "TcpListenerConfig"
+            ],
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [
+            {
+              "displayName": "PluginName",
+              "identifier": "PluginName",
+              "description": null,
+              "value": {
+                "type": EntryValueType.String,
+                "unitType": EntryUnitType.None,
+                "current": "TcpClientConnection",
+                "default": null,
+                "possible": null,
+                "isReadOnly": true
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            },
+            {
+              "displayName": "IpAdress",
+              "identifier": "IpAdress",
+              "description": "The IPAdress for this device",
+              "value": {
+                "type": EntryValueType.String,
+                "unitType": EntryUnitType.None,
+                "current": null,
+                "default": null,
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            },
+            {
+              "displayName": "Port",
+              "identifier": "Port",
+              "description": "The TCP-Port for this Device",
+              "value": {
+                "type": EntryValueType.Int32,
+                "unitType": EntryUnitType.None,
+                "current": "0",
+                "default": "5002",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            },
+            {
+              "displayName": "RetryWaitMs",
+              "identifier": "RetryWaitMs",
+              "description": "Time to wait between attempts to open a connection in ms.",
+              "value": {
+                "type": EntryValueType.Int32,
+                "unitType": EntryUnitType.None,
+                "current": "0",
+                "default": "500",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            },
+            {
+              "displayName": "MonitoringIntervalMs",
+              "identifier": "MonitoringIntervalMs",
+              "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+              "value": {
+                "type": EntryValueType.Int32,
+                "unitType": EntryUnitType.None,
+                "current": "0",
+                "default": "5000",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            },
+            {
+              "displayName": "MonitoringTimeoutMs",
+              "identifier": "MonitoringTimeoutMs",
+              "description": "Timeout for a monitoring call",
+              "value": {
+                "type": EntryValueType.Int32,
+                "unitType": EntryUnitType.None,
+                "current": "0",
+                "default": "500",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            }
+          ],
+          "prototypes": [
+            {
+              "displayName": "BinaryConnectionConfig",
+              "identifier": "BinaryConnectionConfig",
+              "description": null,
+              "value": {
+                "type": EntryValueType.Class,
+                "unitType": EntryUnitType.None,
+                "current": "BinaryConnectionConfig",
+                "default": "BinaryConnectionConfig",
+                "possible": [
+                  "BinaryConnectionConfig",
+                  "TcpClientConfig",
+                  "TcpListenerConfig"
+                ],
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [
+                {
+                  "displayName": "PluginName",
+                  "identifier": "PluginName",
+                  "description": null,
+                  "value": {
+                    "type": EntryValueType.String,
+                    "unitType": EntryUnitType.None,
+                    "current": "CommunicatorConfig",
+                    "default": null,
+                    "possible": null,
+                    "isReadOnly": true
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                }
+              ],
+              "prototypes": []
+            },
+            {
+              "displayName": "TcpClientConfig",
+              "identifier": "TcpClientConfig",
+              "description": null,
+              "value": {
+                "type": EntryValueType.Class,
+                "unitType": EntryUnitType.None,
+                "current": "TcpClientConfig",
+                "default": "TcpClientConfig",
+                "possible": [
+                  "BinaryConnectionConfig",
+                  "TcpClientConfig",
+                  "TcpListenerConfig"
+                ],
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [
+                {
+                  "displayName": "PluginName",
+                  "identifier": "PluginName",
+                  "description": null,
+                  "value": {
+                    "type": EntryValueType.String,
+                    "unitType": EntryUnitType.None,
+                    "current": "TcpClientConnection",
+                    "default": null,
+                    "possible": null,
+                    "isReadOnly": true
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "IpAdress",
+                  "identifier": "IpAdress",
+                  "description": "The IPAdress for this device",
+                  "value": {
+                    "type": EntryValueType.String,
+                    "unitType": EntryUnitType.None,
+                    "current": null,
+                    "default": null,
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "Port",
+                  "identifier": "Port",
+                  "description": "The TCP-Port for this Device",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "5002",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "RetryWaitMs",
+                  "identifier": "RetryWaitMs",
+                  "description": "Time to wait between attempts to open a connection in ms.",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "500",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "MonitoringIntervalMs",
+                  "identifier": "MonitoringIntervalMs",
+                  "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "5000",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "MonitoringTimeoutMs",
+                  "identifier": "MonitoringTimeoutMs",
+                  "description": "Timeout for a monitoring call",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "500",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                }
+              ],
+              "prototypes": []
+            },
+            {
+              "displayName": "TcpListenerConfig",
+              "identifier": "TcpListenerConfig",
+              "description": null,
+              "value": {
+                "type": EntryValueType.Class,
+                "unitType": EntryUnitType.None,
+                "current": "TcpListenerConfig",
+                "default": "TcpListenerConfig",
+                "possible": [
+                  "BinaryConnectionConfig",
+                  "TcpClientConfig",
+                  "TcpListenerConfig"
+                ],
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [
+                {
+                  "displayName": "PluginName",
+                  "identifier": "PluginName",
+                  "description": null,
+                  "value": {
+                    "type": EntryValueType.String,
+                    "unitType": EntryUnitType.None,
+                    "current": "TcpListenerConnection",
+                    "default": null,
+                    "possible": null,
+                    "isReadOnly": true
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "IpAdress",
+                  "identifier": "IpAdress",
+                  "description": "The IPAdress for this device",
+                  "value": {
+                    "type": EntryValueType.String,
+                    "unitType": EntryUnitType.None,
+                    "current": "0.0.0.0",
+                    "default": "0.0.0.0",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "Port",
+                  "identifier": "Port",
+                  "description": "The TCP-Port for this Device",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "5002",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "ValidateBeforeAssignment",
+                  "identifier": "ValidateBeforeAssignment",
+                  "description": "Validate incoming messages before assigning the connection, even if this is the only listener.",
+                  "value": {
+                    "type": EntryValueType.Boolean,
+                    "unitType": EntryUnitType.None,
+                    "current": "False",
+                    "default": "False",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "MonitoringIntervalMs",
+                  "identifier": "MonitoringIntervalMs",
+                  "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "5000",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                },
+                {
+                  "displayName": "MonitoringTimeoutMs",
+                  "identifier": "MonitoringTimeoutMs",
+                  "description": "Timeout for a monitoring call",
+                  "value": {
+                    "type": EntryValueType.Int32,
+                    "unitType": EntryUnitType.None,
+                    "current": "0",
+                    "default": "500",
+                    "possible": null,
+                    "isReadOnly": false
+                  },
+                  "validation": {
+                    "minimum": -1.7976931348623157e+308,
+                    "maximum": 1.7976931348623157e+308,
+                    "regex": null,
+                    "isRequired": false
+                  },
+                  "subEntries": [],
+                  "prototypes": []
+                }
+              ],
+              "prototypes": []
+            }
+          ]
+        }
+      ],
+      "prototypes": []
+  }
+
   ngOnInit(): void {}
 
   onToggle() {
