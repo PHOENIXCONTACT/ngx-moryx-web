@@ -23,7 +23,7 @@
         </mat-form-field>
     
         <button mat-icon-button color="primary" class="entry-editor-add-list-item-button"
-        [disabled]="entry.value.current === '' || entry.value.current === this.parent?.value?.current"
+        [disabled]="disabled || entry.value.current === '' || entry.value.current === this.parent?.value?.current"
          (click)="onPatchToSelectedEntryType()" >
          <span class="material-symbols-outlined entry-editor-list-item-button-icon">done</span>
         </button>
