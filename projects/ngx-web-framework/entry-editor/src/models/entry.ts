@@ -8,5 +8,4 @@ export interface Entry {
   subEntries?: null | Array<Entry>;
   validation?: EntryValidation;
   value: EntryValue;
-  parent?: Entry;
 }

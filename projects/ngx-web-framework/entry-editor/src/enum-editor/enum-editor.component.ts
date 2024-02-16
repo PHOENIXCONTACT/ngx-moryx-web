@@ -14,10 +14,7 @@ export class EnumEditorComponent implements OnInit {
     this._entry = value;
   }
   @Input() disabled: boolean = false;
-  @Input() set parent( parent: Entry | undefined){
-    this._entry.parent = parent;
-  }
-
+  @Input() parent: Entry | undefined;
   constructor() {}
 
   get entry() {
@@ -31,8 +28,8 @@ export class EnumEditorComponent implements OnInit {
   onPatchToSelectedEntryType(): void {
     let prototype: Entry | undefined;
     let entryType: EntryValueType | undefined = EntryValueType.Class;
-    if (this.entry.parent) {
-      entryType = this.entry.parent.value.type;
+    if (this.parent) {
+      entryType = this.parent.value.type;
     }
 
     switch (entryType) {
@@ -45,17 +42,17 @@ export class EnumEditorComponent implements OnInit {
         return;
     }
 
-    if (!prototype || !this.entry.parent) return;
+    if (!prototype || !this.parent) return;
 
-    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype,this.entry.parent);
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype,this.parent);
     entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
 
-    const subEntries: Entry[] = this.entry.parent?.subEntries ?? [];
+    const subEntries: Entry[] = this.parent?.subEntries ?? [];
 
     const idx =  subEntries.findIndex(x => x.identifier === this.entry.identifier);
     if (idx !== -1 && subEntries != undefined && subEntries != null) {
       subEntries[idx] = entryPrototype;
-      this.entry.parent.value.current = entryPrototype.value.current;
+      this.parent.value.current = entryPrototype.value.current;
     }
   }
 
