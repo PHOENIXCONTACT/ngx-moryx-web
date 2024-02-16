@@ -1,4 +1,4 @@
-<mat-form-field class="full-width-input" appearance="fill">
+<mat-form-field class="full-width-input" appearance="fill" *ngIf="!isEntryTypeSettable()">
     <mat-label>{{entry.displayName}}</mat-label>
     <mat-select [disabled]="disabled || (entry.value.isReadOnly ?? false)" [(ngModel)]="entry.value.current">
         <mat-option *ngFor="let pv of entry.value?.possible" [value]="pv">
@@ -9,3 +9,23 @@
         {{entry.description}}
     </mat-hint>
 </mat-form-field>
+
+<div class="full-width-input">
+    <div class="entry-editor-add-list-item" *ngIf="isEntryTypeSettable()">
+        <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="fill">
+            <mat-label>{{entry.displayName}}</mat-label>
+    
+            <mat-select [disabled]="disabled || (entry.value.isReadOnly ?? false)" [(ngModel)]="entry.value.current">
+                <mat-option *ngFor="let pv of entry.value?.possible" [value]="pv">
+                    {{pv}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    
+        <button mat-icon-button color="primary" class="entry-editor-add-list-item-button"
+        [disabled]="entry.value.current === '' || entry.value.current === this.entry.parent?.value?.current"
+         (click)="onPatchToSelectedEntryType()" >
+         <span class="material-symbols-outlined entry-editor-list-item-button-icon">done</span>
+        </button>
+    </div>
+</div>
