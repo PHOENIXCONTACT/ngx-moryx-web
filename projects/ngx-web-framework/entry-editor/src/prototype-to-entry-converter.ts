@@ -5,7 +5,7 @@ export class PrototypeToEntryConverter {
         this.replaceCreated(prototype);
     }
     
-    static entryFromPrototype(prototype:Entry, parent: Entry): Entry{
+    static entryFromPrototype(prototype: Entry): Entry{
       const entryPrototype = JSON.parse(JSON.stringify(prototype));
       return entryPrototype;
     }

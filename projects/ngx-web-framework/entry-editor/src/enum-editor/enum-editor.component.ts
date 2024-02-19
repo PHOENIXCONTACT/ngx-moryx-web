@@ -15,6 +15,8 @@ export class EnumEditorComponent implements OnInit {
   }
   @Input() disabled: boolean = false;
   @Input() parent: Entry | undefined;
+  disableSetEntryType: boolean = false;
+
   constructor() {}
 
   get entry() {
@@ -24,7 +26,7 @@ export class EnumEditorComponent implements OnInit {
   ngOnInit(): void {
     this._entry.value.current = this._entry.value?.current ?? this._entry.value?.default;
   }
-
+  
   onPatchToSelectedEntryType(): void {
     let prototype: Entry | undefined;
     let entryType: EntryValueType | undefined = EntryValueType.Class;
@@ -44,15 +46,16 @@ export class EnumEditorComponent implements OnInit {
 
     if (!prototype || !this.parent) return;
 
-    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype,this.parent);
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
     entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
+    entryPrototype.displayName = this._entry.displayName; 
+    entryPrototype.identifier = this._entry.identifier; 
 
     const subEntries: Entry[] = this.parent?.subEntries ?? [];
 
     const idx =  subEntries.findIndex(x => x.identifier === this.entry.identifier);
     if (idx !== -1 && subEntries != undefined && subEntries != null) {
       subEntries[idx] = entryPrototype;
-      this.parent.value.current = entryPrototype.value.current;
     }
   }
 
