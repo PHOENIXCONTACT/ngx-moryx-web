@@ -10,3 +10,23 @@
 .entry-editor-list-item-button-icon {
     font-size: 32px;
 }
+
+.entry-editor-add-list-item {
+    display: flex;
+    margin: 0px 0px -8px 0px;
+    height: fit-content;
+}
+
+.entry-editor-add-list-item-type-selector {
+    flex: 1 1;
+    margin-right: 8px;
+}
+
+.entry-editor-add-list-item-button {   
+    height: 48px;
+    width: 48px;
+    margin: 4px 4px 4px -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

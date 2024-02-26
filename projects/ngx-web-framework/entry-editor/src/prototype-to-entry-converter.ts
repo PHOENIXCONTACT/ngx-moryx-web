@@ -4,7 +4,12 @@ export class PrototypeToEntryConverter {
     static convertToEntry(prototype:Entry){
         this.replaceCreated(prototype);
     }
-
+    
+    static entryFromPrototype(prototype: Entry): Entry{
+      const entryPrototype = JSON.parse(JSON.stringify(prototype));
+      return entryPrototype;
+    }
+     
     private static replaceCreated(prototype:Entry){
         if(prototype.identifier?.includes('CREATED')){
             prototype.identifier = 'CREATED'
