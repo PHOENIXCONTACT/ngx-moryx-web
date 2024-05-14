@@ -6,6 +6,7 @@ on:
     branches:
       - dev
       - future
+      - test/prerelease
     tags:
       - v[0-9]+.[0-9]+.[0-9]+ # Matches all semantic versioning tags with major, minor, patch
   pull_request:
@@ -55,7 +56,8 @@ jobs:
       run: npm ci
 
     - name: Set CI version
-      run: npm version $(npm pkg get version | sed -e 's/"//g' -e 's/\//-/g')-${{ github.ref_name }}.${{ github.run_number }}
+      working-directory: ./projects/ngx-web-framework
+      run: npm version $(npm pkg get version | sed -e 's/"//g' )-$(echo ${{ github.ref_name }} | sed -e 's/\//-/g').${{ github.run_number }} --no-git-tag-version --no-commit-hooks
       if: github.ref_type != 'tag'
 
     - name: 🔨 build `ngx-web-framework`
