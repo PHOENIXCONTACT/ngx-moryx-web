@@ -54,6 +54,10 @@ jobs:
     - name: 🔧 npm install
       run: npm ci
 
+    - name: Set CI version
+      run: npm version $(npm pkg get version | sed -e 's/"//g' -e 's/\//-/g')-${{ github.ref_name }}.${{ github.run_number }}
+      if: github.ref_type != 'tag'
+
     - name: 🔨 build `ngx-web-framework`
       working-directory: ./projects/ngx-web-framework
       run: npm run build
