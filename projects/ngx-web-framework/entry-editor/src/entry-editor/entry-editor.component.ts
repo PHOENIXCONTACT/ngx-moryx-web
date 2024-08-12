@@ -76,4 +76,27 @@ export class EntryEditorComponent implements OnInit {
       }      
     }
   }
+
+  isEntryTypeSettable(): boolean { 
+    return this.entry?.value?.type === EntryValueType.Class &&
+            this.entry.value.possible != null &&
+            this.entry.value.possible.length > 1;
+  }
+
+  onPatchToSelectedEntryType(identifier: string): void {
+    this.entry.subEntries = [];
+        const prototype = this.entry?.prototypes?.find(
+          (proto: Entry) => proto.displayName === identifier
+        );
+
+    if (!prototype) return;
+
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
+    entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
+    entryPrototype.value.possible = this.entry.value.possible;
+    entryPrototype.displayName = this._entry.displayName; 
+    entryPrototype.identifier = this._entry.identifier; 
+    
+    this.entry = entryPrototype;
+  }
 }
