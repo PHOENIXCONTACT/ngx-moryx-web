@@ -64,7 +64,7 @@
                 <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="
                                     (subEntry.value?.possible === null || 
-                                    subEntry.value?.possible === undefined ) &&
+                                    subEntry.value?.possible === undefined || !subEntry.value?.possible?.length) &&
                                     (EntryValueType.Byte === subEntry.value?.type ||
                                     EntryValueType.Int16 === subEntry.value?.type || 
                                     EntryValueType.UInt16 === subEntry.value?.type ||

@@ -1208,6 +1208,221 @@ export class EntryEditorDemoComponent implements OnInit {
     ]
   }
 
+
+  entry4: Entry = {
+      "displayName": "AssemblyCell",
+      "identifier": "AssemblyCell",
+      "description": null,
+      "value": {
+        "type": EntryValueType.Class,
+        "unitType": EntryUnitType.None,
+        "current": "AssemblyCell",
+        "default": "AssemblyCell",
+        "possible": null,
+        "isReadOnly": false
+      },
+      "validation": {
+        "minimum": -1.7976931348623157e+308,
+        "maximum": 1.7976931348623157e+308,
+        "regex": null,
+        "isRequired": false
+      },
+      "subEntries": [
+        {
+          "displayName": "Nominal Power",
+          "identifier": "NominalPower",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Int32,
+            "unitType": EntryUnitType.None,
+            "current": "225",
+            "default": "0",
+            "possible": null,
+            "isReadOnly": true
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "CameraInterface",
+          "identifier": "CameraInterface",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": null,
+            "default": null,
+            "possible": [],
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Material Identifier",
+          "identifier": "MaterialIdentifier",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": "0031465",
+            "default": null,
+            "possible": null,
+            "isReadOnly": true
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Reservations",
+          "identifier": "Reservations",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Collection,
+            "unitType": EntryUnitType.None,
+            "current": null,
+            "default": "String",
+            "possible": [
+              "String"
+            ],
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": [
+            {
+              "displayName": "String",
+              "identifier": "CREATED",
+              "description": null,
+              "value": {
+                "type": EntryValueType.String,
+                "unitType": EntryUnitType.None,
+                "current": "",
+                "default": "",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            }
+          ]
+        },
+        {
+          "displayName": "Instance Count",
+          "identifier": "InstanceCount",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Int32,
+            "unitType": EntryUnitType.None,
+            "current": "0",
+            "default": "0",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Manual Mode",
+          "identifier": "ManualMode",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Boolean,
+            "unitType": EntryUnitType.None,
+            "current": "False",
+            "default": "False",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "State",
+          "identifier": "CellState",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": "Idle",
+            "default": null,
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Disabled",
+          "identifier": "Disabled",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Boolean,
+            "unitType": EntryUnitType.None,
+            "current": "False",
+            "default": "False",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        }
+      ],
+      "prototypes": []
+    }
   ngOnInit(): void {}
 
   onToggle() {
