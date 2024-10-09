@@ -3,10 +3,23 @@
     <input aria-label="Text field for changing an entry value." 
         [type]="isPassword ? 'password': 'text'"
         [placeholder]="entry.description ?? 'No description available'" 
-        matInput [formControl]="inputFormControl">
+        matInput [formControl]="inputFormControl"
+        #inputForm>
 
     <mat-error *ngIf="inputFormControl.hasError('min')">
         Please enter a value higher than {{entry.validation?.minimum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('valueInCollection')">
+        {{inputForm.value}} is not allowed for {{entry.displayName}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('valueNotInCollection')">
+        {{inputForm.value}} is not allowed for {{entry.displayName}} 
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('invalidMinLength')">
+        Please enter a longer {{entry.displayName}} then {{entry.validation?.minLength}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('invalidMaxLength')">
+        Please enter a shorter {{entry.displayName}} then {{entry.validation?.maxLength}}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('max')">
         Please enter a value lower than {{entry.validation?.maximum}}
@@ -21,3 +34,4 @@
         The entered value is <strong>invalid</strong>
     </mat-error>
 </mat-form-field>
+

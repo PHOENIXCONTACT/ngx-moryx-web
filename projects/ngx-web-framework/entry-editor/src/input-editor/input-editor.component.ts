@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
-import { invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
+import { hasValueInCollectionValidator, hasNotValueInCollectionValidator, maxLengthValidator, minLengthValidator, invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
 
 @Component({
   selector: 'entry-input-editor',
@@ -38,6 +38,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
     // Set up validators
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(this.entry.value.type));
+
     if (this.entry.validation?.isRequired)
       validators.push(Validators.required);
     if (this.isNumber)
@@ -65,6 +66,18 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   addTextValidators(validators: ValidatorFn[]) {
     if (this.entry.validation?.regex)
       validators.push(Validators.pattern(this.entry.validation?.regex))
+
+    if (this.entry.validation?.deniedValues)
+      validators.push(hasValueInCollectionValidator(this.entry.validation?.deniedValues  ??[]));
+
+    if (this.entry.validation?.allowedValues)
+      validators.push(hasNotValueInCollectionValidator(this.entry.validation?.allowedValues  ??[]));
+
+    if (this.entry.validation?.minLength)
+      validators.push(minLengthValidator(this.entry.validation?.minLength ??[]));
+
+    if (this.entry.validation?.maxLength)
+      validators.push(maxLengthValidator(this.entry.validation?.maxLength ??[]));
   }
 
   addNumberValidators(validators: ValidatorFn[]) {

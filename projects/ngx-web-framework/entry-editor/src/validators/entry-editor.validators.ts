@@ -20,6 +20,30 @@ export function minEntryValueValidator(min: number): ValidatorFn {
   };
 }
 
+export function hasNotValueInCollectionValidator(collection: string[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return !collection.some(x => control.value === x) ? { valueNotInCollection: true } : null;
+  };
+}
+
+export function hasValueInCollectionValidator(collection: string[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return collection.some(x => control.value === x) ? { valueInCollection: true } : null;
+  };
+}
+
+export function maxLengthValidator(length: number): ValidatorFn{
+  return (control: AbstractControl): ValidationErrors | null => {
+    return control.value.length > length ? {invalidMaxLength: true} : null;
+  }
+}
+
+export function minLengthValidator(length: number): ValidatorFn{
+  return (control: AbstractControl): ValidationErrors | null => {
+    return control.value.length < length ? {invalidMinLength: true} : null;
+  }
+}
+
 export function isInvalid(value: any, entryType: EntryValueType | undefined): boolean {
   //integer, Single  Types
   if (
