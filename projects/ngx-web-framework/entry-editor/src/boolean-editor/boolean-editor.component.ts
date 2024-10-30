@@ -5,19 +5,33 @@ import { Entry } from '../models/entry';
   selector: 'entry-boolean-editor',
   templateUrl: './boolean-editor.component.html',
   styleUrls: ['./boolean-editor.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class BooleanEditorComponent implements OnInit {
-
+export class BooleanEditorComponent {
   private _entry!: Entry;
   @Input() set entry(value: Entry) {
     this._entry = value;
-    this._checked = "True" === (this.entry.value?.current ?? this.entry.value?.default);
+    this._name = value.displayName ?? this._entry.identifier ?? ""
+    this._description = value.description
+    this._checked =
+      (this.entry.value?.current ?? this.entry.value?.default)?.localeCompare('true', undefined, {
+        sensitivity: 'base',
+      }) === 0;
   }
   get entry(): Entry {
     return this._entry;
   }
   @Input() disabled: boolean = false;
+
+  _name!: string;
+  get name(): string {
+    return this._name;
+  }
+  
+  _description: string | null | undefined;
+  get description(): string | null | undefined {
+    return this._description;
+  }
 
   _checked!: boolean;
   set checked(value: boolean) {
@@ -28,13 +42,9 @@ export class BooleanEditorComponent implements OnInit {
     return this._checked;
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  constructor() {}
 
   clickContainer(event: MouseEvent) {
-    if((event.target as HTMLElement).nodeName == "MAT-CHECKBOX" && !this.disabled)
-      this.checked = !this.checked;
+    if ((event.target as HTMLElement).nodeName == 'MAT-CHECKBOX' && !this.disabled) this.checked = !this.checked;
   }
 }

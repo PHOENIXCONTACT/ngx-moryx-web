@@ -124,6 +124,20 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Single,
           unitType: EntryUnitType.None,
         },
+      },      
+      {
+        // Bool
+        displayName: 'Test Bool Name (without description)',
+        description: undefined,
+        identifier: 'Bool Identifier without Description',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Boolean,
+          unitType: EntryUnitType.None,
+        },
       },
       {
         // Bool
@@ -146,7 +160,7 @@ export class EntryEditorDemoComponent implements OnInit {
         identifier: 'Default Bool Identifier',
         value: {
           current: undefined,
-          default: 'True',
+          default: 'true',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Boolean,
@@ -156,7 +170,7 @@ export class EntryEditorDemoComponent implements OnInit {
       {
         // Bool
         displayName: 'Test Disabled Bool Name',
-        description: 'This is a Disabled Test Bool description.',
+        description: 'This is a very very very long Disabled Test Bool description.',
         identifier: 'Disabled Bool Identifier',
         value: {
           current: undefined,

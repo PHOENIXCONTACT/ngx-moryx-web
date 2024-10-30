@@ -1,4 +1,23 @@
-navigable-entry-editor {
+:host {
+    flex: 1 1;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+    padding: 16px;
+}
+
+.navigable-entry-editor {
     flex: 1 1;
     overflow: hidden;
+}
+
+.button-area {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
