@@ -208,10 +208,24 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Enum,
           unitType: EntryUnitType.None,
         },
-      },
+      },      
       {
         // Select
         displayName: 'String With Possible values',
+        description: 'String With Possible values description.',
+        identifier: 'String With Possible values Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: ['Possible 1', 'Possible 2', 'Possible 3'],
+          type: EntryValueType.String,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Select
+        displayName: 'String With Possible values and default',
         description: 'String With Possible values description.',
         identifier: 'String With Possible values Identifier',
         value: {
