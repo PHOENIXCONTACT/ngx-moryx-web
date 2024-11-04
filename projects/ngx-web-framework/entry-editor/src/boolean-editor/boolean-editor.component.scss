@@ -10,6 +10,14 @@
     line-height: 30px;
 }
 
+.checkbox-text-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: var(--mdc-filled-text-field-label-text-size);
+}
+
 .entry-checkbox-with-hint {
     flex: 1;
     display: flex;
@@ -17,10 +25,10 @@
     align-items: stretch;
     justify-content: center;
     padding-bottom: 0.875em;
-    padding-left: 2px;
 }
 
 .boolean-entry-form-hint {
-    padding-left: 0.2em;
-    font-size: 75% !important;
+    font-size: 90%;
+    margin-left: -2px;
+    color: hsl(0, 0%, 60%);
 }
