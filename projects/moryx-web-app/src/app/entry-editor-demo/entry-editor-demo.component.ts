@@ -124,6 +124,20 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Single,
           unitType: EntryUnitType.None,
         },
+      },      
+      {
+        // Bool
+        displayName: 'Test Bool Name (without description)',
+        description: undefined,
+        identifier: 'Bool Identifier without Description',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Boolean,
+          unitType: EntryUnitType.None,
+        },
       },
       {
         // Bool
@@ -146,7 +160,7 @@ export class EntryEditorDemoComponent implements OnInit {
         identifier: 'Default Bool Identifier',
         value: {
           current: undefined,
-          default: 'True',
+          default: 'true',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Boolean,
@@ -156,7 +170,7 @@ export class EntryEditorDemoComponent implements OnInit {
       {
         // Bool
         displayName: 'Test Disabled Bool Name',
-        description: 'This is a Disabled Test Bool description.',
+        description: 'This is a very very very long Disabled Test Bool description.',
         identifier: 'Disabled Bool Identifier',
         value: {
           current: undefined,
@@ -194,10 +208,24 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Enum,
           unitType: EntryUnitType.None,
         },
-      },
+      },      
       {
         // Select
         displayName: 'String With Possible values',
+        description: 'String With Possible values description.',
+        identifier: 'String With Possible values Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: ['Possible 1', 'Possible 2', 'Possible 3'],
+          type: EntryValueType.String,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Select
+        displayName: 'String With Possible values and default',
         description: 'String With Possible values description.',
         identifier: 'String With Possible values Identifier',
         value: {
@@ -1030,6 +1058,399 @@ export class EntryEditorDemoComponent implements OnInit {
       "prototypes": []
   }
 
+  entry3: Entry = {
+   "displayName": "AcquiredCapabilities",
+    "identifier": "AcquiredCapabilities",
+    "description": null,
+    "value": {
+      "type": EntryValueType.Class,
+      "unitType": EntryUnitType.None,
+      "current": "SimpleSkill",
+      "default": "AssemblyCapability",
+      "possible": [
+        "AssemblyCapability",
+        "CombinedCapabilities",
+        "NullCapabilities",
+        "SimpleSkill"
+      ],
+      "isReadOnly": false
+    },
+    "validation": {
+      "minimum": -1.7976931348623157e+308,
+      "maximum": 1.7976931348623157e+308,
+      "regex": null,
+      "isRequired": false
+    },
+    "subEntries": [
+      {
+        "displayName": "Name",
+        "identifier": "Name",
+        "description": null,
+        "value": {
+          "type": EntryValueType.String,
+          "unitType": EntryUnitType.None,
+          "current": "This is the name",
+          "default": null,
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
+      },
+      {
+        "displayName": "Description",
+        "identifier": "Description",
+        "description": null,
+        "value": {
+          "type": EntryValueType.String,
+          "unitType": EntryUnitType.None,
+          "current": "This is the description",
+          "default": null,
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
+      }
+    ],
+    "prototypes": [
+      {
+        "displayName": "AssemblyCapability",
+        "identifier": "AssemblyCapability",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Class,
+          "unitType": EntryUnitType.None,
+          "current": "AssemblyCapability",
+          "default": "AssemblyCapability",
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [
+          {
+            "displayName": "AnotherProperty",
+            "identifier": "AnotherProperty",
+            "description": null,
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": "",
+              "default": null,
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          }
+        ],
+        "prototypes": []
+      },
+      {
+        "displayName": "SimpleSkill",
+        "identifier": "SimpleSkill",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Class,
+          "unitType": EntryUnitType.None,
+          "current": "SimpleSkill",
+          "default": "SimpleSkill",
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [
+          {
+            "displayName": "Name",
+            "identifier": "Name",
+            "description": null,
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": null,
+              "default": null,
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "Description",
+            "identifier": "Description",
+            "description": null,
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": null,
+              "default": null,
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          }
+        ],
+        "prototypes": []
+      }
+    ]
+  }
+
+
+  entry4: Entry = {
+      "displayName": "AssemblyCell",
+      "identifier": "AssemblyCell",
+      "description": null,
+      "value": {
+        "type": EntryValueType.Class,
+        "unitType": EntryUnitType.None,
+        "current": "AssemblyCell",
+        "default": "AssemblyCell",
+        "possible": null,
+        "isReadOnly": false
+      },
+      "validation": {
+        "minimum": -1.7976931348623157e+308,
+        "maximum": 1.7976931348623157e+308,
+        "regex": null,
+        "isRequired": false
+      },
+      "subEntries": [
+        {
+          "displayName": "Nominal Power",
+          "identifier": "NominalPower",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Int32,
+            "unitType": EntryUnitType.None,
+            "current": "225",
+            "default": "0",
+            "possible": null,
+            "isReadOnly": true
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "CameraInterface",
+          "identifier": "CameraInterface",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": null,
+            "default": null,
+            "possible": [],
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Material Identifier",
+          "identifier": "MaterialIdentifier",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": "0031465",
+            "default": null,
+            "possible": null,
+            "isReadOnly": true
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Reservations",
+          "identifier": "Reservations",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Collection,
+            "unitType": EntryUnitType.None,
+            "current": null,
+            "default": "String",
+            "possible": [
+              "String"
+            ],
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": [
+            {
+              "displayName": "String",
+              "identifier": "CREATED",
+              "description": null,
+              "value": {
+                "type": EntryValueType.String,
+                "unitType": EntryUnitType.None,
+                "current": "",
+                "default": "",
+                "possible": null,
+                "isReadOnly": false
+              },
+              "validation": {
+                "minimum": -1.7976931348623157e+308,
+                "maximum": 1.7976931348623157e+308,
+                "regex": null,
+                "isRequired": false
+              },
+              "subEntries": [],
+              "prototypes": []
+            }
+          ]
+        },
+        {
+          "displayName": "Instance Count",
+          "identifier": "InstanceCount",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Int32,
+            "unitType": EntryUnitType.None,
+            "current": "0",
+            "default": "0",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Manual Mode",
+          "identifier": "ManualMode",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Boolean,
+            "unitType": EntryUnitType.None,
+            "current": "False",
+            "default": "False",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "State",
+          "identifier": "CellState",
+          "description": null,
+          "value": {
+            "type": EntryValueType.String,
+            "unitType": EntryUnitType.None,
+            "current": "Idle",
+            "default": null,
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        },
+        {
+          "displayName": "Disabled",
+          "identifier": "Disabled",
+          "description": null,
+          "value": {
+            "type": EntryValueType.Boolean,
+            "unitType": EntryUnitType.None,
+            "current": "False",
+            "default": "False",
+            "possible": null,
+            "isReadOnly": false
+          },
+          "validation": {
+            "minimum": -1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308,
+            "regex": null,
+            "isRequired": false
+          },
+          "subEntries": [],
+          "prototypes": []
+        }
+      ],
+      "prototypes": []
+    }
   ngOnInit(): void {}
 
   onToggle() {

@@ -1,9 +1,10 @@
 {
   "name": "@moryx/ngx-web-framework",
-  "version": "17.0.3",
+  "version": "17.0.4",
   "scripts": {
     "ng": "ng",
-    "build": "tsc -p tsconfig.schematics.json",
+    "build": "ng build",
+    "schematics": "tsc -p tsconfig.schematics.json",
     "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-web-framework/",
     "test": "ng test"
   },
