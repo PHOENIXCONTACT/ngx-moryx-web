@@ -2,15 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
 
+
 ## How to use the npm packages
+
 1. Add a **.npmrc** file to the project
 ```
 registry=https://registry.npmjs.org
-@moryx:registry=https://packages-ctvc.europe.phoenixcontact.com/npm/moryx-npm/
+@moryx:registry=https://www.myget.org/F/moryx-ci/auth/4cd70c3b-c8e8-4186-8c35-3d4c8789bbdd/npm
 ```
 2. Turn ssl off with `npm config set strict-ssl false`
 3. Install the package with `npm install @moryx/ngx-web-framework`
 4. Turn back on ssl with `npm config set strict-ssl true`
+
+It is intended that releases of this package live on the `moryx-ci` feed 
+because it's an internal package which is not distributed publicly.
+
 
 ## Components
 ### Navigable Entry Editor
