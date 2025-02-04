@@ -16,33 +16,26 @@ import { SnackbarDemoComponent } from './snackbar-demo/snackbar-demo.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, environment.assets + 'assets/languages/');
 }
 
-@NgModule({
-  declarations: [AppComponent, EntryEditorDemoComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatDividerModule,
-    EntryEditorModule,
-    EmptyStateModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [AppComponent, EntryEditorDemoComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatDividerModule,
+        EntryEditorModule,
+        EmptyStateModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpTranslateLoaderFactory,
+                deps: [HttpClient],
+            },
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
