@@ -78,11 +78,11 @@ $moryx-warn-palette: (
 
 @use '@angular/material' as mat;
 
-$moryx-theme-primary: mat.define-palette($moryx-primary-palette, 700, 300, 900);
-$moryx-theme-accent: mat.define-palette($moryx-accent-palette, 700, 300, 900);
-$moryx-theme-warn: mat.define-palette($moryx-warn-palette, 700, 300, 900);
+$moryx-theme-primary: mat.m2-define-palette($moryx-primary-palette, 700, 300, 900);
+$moryx-theme-accent: mat.m2-define-palette($moryx-accent-palette, 700, 300, 900);
+$moryx-theme-warn: mat.m2-define-palette($moryx-warn-palette, 700, 300, 900);
 
-$moryx-theme: mat.define-light-theme(
+$moryx-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $moryx-theme-primary,
