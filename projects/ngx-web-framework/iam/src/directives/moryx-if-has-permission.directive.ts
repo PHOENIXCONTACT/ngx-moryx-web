@@ -8,10 +8,7 @@ import {
 import { AuthService } from '../services';
 import '../extensions/observable.extensions'
 
-@Directive({
-    selector: '[moryxIfHasPermission]',
-    standalone: false
-})
+@Directive({ selector: '[moryxIfHasPermission]' })
 export class MoryxIfHasPermissionDirective implements OnInit {
   @Input('moryxIfHasPermission')
   set hasPermission(permission: string | string[]) {

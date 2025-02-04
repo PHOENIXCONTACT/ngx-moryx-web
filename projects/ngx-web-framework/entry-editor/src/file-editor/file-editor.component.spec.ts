@@ -8,8 +8,8 @@ describe('FileEditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileEditorComponent ]
-    })
+    imports: [FileEditorComponent]
+})
     .compileComponents();
   });
 

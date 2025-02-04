@@ -94,7 +94,12 @@ export class NavigableEntryService {
         information.currentEntry = newInformation.currentEntry;
         information.entryPath = newInformation.entryPath;
 
-        queryParamSubsrciption.unsubscribe();
+        try {
+          queryParamSubsrciption.unsubscribe();
+        }
+        catch {
+          return;
+        }
       }
     );
   }

@@ -1,11 +1,4 @@
-import {
-  Component,
-  effect,
-  input,
-  model,
-  signal,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, effect, input, model, signal, ViewEncapsulation } from '@angular/core';
 import { Entry } from '../models/entry';
 import { MatHint } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -36,12 +29,13 @@ export class BooleanEditorComponent {
   }
 
   initialize(entry: Entry) {
-    const defaultChecked = (entry.value?.current ?? entry.value?.default)?.localeCompare('true', undefined, {
-      sensitivity: 'base',
-    }) === 0;
+    const defaultChecked =
+      (entry.value?.current ?? entry.value?.default)?.localeCompare('true', undefined, {
+        sensitivity: 'base',
+      }) === 0;
     this.checked.set(defaultChecked);
-    this.description.set(entry.description ?? '')
-    this.name.set(this.entry().displayName ?? '')
+    this.description.set(entry.description ?? '');
+    this.name.set(this.entry().displayName ?? '');
   }
 
   checkedUpdated(value: boolean) {

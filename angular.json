@@ -62,8 +62,7 @@
               "projects/moryx-web-app/src/assets"
             ],
             "styles": [
-              "projects/moryx-web-app/src/styles.scss",
-              "projects/moryx-web-app/src/theme.scss"
+              "projects/moryx-web-app/src/styles.scss"
             ],
             "scripts": []
           },

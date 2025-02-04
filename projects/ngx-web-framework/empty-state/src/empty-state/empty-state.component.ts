@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
     selector: 'empty-state',
     templateUrl: './empty-state.component.html',
     styleUrls: ['./empty-state.component.scss'],
-    standalone: false
+    standalone: true
 })
 export class EmptyStateComponent {
   @Input('icon') icon: string = 'rocket_launch';

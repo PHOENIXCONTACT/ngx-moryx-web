@@ -8,17 +8,14 @@ import { of } from 'rxjs';
 import { AuthService } from '../services';
 import { MoryxIfHasPermissionDirective } from './moryx-if-has-permission.directive';
 
-@Component({
-    template: `
+@Component({ template: `
     <div *moryxIfHasPermission="'Permissions.Permitted'">
       <p>This is permitted</p>
     </div>
     <div *moryxIfHasPermission="'Permissions.Forbidden'; except: ignore">
       <p>This is forbidden</p>
     </div>
-  `,
-    standalone: false
-})
+  ` })
 class TestComponent {
   ignore = true;
 }
@@ -39,10 +36,9 @@ describe('MoryxIfHasPermissionDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MoryxIfHasPermissionDirective, TestComponent],
-      providers: [{ provide: AuthService, useValue: authServiceStub }],
-    }).createComponent(TestComponent);
+    imports: [MoryxIfHasPermissionDirective, TestComponent],
+    providers: [{ provide: AuthService, useValue: authServiceStub }],
+}).createComponent(TestComponent);
     component = fixture.componentInstance;
     component.ignore = false;
 
@@ -90,10 +86,9 @@ describe('MoryxIfHasPermissionDirective without configuration', () => {
   beforeEach(() => {
     authServiceStub!.rootUrl = '';
     fixture = TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MoryxIfHasPermissionDirective, TestComponent],
-      providers: [{ provide: AuthService, useValue: authServiceStub }],
-    }).createComponent(TestComponent);
+    imports: [MoryxIfHasPermissionDirective, TestComponent],
+    providers: [{ provide: AuthService, useValue: authServiceStub }],
+}).createComponent(TestComponent);
     component = fixture.componentInstance;
     component.ignore = false;
    
