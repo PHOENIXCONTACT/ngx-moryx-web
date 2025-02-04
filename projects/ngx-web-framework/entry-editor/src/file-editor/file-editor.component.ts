@@ -4,9 +4,10 @@ import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 
 @Component({
-  selector: 'entry-file-editor',
-  templateUrl: './file-editor.component.html',
-  styleUrls: ['./file-editor.component.scss']
+    selector: 'entry-file-editor',
+    templateUrl: './file-editor.component.html',
+    styleUrls: ['./file-editor.component.scss'],
+    standalone: false
 })
 export class FileEditorComponent implements OnInit {
 

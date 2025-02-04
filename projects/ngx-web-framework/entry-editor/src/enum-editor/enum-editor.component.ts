@@ -4,9 +4,10 @@ import { EntryValueType } from '../models/entry-value-type';
 import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 
 @Component({
-  selector: 'entry-enum-editor',
-  templateUrl: './enum-editor.component.html',
-  styleUrls: ['./enum-editor.component.scss']
+    selector: 'entry-enum-editor',
+    templateUrl: './enum-editor.component.html',
+    styleUrls: ['./enum-editor.component.scss'],
+    standalone: false
 })
 export class EnumEditorComponent implements OnInit {
   private _entry!: Entry;

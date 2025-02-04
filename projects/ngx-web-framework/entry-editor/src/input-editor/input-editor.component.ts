@@ -7,9 +7,10 @@ import { EntryValueType } from '../models/entry-value-type';
 import { invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
 
 @Component({
-  selector: 'entry-input-editor',
-  templateUrl: './input-editor.component.html',
-  styleUrls: ['./input-editor.component.scss']
+    selector: 'entry-input-editor',
+    templateUrl: './input-editor.component.html',
+    styleUrls: ['./input-editor.component.scss'],
+    standalone: false
 })
 export class InputEditorComponent implements OnInit, OnDestroy {
 

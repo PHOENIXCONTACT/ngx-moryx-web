@@ -6,9 +6,10 @@ const multiplePermissions = ["Moryx.Example.Permission1", "Moryx.Example.Permiss
 const singlePermission = ["Moryx.Example.Permission3"];
 
 @Component({
-  selector: 'app-snackbar-demo',
-  templateUrl: './snackbar-demo.component.html',
-  styleUrls: ['./snackbar-demo.component.scss']
+    selector: 'app-snackbar-demo',
+    templateUrl: './snackbar-demo.component.html',
+    styleUrls: ['./snackbar-demo.component.scss'],
+    standalone: false
 })
 
 export class SnackbarDemoComponent {

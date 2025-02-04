@@ -2,10 +2,11 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Entry } from '../models/entry';
 
 @Component({
-  selector: 'entry-boolean-editor',
-  templateUrl: './boolean-editor.component.html',
-  styleUrls: ['./boolean-editor.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'entry-boolean-editor',
+    templateUrl: './boolean-editor.component.html',
+    styleUrls: ['./boolean-editor.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BooleanEditorComponent {
   private _entry!: Entry;

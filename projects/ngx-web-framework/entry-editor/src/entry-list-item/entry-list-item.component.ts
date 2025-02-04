@@ -4,9 +4,10 @@ import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
 
 @Component({
-  selector: 'entry-list-item',
-  templateUrl: './entry-list-item.component.html',
-  styleUrls: ['./entry-list-item.component.scss']
+    selector: 'entry-list-item',
+    templateUrl: './entry-list-item.component.html',
+    styleUrls: ['./entry-list-item.component.scss'],
+    standalone: false
 })
 export class EntryListItemComponent implements OnInit {
   @Input() editorId!: number;
