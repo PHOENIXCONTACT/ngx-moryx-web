@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/entry-editor';
 
 @Component({
-  selector: 'app-entry-editor-demo',
-  templateUrl: './entry-editor-demo.component.html',
-  styleUrls: ['./entry-editor-demo.component.scss'],
+    selector: 'app-entry-editor-demo',
+    templateUrl: './entry-editor-demo.component.html',
+    styleUrls: ['./entry-editor-demo.component.scss'],
+    standalone: false
 })
 export class EntryEditorDemoComponent implements OnInit {
   disabled = false;

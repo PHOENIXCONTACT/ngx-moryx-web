@@ -5,9 +5,10 @@ import { EntryValueType } from '../models/entry-value-type';
 import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 
 @Component({
-  selector: 'entry-editor',
-  templateUrl: './entry-editor.component.html',
-  styleUrls: ['./entry-editor.component.scss'],
+    selector: 'entry-editor',
+    templateUrl: './entry-editor.component.html',
+    styleUrls: ['./entry-editor.component.scss'],
+    standalone: false
 })
 export class EntryEditorComponent implements OnInit {
 

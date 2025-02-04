@@ -22,8 +22,12 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, environment.assets + 'assets/languages/');
 }
 
-@NgModule({ declarations: [AppComponent, EntryEditorDemoComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+@NgModule({ 
+    declarations: 
+    [AppComponent, EntryEditorDemoComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
+    bootstrap: [AppComponent],
+     imports: [
+        BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
@@ -37,5 +41,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
                 useFactory: httpTranslateLoaderFactory,
                 deps: [HttpClient],
             },
-        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        })
+    ],
+         providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

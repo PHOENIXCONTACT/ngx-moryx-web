@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Entry } from '../models/entry';
 import { NavigableEntryService } from '../services/navigable-entry.service';
 @Component({
-  selector: 'entry-object-editor',
-  templateUrl: './entry-object.component.html',
-  styleUrls: ['./entry-object.component.scss'],
+    selector: 'entry-object-editor',
+    templateUrl: './entry-object.component.html',
+    styleUrls: ['./entry-object.component.scss'],
+    standalone: false
 })
 export class EntryObjectComponent implements OnInit {
   

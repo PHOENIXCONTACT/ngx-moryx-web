@@ -6,9 +6,10 @@ import {
 } from '../services/navigable-entry.service';
 
 @Component({
-  selector: 'navigable-entry-editor',
-  templateUrl: './navigable-entry-editor.component.html',
-  styleUrls: ['./navigable-entry-editor.component.scss'],
+    selector: 'navigable-entry-editor',
+    templateUrl: './navigable-entry-editor.component.html',
+    styleUrls: ['./navigable-entry-editor.component.scss'],
+    standalone: false
 })
 export class NavigableEntryEditorComponent implements OnInit, OnDestroy {
   @Input() queryParam?: string;

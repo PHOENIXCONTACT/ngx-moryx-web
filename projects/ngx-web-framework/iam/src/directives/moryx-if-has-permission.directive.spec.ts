@@ -9,7 +9,7 @@ import { AuthService } from '../services';
 import { MoryxIfHasPermissionDirective } from './moryx-if-has-permission.directive';
 
 @Component({
-  template: `
+    template: `
     <div *moryxIfHasPermission="'Permissions.Permitted'">
       <p>This is permitted</p>
     </div>
@@ -17,6 +17,7 @@ import { MoryxIfHasPermissionDirective } from './moryx-if-has-permission.directi
       <p>This is forbidden</p>
     </div>
   `,
+    standalone: false
 })
 class TestComponent {
   ignore = true;

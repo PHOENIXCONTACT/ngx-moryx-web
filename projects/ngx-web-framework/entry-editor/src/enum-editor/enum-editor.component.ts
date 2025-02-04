@@ -6,9 +6,10 @@ import { UntypedFormControl } from '@angular/forms';
 import { EntryUnitType } from '../models/entry-unit-type';
 
 @Component({
-  selector: 'entry-enum-editor',
-  templateUrl: './enum-editor.component.html',
-  styleUrls: ['./enum-editor.component.scss']
+    selector: 'entry-enum-editor',
+    templateUrl: './enum-editor.component.html',
+    styleUrls: ['./enum-editor.component.scss'],
+    standalone: false
 })
 export class EnumEditorComponent implements OnInit {
   private _entry!: Entry;
