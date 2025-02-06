@@ -94,9 +94,19 @@ export class EntryEditorComponent implements OnInit {
     const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
     entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
     entryPrototype.value.possible = this.entry.value.possible;
-    entryPrototype.displayName = this._entry.displayName; 
-    entryPrototype.identifier = this._entry.identifier; 
-    
-    this.entry = entryPrototype;
+    entryPrototype.displayName = this.entry.displayName; 
+    entryPrototype.identifier = this.entry.identifier; 
+
+    this.updateEntry(entryPrototype);
+  }
+
+  updateEntry(entryPrototype: Entry) {
+    this.entry.description = entryPrototype.description;
+    this.entry.displayName = entryPrototype.displayName;
+    this.entry.identifier = entryPrototype.identifier;
+    this.entry.prototypes = entryPrototype.prototypes;
+    this.entry.subEntries = entryPrototype.subEntries;
+    this.entry.validation = entryPrototype.validation;
+    this.entry.value = entryPrototype.value;
   }
 }
