@@ -18,7 +18,7 @@
 <mat-divider *ngIf="disabled === false && EntryValueType.Collection === entry.value?.type"></mat-divider>
 
 
-<div class="full-width-input"  *ngIf="isEntryTypeSettable() && EntryValueType.Class === entry.value?.type">
+<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable() && EntryValueType.Class === entry.value?.type">
     <div class="entry-editor-add-list-item">
         <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="fill">
             <mat-label>{{entry.displayName}}</mat-label>

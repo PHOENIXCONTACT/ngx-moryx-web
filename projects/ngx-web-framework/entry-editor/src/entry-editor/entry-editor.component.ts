@@ -7,7 +7,7 @@ import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 @Component({
   selector: 'entry-editor',
   templateUrl: './entry-editor.component.html',
-  styleUrls: ['./entry-editor.component.scss']
+  styleUrls: ['./entry-editor.component.scss'],
 })
 export class EntryEditorComponent implements OnInit {
 
@@ -94,9 +94,8 @@ export class EntryEditorComponent implements OnInit {
     const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
     entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
     entryPrototype.value.possible = this.entry.value.possible;
-    entryPrototype.displayName = this._entry.displayName; 
-    entryPrototype.identifier = this._entry.identifier; 
-    
-    this.entry = entryPrototype;
+    entryPrototype.displayName = this.entry.displayName; 
+    entryPrototype.identifier = this.entry.identifier; 
+    Object.assign(this.entry, entryPrototype);
   }
 }
