@@ -197,7 +197,6 @@ export class NavigableEntryService {
 
   private updateQuery(queryParams: Params): void {
     this.router.navigate([], {
-      relativeTo: this.route,
       queryParams: queryParams,
       queryParamsHandling: 'merge',
     });

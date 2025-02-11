@@ -18,6 +18,27 @@
 <mat-divider *ngIf="disabled === false && EntryValueType.Collection === entry.value?.type"></mat-divider>
 
 
+<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable() && EntryValueType.Class === entry.value?.type">
+    <div class="entry-editor-add-list-item">
+        <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="fill">
+            <mat-label>{{entry.displayName}}</mat-label>
+    
+            <mat-select [disabled]="disabled || (entry.value.isReadOnly ?? false)" [(ngModel)]="entry.value.current">
+                <mat-option *ngFor="let pv of entry.value?.possible" [value]="pv">
+                    {{pv}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    
+        <button mat-icon-button color="primary" class="entry-editor-add-list-item-button"
+        [disabled]="disabled || entry.value.current === ''"
+        (click)="onPatchToSelectedEntryType(entry.value.current ?? '')" >
+         <span class="material-symbols-outlined entry-editor-list-item-button-icon">done</span>
+        </button>
+    </div>
+</div>
+<mat-divider *ngIf="disabled === false && EntryValueType.Class === entry.value?.type"></mat-divider>
+
 <mat-list class="entry-editor-subentries-list">
     <ng-container *ngFor="let subEntry of entry.subEntries ?? []">
         <ng-container *ngIf="EntryValueType.Collection === entry.value?.type; else elseBlock">
@@ -43,7 +64,7 @@
                 <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="
                                     (subEntry.value?.possible === null || 
-                                    subEntry.value?.possible === undefined ) &&
+                                    subEntry.value?.possible === undefined || !subEntry.value?.possible?.length) &&
                                     (EntryValueType.Byte === subEntry.value?.type ||
                                     EntryValueType.Int16 === subEntry.value?.type || 
                                     EntryValueType.UInt16 === subEntry.value?.type ||
@@ -56,9 +77,11 @@
                                     EntryValueType.String === subEntry.value?.type ||
                                     EntryValueType.Exception === subEntry.value?.type)">
                 </entry-input-editor>
-                <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+                <entry-enum-editor matLine class="entry-editor-subentries-list-item" 
+                [entry]="subEntry"
                     [disabled]="disabled" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type || 
-                    (subEntry.value?.possible?.includes(subEntry.value?.default ?? subEntry.value?.current ?? '') && EntryValueType.Collection != subEntry.value?.type)">
+                    (subEntry.value?.possible?.length && 
+                    EntryValueType.Collection != subEntry.value?.type)">
                 </entry-enum-editor>
             </ng-container>
         </ng-template>

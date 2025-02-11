@@ -1,0 +1,89 @@
+name: 'Build and Publish'
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+on:
+  push:
+    branches:
+      - dev
+      - future
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+ # Matches all semantic versioning tags with major, minor, patch
+  pull_request:
+    branches:
+      - dev
+      - future
+
+env:
+  dotnet_sdk_version: '8.0.x'
+  NODE_VERSION: 20
+
+
+jobs:
+  Variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Release variables
+        id: set-variables
+        run: |
+          if [[ ${{ github.ref_name }} =~ /v[0-9]+.[0-9]+.[0-9]+/ ]]; then
+            echo "MORYX_PACKAGE_TARGET=https://www.myget.org/F/moryx/api/v2/package" >> $GITHUB_OUTPUT
+            echo "MORYX_PACKAGE_TARGET_V3=https://www.myget.org/F/moryx/api/v3/index.json" >> $GITHUB_OUTPUT
+            echo "NPM_PACKAGE_SOURCE=//www.myget.org/F/moryx/npm/" >> $GITHUB_OUTPUT
+          else
+            echo "MORYX_PACKAGE_TARGET=https://www.myget.org/F/moryx-ci/api/v2/package" >> $GITHUB_OUTPUT
+            echo "MORYX_PACKAGE_TARGET_V3=https://www.myget.org/F/moryx-ci/api/v3/index.json" >> $GITHUB_OUTPUT
+            echo "NPM_PACKAGE_SOURCE=//www.myget.org/F/moryx-ci/npm/" >> $GITHUB_OUTPUT
+          fi
+    outputs:
+      dotnet_sdk_version: ${{ env.dotnet_sdk_version }}
+      MORYX_PACKAGE_TARGET: ${{ steps.set-variables.outputs.MORYX_PACKAGE_TARGET }}
+      MORYX_PACKAGE_TARGET_V3: ${{ steps.set-variables.outputs.MORYX_PACKAGE_TARGET_V3 }}
+      NPM_PACKAGE_SOURCE: ${{ steps.set-variables.outputs.NPM_PACKAGE_SOURCE }}
+
+  Build:
+    needs: Variables
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses : actions/checkout@v4
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: 🔧 npm install
+      run: npm ci
+
+    - name: Set CI version
+      working-directory: ./projects/ngx-web-framework
+      run: npm version $(npm pkg get version | sed -e 's/"//g' )-$(echo ${{ github.ref_name }} | sed -e 's/\//-/g').${{ github.run_number }} --no-git-tag-version --no-commit-hooks
+      if: github.ref_type != 'tag'
+
+    - name: 🔨 build `ngx-web-framework`
+      working-directory: ./projects/ngx-web-framework
+      run: npm run build
+    - name: 🔨 create schematics
+      working-directory: ./projects/ngx-web-framework
+      run: npm run schematics
+
+    - name: ⬆️ Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+        retention-days: 1
+
+  Publish:
+    runs-on: ubuntu-latest
+    needs: [Variables, Build]
+    steps:
+    - name: ⬇️ Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    - name: 📦 Publish `ngx-web-framework`
+      working-directory: ./dist/ngx-web-framework
+      run: |
+        npm config set ${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}:_authToken ${{ secrets.MYGET_API_KEY }}
+        npm publish --registry https:${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}

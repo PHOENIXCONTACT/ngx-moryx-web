@@ -7,7 +7,7 @@ import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 @Component({
   selector: 'entry-editor',
   templateUrl: './entry-editor.component.html',
-  styleUrls: ['./entry-editor.component.scss']
+  styleUrls: ['./entry-editor.component.scss'],
 })
 export class EntryEditorComponent implements OnInit {
 
@@ -75,5 +75,27 @@ export class EntryEditorComponent implements OnInit {
         }
       }      
     }
+  }
+
+  isEntryTypeSettable(): boolean { 
+    return this.entry?.value?.type === EntryValueType.Class &&
+            this.entry.value.possible != null &&
+            this.entry.value.possible.length > 1;
+  }
+
+  onPatchToSelectedEntryType(identifier: string): void {
+    this.entry.subEntries = [];
+        const prototype = this.entry?.prototypes?.find(
+          (proto: Entry) => proto.displayName === identifier
+        );
+
+    if (!prototype) return;
+
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
+    entryPrototype.prototypes = JSON.parse(JSON.stringify(this.entry.prototypes));
+    entryPrototype.value.possible = this.entry.value.possible;
+    entryPrototype.displayName = this.entry.displayName; 
+    entryPrototype.identifier = this.entry.identifier; 
+    Object.assign(this.entry, entryPrototype);
   }
 }
