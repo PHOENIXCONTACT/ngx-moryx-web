@@ -7,22 +7,22 @@
         #inputForm>
 
     <mat-error *ngIf="inputFormControl.hasError('min')">
-        Please enter a value higher than {{entry.validation?.minimum}}
+        Please enter a higher value then {{entry.validation?.minimum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('max')">
+        Please enter a lower value then {{entry.validation?.maximum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('invalidMinLength')">
+        Please enter a longer {{entry.displayName}} then {{entry.validation?.minimum}}
+    </mat-error>
+    <mat-error *ngIf="inputFormControl.hasError('invalidMaxLegngth')">
+        Please enter a shorter {{entry.displayName}} then {{entry.validation?.maximum}}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('valueInCollection')">
         {{inputForm.value}} is not allowed for {{entry.displayName}}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('valueNotInCollection')">
         {{inputForm.value}} is not allowed for {{entry.displayName}} 
-    </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('invalidMinLength')">
-        Please enter a longer {{entry.displayName}} then {{entry.validation?.minLength}}
-    </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('invalidMaxLength')">
-        Please enter a shorter {{entry.displayName}} then {{entry.validation?.maxLength}}
-    </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('max')">
-        Please enter a value lower than {{entry.validation?.maximum}}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('pattern')">
         Please make sure your input matches the following pattern: {{entry.validation?.regex}}

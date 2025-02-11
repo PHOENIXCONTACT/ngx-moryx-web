@@ -73,11 +73,11 @@ export class InputEditorComponent implements OnInit, OnDestroy {
     if (this.entry.validation?.allowedValues)
       validators.push(hasNotValueInCollectionValidator(this.entry.validation?.allowedValues  ??[]));
 
-    if (this.entry.validation?.minLength)
-      validators.push(minLengthValidator(this.entry.validation?.minLength ??[]));
+    if (this.entry.validation?.minimum)
+      validators.push(minLengthValidator(this.entry.validation?.minimum ??[]));
 
-    if (this.entry.validation?.maxLength)
-      validators.push(maxLengthValidator(this.entry.validation?.maxLength ??[]));
+    if (this.entry.validation?.maximum)
+      validators.push(maxLengthValidator(this.entry.validation?.maximum ??[]));
   }
 
   addNumberValidators(validators: ValidatorFn[]) {

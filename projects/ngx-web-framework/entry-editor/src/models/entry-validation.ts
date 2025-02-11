@@ -8,6 +8,4 @@ export interface EntryValidation {
   range?: number;
   deniedValues?: string[];
   allowedValues?: string[];
-  maxLength?: number;
-  minLength?: number;
 }
