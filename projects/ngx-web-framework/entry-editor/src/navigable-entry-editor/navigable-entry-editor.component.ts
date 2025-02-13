@@ -1,52 +1,52 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, input, effect, model, signal, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
-import {
-  NavigableEntryInformation,
-  NavigableEntryService,
-} from '../services/navigable-entry.service';
+import { NavigableEntryInformation, NavigableEntryService } from '../services/navigable-entry.service';
+import { EntryEditorComponent } from '../entry-editor/entry-editor.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'navigable-entry-editor',
-    templateUrl: './navigable-entry-editor.component.html',
-    styleUrls: ['./navigable-entry-editor.component.scss'],
-    standalone: false
+  selector: 'navigable-entry-editor',
+  templateUrl: './navigable-entry-editor.component.html',
+  styleUrls: ['./navigable-entry-editor.component.scss'],
+  standalone: true,
+  imports: [EntryEditorComponent, CommonModule],
 })
-export class NavigableEntryEditorComponent implements OnInit, OnDestroy {
-  @Input() queryParam?: string;
-  @Input() disabled!: boolean;
+export class NavigableEntryEditorComponent implements OnDestroy {
+  queryParam = input<string | undefined>(undefined);
+  disabled = input.required<boolean>();
+  //id of the navigableEditor in order to be able to use several entry editors at the same time
+  editorId = signal<number>(0);
 
-  private _entry!: Entry;
-  @Input() set entry(value: Entry) {
-    this._entry = value;
-    if (this.editorId !== 0) {
-      this.service.signOut(this.editorId);
+  entry = model.required<Entry>();
+
+  entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
+
+  constructor(public service: NavigableEntryService) {
+    effect(() => {
+      untracked(() => {
+        this.update(this.entry(), this.editorId());
+      });
+    });
+  }
+
+  update(entry: Entry, editorId: number) {
+
+    if (editorId !== 0) {
+      this.service.signOut(editorId);
     }
-    this.editorId = this.service.signIn(value, this.queryParam);
-    const infos = this.service.entryEditorInformation.get(this.editorId);
+    editorId = this.service.signIn(entry, this.queryParam());
+    this.editorId.set(editorId);
+    const infos = this.service.entryEditorInformation.get(editorId);
 
     if (!infos) return;
-    this.entryInformation = infos;
-    this.createdCounter = 1;
+    this.entryInformation.set(infos);
   }
-
-  get entry(): Entry {
-    return this._entry;
-  }
-
-  //id of the navigableEditor in order to be able to use several entry editors at the same time
-  public editorId: number = 0;
-  public entryInformation: NavigableEntryInformation | undefined;
-  createdCounter: number = 0;
-
-  constructor(public service: NavigableEntryService) {}
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.service.signOut(this.editorId);
+    this.service.signOut(this.editorId());
   }
 
   onNavigateSpecific(entry: Entry) {
-    this.service.onNavigateToSpecificEntry(this.editorId, entry);
+    this.service.onNavigateToSpecificEntry(this.editorId(), entry);
   }
 }
