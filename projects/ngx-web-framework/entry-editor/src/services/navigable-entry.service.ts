@@ -167,7 +167,6 @@ export class NavigableEntryService {
    * @returns
    */
   onOpenEntry(editorId: number, newEntry: Entry) {
-    console.log(editorId)
     if (!this.entryEditorInformation.has(editorId)) return;
 
     const infos = this.entryEditorInformation.get(editorId);
