@@ -22,14 +22,6 @@ import { NavigableEntryEditorComponent } from './navigable-entry-editor/navigabl
 
 @NgModule({
   declarations: [
-    EntryEditorComponent,
-    BooleanEditorComponent,
-    InputEditorComponent,
-    EnumEditorComponent,
-    FileEditorComponent,
-    NavigableEntryEditorComponent,
-    EntryObjectComponent,
-    EntryListItemComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +36,6 @@ import { NavigableEntryEditorComponent } from './navigable-entry-editor/navigabl
     MatButtonModule,
     MatIconModule,
   ],
-  exports: [EntryEditorComponent, NavigableEntryEditorComponent],
+  exports: [],
 })
 export class EntryEditorModule {}
