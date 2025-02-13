@@ -24,7 +24,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
 
 @NgModule({ 
     declarations: 
-    [AppComponent, EntryEditorDemoComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
+    [AppComponent, EmptyStateDemoComponent, OverviewComponent, SnackbarDemoComponent],
     bootstrap: [AppComponent],
      imports: [
         BrowserModule,
@@ -33,7 +33,6 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
         MatSnackBarModule,
         MatButtonModule,
         MatDividerModule,
-        EntryEditorModule,
         EmptyStateModule,
         TranslateModule.forRoot({
             loader: {

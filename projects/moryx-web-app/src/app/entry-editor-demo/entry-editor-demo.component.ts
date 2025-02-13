@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/entry-editor';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { Component, computed, effect, model, OnInit, signal } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatLine } from '@angular/material/core';
+import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditorComponent } from '@moryx/ngx-web-framework/entry-editor';
+import { EntryEditorComponent } from "../../../../ngx-web-framework/entry-editor/src/entry-editor/entry-editor.component";
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
     selector: 'app-entry-editor-demo',
     templateUrl: './entry-editor-demo.component.html',
     styleUrls: ['./entry-editor-demo.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [MatLine, MatButton, EntryEditorComponent, NavigableEntryEditorComponent, MatDivider]
 })
 export class EntryEditorDemoComponent implements OnInit {
   disabled = false;
