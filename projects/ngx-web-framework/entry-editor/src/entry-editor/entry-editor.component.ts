@@ -44,7 +44,7 @@ import { EntryListItemComponent } from '../entry-list-item/entry-list-item.compo
     FormsModule,
   ],
 })
-export class EntryEditorComponent implements OnInit {
+export class EntryEditorComponent {
   editorId = input<number | undefined>(undefined);
   disabled = input<boolean>(false);
   
@@ -81,8 +81,6 @@ export class EntryEditorComponent implements OnInit {
 
   EntryValueType = EntryValueType;
   EntryUnitType = EntryUnitType;
-
-  ngOnInit(): void {}
 
   onDeleteListItem(toBeDeleted: Entry) {
     const entry = this.entry();
