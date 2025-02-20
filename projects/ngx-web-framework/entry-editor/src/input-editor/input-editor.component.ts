@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 export class InputEditorComponent implements OnDestroy {
   inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
+  private readOnly: boolean | undefined = undefined;
   isPassword!: boolean;
   isNumber!: boolean;
 
@@ -35,19 +36,23 @@ export class InputEditorComponent implements OnDestroy {
   constructor() {
     this.inputFormControl = new UntypedFormControl();
     const reference = effect(() => {
-      this.initialize(this.entry(), this.disabled());
+      this.initialize(this.entry());
       reference.destroy();
+    });
+
+    effect(() => {
+      this.disableInputFormControl(this.inputFormControl, this.disabled());
     });
   }
 
 
-  initialize(entry: Entry, disabled: boolean) {
+  initialize(entry: Entry) {
     this.updateCurrentValue(entry.value, entry.value.current);
     this.determineInputType();
 
     const validators = this.setupValidators(entry);
     this.inputFormControl = this.setupFormControl(entry, validators);
-    this.disableInputFormControl(this.inputFormControl, disabled);
+    this.readOnly = entry.value?.isReadOnly;
   }
 
   private updateCurrentValue(currentValue: EntryValue, value: any) {
@@ -59,7 +64,7 @@ export class InputEditorComponent implements OnDestroy {
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable || this.entry().value?.isReadOnly) 
+    if (disable || this.readOnly)
       control.disable();
     else 
       control.enable();
