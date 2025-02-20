@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
-import { hasValueInCollectionValidator, hasNotValueInCollectionValidator, maxLengthValidator, minLengthValidator, invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
+import { hasValueInCollectionValidator, maxLengthValidator, minLengthValidator, invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
 
 @Component({
   selector: 'entry-input-editor',
@@ -69,9 +69,6 @@ export class InputEditorComponent implements OnInit, OnDestroy {
 
     if (this.entry.validation?.deniedValues)
       validators.push(hasValueInCollectionValidator(this.entry.validation?.deniedValues  ??[]));
-
-    if (this.entry.validation?.allowedValues)
-      validators.push(hasNotValueInCollectionValidator(this.entry.validation?.allowedValues  ??[]));
 
     if (this.entry.validation?.minimum)
       validators.push(minLengthValidator(this.entry.validation?.minimum ??[]));

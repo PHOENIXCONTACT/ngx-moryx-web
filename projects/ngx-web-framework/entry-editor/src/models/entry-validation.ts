@@ -7,5 +7,4 @@ export interface EntryValidation {
   regex?: null | string;
   range?: number;
   deniedValues?: string[];
-  allowedValues?: string[];
 }

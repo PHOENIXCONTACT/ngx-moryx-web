@@ -21,9 +21,6 @@
     <mat-error *ngIf="inputFormControl.hasError('valueInCollection')">
         {{inputForm.value}} is not allowed for {{entry.displayName}}
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('valueNotInCollection')">
-        {{inputForm.value}} is not allowed for {{entry.displayName}} 
-    </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('pattern')">
         Please make sure your input matches the following pattern: {{entry.validation?.regex}}
     </mat-error>

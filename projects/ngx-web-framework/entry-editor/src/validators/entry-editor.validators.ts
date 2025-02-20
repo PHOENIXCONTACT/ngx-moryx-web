@@ -20,12 +20,6 @@ export function minEntryValueValidator(min: number): ValidatorFn {
   };
 }
 
-export function hasNotValueInCollectionValidator(collection: string[]): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    return !collection.some(x => control.value === x) ? { valueNotInCollection: true } : null;
-  };
-}
-
 export function hasValueInCollectionValidator(collection: string[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     return collection.some(x => control.value === x) ? { valueInCollection: true } : null;
