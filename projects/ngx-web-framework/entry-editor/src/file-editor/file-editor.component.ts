@@ -16,21 +16,26 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class FileEditorComponent {
   inputFormControl!: UntypedFormControl; 
+  private readOnly: boolean | undefined = undefined;
 
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
   constructor() {
     const reference = effect(() => {
-      this.initialize(this.entry(), this.disabled());
+      this.initialize(this.entry());
       reference.destroy();
+    })
+    
+    effect(() => {
+      this.disableInputFormControl(this.inputFormControl, this.disabled());
     });
   }
 
-  initialize(entry: Entry, disabled: boolean) {
+  initialize(entry: Entry) {
     const validators = this.setupValidators(entry);
     this.inputFormControl = this.setupFormControl(entry, validators);
-    this.disableInputFormControl(this.inputFormControl, disabled);
+    this.readOnly = entry.value?.isReadOnly;
   }
 
   private updateCurrentValue(currentValue: EntryValue, value: any) {
@@ -42,7 +47,7 @@ export class FileEditorComponent {
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable || this.entry().value?.isReadOnly) 
+    if (disable || this.readOnly) 
       control.disable();
     else 
       control.enable();
