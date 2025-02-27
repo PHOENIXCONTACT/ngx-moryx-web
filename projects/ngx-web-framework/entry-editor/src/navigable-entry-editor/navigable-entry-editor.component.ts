@@ -23,14 +23,17 @@ export class NavigableEntryEditorComponent implements OnDestroy {
 
   constructor(public service: NavigableEntryService) {
     effect(() => {
+      // `this.entry()` is assigned to `entry` to make sure,
+	  // updates on it will be tracked and take 'effect'.
+     
+      const entry = Object.assign(this.entry());
       untracked(() => {
-        this.update(this.entry(), this.editorId());
+        this.update(entry, this.editorId());
       });
     });
   }
 
   update(entry: Entry, editorId: number) {
-
     if (editorId !== 0) {
       this.service.signOut(editorId);
     }
