@@ -1,6 +1,7 @@
 <mat-form-field class="full-width-input" appearance="fill">
     <mat-label>{{entry.displayName}}</mat-label>
-    <mat-select [disabled]="disabled || (entry.value.isReadOnly ?? false)" [(ngModel)]="entry.value.current">
+    <mat-select [formControl]="FormControl" (selectionChange)="changed($event)"
+        [multiple]="entry.value.unitType === EntryUnitType.Flags">
         <mat-option *ngFor="let pv of entry.value?.possible" [value]="pv">
             {{pv}}
         </mat-option>
