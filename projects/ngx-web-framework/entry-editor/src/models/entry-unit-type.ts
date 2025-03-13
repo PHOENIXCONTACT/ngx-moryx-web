@@ -4,5 +4,6 @@ export enum EntryUnitType {
   None = 'None',
   Password = 'Password',
   File = 'File',
-  Directory = 'Directory'
+  Directory = 'Directory',
+  Flags = 'Flags'
 }
