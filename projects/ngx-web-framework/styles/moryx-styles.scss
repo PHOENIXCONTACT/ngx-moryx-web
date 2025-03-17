@@ -1,6 +1,6 @@
 // Angular Material 19
 @use '@angular/material' as mat;
-@use './moryx-theme.scss';
+@import './moryx-theme.scss';
 
 // Colors
 $primary: #33969d;
