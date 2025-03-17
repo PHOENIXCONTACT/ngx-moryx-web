@@ -1,5 +1,5 @@
 <div *ngIf="disabled() === false && EntryValueType.Collection === entry().value?.type" class="entry-editor-add-list-item">
-    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="fill">
+    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline">
         <mat-label>Select the type of object</mat-label>
 
         <mat-select [ngModel]="selectedListItemType()">
@@ -21,7 +21,7 @@
 
 <div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable() && EntryValueType.Class === entry().value?.type">
     <div class="entry-editor-add-list-item">
-        <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="fill">
+        <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline">
             <mat-label>{{entry().displayName}}</mat-label>
 
             <mat-select [disabled]="disabled() || (entry().value.isReadOnly ?? false)" [(ngModel)]="entry().value.current">
