@@ -1,4 +1,17 @@
 @import "../entry-editor.scss";
 .block{
-    display: block!important;
+    display: block !important;
+}
+
+.text-input-field{
+    height: auto;
+    margin-top: 5px;
+}
+
+.truncate {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 100%;
 }
