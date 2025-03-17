@@ -6,7 +6,6 @@ import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 import { BooleanEditorComponent } from '../boolean-editor/boolean-editor.component';
 import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass, NgFor, NgIf, NgSwitch } from '@angular/common';
-import { MatDivider } from '@angular/material/divider';
 import { MatList } from '@angular/material/list';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -16,6 +15,7 @@ import { InputEditorComponent } from '../input-editor/input-editor.component';
 import { FileEditorComponent } from '../file-editor/file-editor.component';
 import { EntryObjectComponent } from '../entry-object/entry-object.component';
 import { EntryListItemComponent } from '../entry-list-item/entry-list-item.component';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'entry-editor',
@@ -33,7 +33,6 @@ import { EntryListItemComponent } from '../entry-list-item/entry-list-item.compo
     NgSwitch,
     NgIf,
     NgClass,
-    MatDivider,
     MatList,
     MatFormField,
     MatLabel,
@@ -41,7 +40,8 @@ import { EntryListItemComponent } from '../entry-list-item/entry-list-item.compo
     MatOption,
     NgFor,
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatIconButton
   ],
 })
 export class EntryEditorComponent {
