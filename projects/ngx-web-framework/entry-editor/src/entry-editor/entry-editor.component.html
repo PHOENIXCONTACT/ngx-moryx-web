@@ -40,7 +40,7 @@
             <ng-template #elseBlock>
                 <ng-container [ngSwitch]="true">
                     <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                        [disabled]="disabled()" *ngIf="EntryValueType.Stream === subEntry.value?.type">
+                        [disabled]="disabled()" *ngSwitchCase="EntryValueType.Stream === subEntry.value?.type">
                     </entry-file-editor>
                     <ng-container *ngIf="editorId()">
                         <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"  [editorId]="editorId()!"
@@ -48,11 +48,11 @@
                             ></entry-object-editor>
                     </ng-container>
                     <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                        [disabled]="disabled()" *ngIf="EntryValueType.Boolean === subEntry.value?.type">
+                        [disabled]="disabled()" *ngSwitchCase="EntryValueType.Boolean === subEntry.value?.type">
                     </entry-boolean-editor>
 
                     <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                        [disabled]="disabled()" *ngIf="
+                        [disabled]="disabled()" *ngSwitchCase="
                                         (subEntry.value?.possible === null ||
                                         subEntry.value?.possible === undefined || !subEntry.value?.possible?.length) &&
                                         (EntryValueType.Byte === subEntry.value?.type ||
@@ -69,9 +69,9 @@
                     </entry-input-editor>
                     <entry-enum-editor matLine class="entry-editor-subentries-list-item"
                     [entry]="subEntry"
-                    [disabled]="disabled()" *ngIf="EntryValueType.Enum === subEntry.value?.type ||
+                    [disabled]="disabled()" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type ||
                         (subEntry.value?.possible?.length &&
-                        EntryValueType.Collection != subEntry.value?.type)">
+                        EntryValueType.Collection != subEntry.value?.type) && isEntryTypeSettable()">
                     </entry-enum-editor>
                 </ng-container>
             </ng-template>
