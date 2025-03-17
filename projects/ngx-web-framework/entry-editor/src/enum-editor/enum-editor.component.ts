@@ -41,12 +41,14 @@ export class EnumEditorComponent implements OnInit {
   ngOnInit(): void {
     this._entry.value.current = this._entry.value?.current ?? this._entry.value?.default;
   }
-  
+
   changed(event: any) {
-    if (this._entry.value.unitType === EntryUnitType.Flags)
-      this._entry.value.current = this.FormControl.value?.join(",");
-    else {
-      this._entry.value.current = this.FormControl.value?.toString() ?? '';
+    if (Array.isArray(this.FormControl.value) && this.FormControl.value.length > 0) {
+      this._entry.value.current = this.FormControl.value.join(",");
+    } else if (typeof this.FormControl.value === 'string' && this.FormControl.value.trim().length > 0) {
+      this._entry.value.current = this.FormControl.value;
+    } else {
+      this._entry.value.current = "0";
     }
   }
 }
