@@ -94,7 +94,12 @@ export class NavigableEntryService {
         information.currentEntry = newInformation.currentEntry;
         information.entryPath = newInformation.entryPath;
 
-        queryParamSubsrciption.unsubscribe();
+        try {
+          queryParamSubsrciption.unsubscribe();
+        }
+        catch {
+          return;
+        }
       }
     );
   }
@@ -167,7 +172,6 @@ export class NavigableEntryService {
    * @returns
    */
   onOpenEntry(editorId: number, newEntry: Entry) {
-    console.log(editorId)
     if (!this.entryEditorInformation.has(editorId)) return;
 
     const infos = this.entryEditorInformation.get(editorId);
