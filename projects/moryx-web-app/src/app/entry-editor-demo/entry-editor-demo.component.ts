@@ -287,6 +287,34 @@ export class EntryEditorDemoComponent implements OnInit {
         },
       },
       {
+        // Flag Enum
+        displayName: 'Test Disabled Flag Enum Name',
+        description: 'This is a Disabled Test Flag Enum description.',
+        identifier: 'Disabled Flag Enum Identifier',
+        value: {
+          current: '0',
+          default: '',
+          isReadOnly: false,
+          possible: ['Option 1', 'Option 2', 'Option 3'],
+          type: EntryValueType.Enum,
+          unitType: EntryUnitType.Flags,
+        },
+      },
+      {
+        // Flag Enum
+        displayName: 'Test Disabled Flag Enum Name',
+        description: 'This is a Disabled Test Flag Enum description.',
+        identifier: 'Disabled Flag Enum Identifier',
+        value: {
+          current: 'Option 1, Option 3',
+          default: '',
+          isReadOnly: false,
+          possible: ['Option 1', 'Option 2', 'Option 3'],
+          type: EntryValueType.Enum,
+          unitType: EntryUnitType.Flags,
+        },
+      },
+      {
         // File
         displayName: 'Test File Name',
         description: 'This is a Test File description.',
