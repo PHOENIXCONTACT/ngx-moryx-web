@@ -1,18 +1,19 @@
 <div class="file-editor-container">
-    <input title="File Selector" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+    <input title="File Selector" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
     <div class="moryx-file-input file-upload">
-        <mat-form-field appearance="fill" class="file-input-field">
+        <mat-form-field appearance="outline" class="file-input-field entry-form-field">
             <mat-label>{{entry().displayName}}</mat-label>
             <input matInput [formControl]="inputFormControl"
-                aria-label="Text field for selecting a file path." title="Filename" class="file-input-field">
-        </mat-form-field>
-        <button mat-button type="button" (click)="fileUpload.click()" class="file-input-button"
-            [disabled]="(disabled() || (entry().value.isReadOnly ?? false))"
-            [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}">
+                aria-label="Text field for selecting a file path." title="Filename" class="file-input-field" />
+        <button mat-icon-button (click)="fileUpload.click()" class="file-input-button"
+            [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
+            [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}"
+          matSuffix >
             <span class="material-symbols-outlined">upload</span>
         </button>
+      </mat-form-field>
     </div>
-    <mat-error *ngIf="inputFormControl.hasError('required')">
+    <mat-error *ngIf="inputFormControl.hasError('required')" class="truncate">
         {{entry().displayName}} is <strong>required</strong>
     </mat-error>
 </div>

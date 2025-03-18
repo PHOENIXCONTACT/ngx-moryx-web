@@ -4,18 +4,18 @@ import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
 import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
 import { BooleanEditorComponent } from '../boolean-editor/boolean-editor.component';
-import { MatLine, MatLineModule, MatOption } from '@angular/material/core';
+import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass, NgFor, NgIf, NgSwitch } from '@angular/common';
-import { MatDivider } from '@angular/material/divider';
 import { MatList } from '@angular/material/list';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FormsModule, NgModel } from '@angular/forms';
 import { EnumEditorComponent } from '../enum-editor/enum-editor.component';
 import { InputEditorComponent } from '../input-editor/input-editor.component';
 import { FileEditorComponent } from '../file-editor/file-editor.component';
 import { EntryObjectComponent } from '../entry-object/entry-object.component';
 import { EntryListItemComponent } from '../entry-list-item/entry-list-item.component';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'entry-editor',
@@ -33,7 +33,6 @@ import { EntryListItemComponent } from '../entry-list-item/entry-list-item.compo
     NgSwitch,
     NgIf,
     NgClass,
-    MatDivider,
     MatList,
     MatFormField,
     MatLabel,
@@ -42,6 +41,7 @@ import { EntryListItemComponent } from '../entry-list-item/entry-list-item.compo
     NgFor,
     CommonModule,
     FormsModule,
+    MatIconButton
   ],
 })
 export class EntryEditorComponent {
@@ -55,6 +55,7 @@ export class EntryEditorComponent {
   possibleListItemTypes = signal<string[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
   selectedListItemType = signal<string | undefined>(undefined);
+  selectedEntryHasPrototypes = signal(true);
   
   private createdCounter?: number;
   
@@ -140,12 +141,20 @@ export class EntryEditorComponent {
         const prototype = entry?.prototypes?.find(
           (proto: Entry) => proto.displayName === identifier
         );
-    if (!prototype) return;
+    if (!prototype) {
+      this.selectedEntryHasPrototypes.update(_ => false);
+      return;
+    }
     const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
     entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
     entryPrototype.value.possible = entry.value.possible;
     entryPrototype.displayName = entry.displayName;
     entryPrototype.identifier = entry.identifier;
+    this.selectedEntryHasPrototypes.update(_ => true);
     this.entry.update(_ => entryPrototype);
+  }
+
+  dropdownSelectionChanged(event: MatSelectChange){
+    this.onPatchToSelectedEntryType(event.value);
   }
 }

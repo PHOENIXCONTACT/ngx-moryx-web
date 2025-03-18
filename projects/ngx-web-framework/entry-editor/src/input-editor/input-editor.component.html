@@ -1,4 +1,4 @@
-<mat-form-field class="full-width-input" appearance="fill" >
+<mat-form-field class="full-width-input entry-form-field" appearance="outline" >
     <mat-label>{{entry().displayName}}</mat-label>
     <input aria-label="Text field for changing an entry value." 
         [type]="isPassword ? 'password': 
@@ -10,19 +10,19 @@
         [placeholder]="entry().description ?? 'No description available'" 
         matInput [formControl]="inputFormControl">
 
-    <mat-error *ngIf="inputFormControl.hasError('min')">
+    <mat-error *ngIf="inputFormControl.hasError('min')" class="truncate">
         Please enter a value higher than {{entry().validation?.minimum}}
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('max')">
+    <mat-error *ngIf="inputFormControl.hasError('max')" class="truncate">
         Please enter a value lower than {{entry().validation?.maximum}}
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('pattern')">
+    <mat-error *ngIf="inputFormControl.hasError('pattern')" class="truncate">
         Please make sure your input matches the following pattern: {{entry().validation?.regex}}
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('required')">
+    <mat-error *ngIf="inputFormControl.hasError('required')" class="truncate">
         {{entry().displayName}} is <strong>required</strong>
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block">
+    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block" class="truncate">
         The entered value is <strong>invalid</strong>
     </mat-error>
 </mat-form-field>

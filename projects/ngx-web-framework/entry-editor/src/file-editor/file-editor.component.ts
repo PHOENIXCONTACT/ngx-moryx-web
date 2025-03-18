@@ -6,13 +6,15 @@ import { EntryValue } from '../models/entry-value';
 import { CommonModule } from '@angular/common';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'entry-file-editor',
     templateUrl: './file-editor.component.html',
     styleUrls: ['./file-editor.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule]
+    imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule]
 })
 export class FileEditorComponent {
   inputFormControl!: UntypedFormControl; 

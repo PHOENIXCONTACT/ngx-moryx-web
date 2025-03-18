@@ -1,3 +1,7 @@
+// Angular Material 19
+@use '@angular/material' as mat;
+@import './moryx-theme.scss';
+
 // Colors
 $primary: #33969d;
 $info: rgb(128, 128, 128);
@@ -72,9 +76,6 @@ table td, table th {
   vertical-align: inherit !important;
 }
 
-// Angular Material 19
-@use '@angular/material' as mat;
-@import './moryx-theme.scss';
 
 html {
   @include mat.theme((
@@ -84,6 +85,6 @@ html {
       theme-type: light,
     ),
     typography: Roboto,
-    density: 0
+    density: -4
   ));
 }
