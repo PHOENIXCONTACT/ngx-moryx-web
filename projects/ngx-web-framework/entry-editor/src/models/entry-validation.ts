@@ -5,4 +5,6 @@ export interface EntryValidation {
   maximum?: number;
   minimum?: number;
   regex?: null | string;
+  range?: number;
+  deniedValues?: string[];
 }
