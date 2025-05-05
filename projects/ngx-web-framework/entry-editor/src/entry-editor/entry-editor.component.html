@@ -15,7 +15,7 @@
     </button>
 </div>
 
-<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable() && EntryValueType.Class === entry().value?.type">
+<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable(entry()) && EntryValueType.Class === entry().value?.type">
     <mat-form-field  appearance="outline" class="settable-dropdown-entry-selector">
         <mat-label>{{entry().displayName}}</mat-label>
 
@@ -71,7 +71,7 @@
                     [entry]="subEntry"
                     [disabled]="disabled()" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type ||
                         (subEntry.value?.possible?.length &&
-                        EntryValueType.Collection != subEntry.value?.type) && isEntryTypeSettable()">
+                        EntryValueType.Collection != subEntry.value?.type) && isEntryTypeSettable(subEntry)">
                     </entry-enum-editor>
                 </ng-container>
             </ng-template>
