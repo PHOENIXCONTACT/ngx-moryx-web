@@ -8,8 +8,8 @@ describe('EnumEditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EnumEditorComponent ]
-    })
+    imports: [EnumEditorComponent]
+})
     .compileComponents();
   });
 

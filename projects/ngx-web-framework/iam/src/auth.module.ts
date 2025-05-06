@@ -11,17 +11,14 @@ import { MoryxIfHasPermissionDirective } from './directives/moryx-if-has-permiss
  * Module that provides all services and configuration.
  */
 @NgModule({
-  imports: [],
-  exports: [
-    MoryxIfHasPermissionDirective
-  ],
-  declarations: [
-    MoryxIfHasPermissionDirective
-  ],
-  providers: [
-    AuthService,
-    ApiConfiguration
-  ],
+    imports: [MoryxIfHasPermissionDirective],
+    exports: [
+        MoryxIfHasPermissionDirective
+    ],
+    providers: [
+        AuthService,
+        ApiConfiguration
+    ],
 })
 export class AuthModule {
   static forRoot(params: ApiConfigurationParams): ModuleWithProviders<AuthModule> {

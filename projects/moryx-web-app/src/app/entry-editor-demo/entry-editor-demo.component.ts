@@ -1,10 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Entry, EntryUnitType, EntryValueType } from '@moryx/ngx-web-framework/entry-editor';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
+import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditorComponent } from '@moryx/ngx-web-framework/entry-editor';
 
 @Component({
-  selector: 'app-entry-editor-demo',
-  templateUrl: './entry-editor-demo.component.html',
-  styleUrls: ['./entry-editor-demo.component.scss'],
+    selector: 'app-entry-editor-demo',
+    templateUrl: './entry-editor-demo.component.html',
+    styleUrls: ['./entry-editor-demo.component.scss'],
+    standalone: true,
+    imports: [CommonModule, NavigableEntryEditorComponent, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemoComponent implements OnInit {
   disabled = false;
@@ -277,6 +282,34 @@ export class EntryEditorDemoComponent implements OnInit {
           possible: ['Option 1', 'Option 2', 'Option 3'],
           type: EntryValueType.Enum,
           unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Flag Enum
+        displayName: 'Test Disabled Flag Enum Name',
+        description: 'This is a Disabled Test Flag Enum description.',
+        identifier: 'Disabled Flag Enum Identifier',
+        value: {
+          current: '0',
+          default: '',
+          isReadOnly: false,
+          possible: ['Option 1', 'Option 2', 'Option 3'],
+          type: EntryValueType.Enum,
+          unitType: EntryUnitType.Flags,
+        },
+      },
+      {
+        // Flag Enum
+        displayName: 'Test Disabled Flag Enum Name',
+        description: 'This is a Disabled Test Flag Enum description.',
+        identifier: 'Disabled Flag Enum Identifier',
+        value: {
+          current: 'Option 1, Option 3',
+          default: '',
+          isReadOnly: false,
+          possible: ['Option 1', 'Option 2', 'Option 3'],
+          type: EntryValueType.Enum,
+          unitType: EntryUnitType.Flags,
         },
       },
       {

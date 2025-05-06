@@ -1,54 +1,71 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, effect, input, model, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
-import { EntryValueType } from '../models/entry-value-type';
-import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
-import { UntypedFormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { EntryUnitType } from '../models/entry-unit-type';
 
 @Component({
   selector: 'entry-enum-editor',
   templateUrl: './enum-editor.component.html',
-  styleUrls: ['./enum-editor.component.scss']
+  styleUrls: ['./enum-editor.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, ReactiveFormsModule],
 })
-export class EnumEditorComponent implements OnInit {
-  private _entry!: Entry;
+export class EnumEditorComponent {
+  disabled = input<boolean>(false);
+  entry = model.required<Entry>();
   FormControl = new UntypedFormControl('');
-  EntryUnitType = EntryUnitType;
-  @Input() set entry(value: Entry) {
-    this._entry = value;
-    if (this._entry.value.unitType === EntryUnitType.Flags) {
-      const list = value.value.current?.split(",").map(str => str.trim()) ?? [];
-      this.FormControl.patchValue(list);
-    }
-    else {
-      this.FormControl.patchValue(value.value.current);
-    }
 
-  }
-  @Input() set disabled(value: boolean) {
-    if (value || (this._entry.value.isReadOnly ?? false))
-      this.FormControl.disable();
-    else
-      this.FormControl.enable();
+  constructor() {
+    effect(() => {
+      untracked(() => {
+        const entry = Object.assign(this.entry());
+      const disabled = this.disabled();
+        this.initialize(entry, disabled);
+      });
+    });
   }
 
-  constructor() { }
+  initialize(entry: Entry, disabled: boolean) {
+    this.entry.update(e => {
+      if (entry.value.unitType === EntryUnitType.Flags) {
+        const list = entry.value.current?.split(',').map(str => str.trim()) ?? [];
+        this.FormControl.patchValue(list);
+      } else {
+        this.FormControl.patchValue(entry.value.current);
+      }
 
-  get entry() {
-    return this._entry;
-  }
+      let copy = Object.assign({}, e);
+      copy.value.current = entry.value?.current ?? entry.value?.default;
+      return copy;
+    });
 
-  ngOnInit(): void {
-    this._entry.value.current = this._entry.value?.current ?? this._entry.value?.default;
+    if (disabled || (entry.value.isReadOnly ?? false)) this.FormControl.disable();
+    else this.FormControl.enable();
   }
 
   changed(event: any) {
     if (Array.isArray(this.FormControl.value) && this.FormControl.value.length > 0) {
-      this._entry.value.current = this.FormControl.value.join(",");
+      this.entry.update(e => {
+        e.value.current = this.FormControl.value.join(",");
+        return e;
+      });
     } else if (typeof this.FormControl.value === 'string' && this.FormControl.value.trim().length > 0) {
-      this._entry.value.current = this.FormControl.value;
+      this.entry.update(e => {
+        e.value.current = this.FormControl.value;
+        return e;
+      });
     } else {
-      this._entry.value.current = "0";
+      this.entry.update(e => {
+        e.value.current = "0";
+        return e;
+      });
     }
+  }
+
+  isFlagEnum(): boolean {
+    return this.entry().value.unitType === EntryUnitType.Flags
   }
 }

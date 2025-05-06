@@ -1,43 +1,79 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
+import { EntryValue } from '../models/entry-value';
+import { CommonModule } from '@angular/common';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'entry-file-editor',
-  templateUrl: './file-editor.component.html',
-  styleUrls: ['./file-editor.component.scss']
+    selector: 'entry-file-editor',
+    templateUrl: './file-editor.component.html',
+    styleUrls: ['./file-editor.component.scss'],
+    standalone: true,
+    imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule]
 })
-export class FileEditorComponent implements OnInit {
-
-  @Input() entry!: Entry;
-  private _disabled: boolean = false;
-  @Input() set disabled(value: boolean) {
-    this._disabled = value;
-    if(value || this.entry.value.isReadOnly)
-      this.inputFormControl?.disable();
-    else
-      this.inputFormControl?.enable();
-  }
-  get disabled(): boolean { return this._disabled; }
-
+export class FileEditorComponent {
   inputFormControl!: UntypedFormControl; 
+  private readOnly: boolean | undefined = undefined;
 
-  constructor() { }
+  disabled = input<boolean>(false);
+  entry = model.required<Entry>();
 
-  ngOnInit(): void {
-    var validators = [] as ValidatorFn[];
-    if (this.entry.validation?.isRequired)
+  constructor() {
+    const reference = effect(() => {
+      this.initialize(this.entry());
+      reference.destroy();
+    })
+    
+    effect(() => {
+      this.disableInputFormControl(this.inputFormControl, this.disabled());
+    });
+  }
+
+  initialize(entry: Entry) {
+    const validators = this.setupValidators(entry);
+    this.inputFormControl = this.setupFormControl(entry, validators);
+    this.readOnly = entry.value?.isReadOnly;
+  }
+
+  private updateCurrentValue(currentValue: EntryValue, value: any) {
+    this.entry.update(e => {
+      let copy = Object.assign({}, e);
+      copy.value.current = value ?? currentValue?.default;
+      return copy;
+    });
+  }
+
+  disableInputFormControl(control: UntypedFormControl, disable: boolean) {
+    if (disable || this.readOnly) 
+      control.disable();
+    else 
+      control.enable();
+  }
+
+  setupValidators(entry: Entry): ValidatorFn[] {
+    let validators = [] as ValidatorFn[];
+    if (entry.validation?.isRequired)
       validators.push(Validators.required);
 
-    this.inputFormControl = new UntypedFormControl(
+    return validators;
+  }
+
+  private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
+    let result = new UntypedFormControl(
       {
-        value: this.entry.description ?? '',
+        value: entry.description ?? '',
         disabled: this.disabled 
-          || (this.entry.value.isReadOnly ?? false) 
-          || this.entry.value?.type === EntryValueType.Stream
+          || (entry.value.isReadOnly ?? false) 
+          || entry.value?.type === EntryValueType.Stream
       }, 
       validators);
+
+    return result;
   }
 
   onFileSelected(event: any){
@@ -53,7 +89,7 @@ export class FileEditorComponent implements OnInit {
             .replace('data:', '')
             .replace(/^.+,/, '');
 
-          this.entry.value.current = base64String;
+          this.updateCurrentValue(this.entry().value, base64String);
         }
       }
       reader.readAsDataURL(file);

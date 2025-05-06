@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 
 /** Note: empty-state requires the [header] and the [message] attributes to be passed */
 @Component({
-  selector: 'empty-state',
-  templateUrl: './empty-state.component.html',
-  styleUrls: ['./empty-state.component.scss'],
+    selector: 'empty-state',
+    templateUrl: './empty-state.component.html',
+    styleUrls: ['./empty-state.component.scss'],
+    standalone: true
 })
 export class EmptyStateComponent {
   @Input('icon') icon: string = 'rocket_launch';

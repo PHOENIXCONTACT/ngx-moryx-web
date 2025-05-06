@@ -1,4 +1,4 @@
-@import "../entry-editor.scss";
+@use "../entry-editor.scss" as *;
 
 .mat-checkbox .mat-checkbox-inner-container {
     transform: scale(1.3);

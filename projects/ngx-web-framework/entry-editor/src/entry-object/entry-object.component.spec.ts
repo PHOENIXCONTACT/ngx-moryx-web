@@ -8,8 +8,8 @@ describe('EntryObjectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EntryObjectComponent ]
-    })
+    imports: [EntryObjectComponent]
+})
     .compileComponents();
   });
 

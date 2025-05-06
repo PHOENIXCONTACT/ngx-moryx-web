@@ -1,81 +1,130 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
+import { Component, effect, input, model, OnDestroy, OnInit} from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
-import { invalidEntryValueValidator, maxEntryValueValidator, minEntryValueValidator } from '../validators/entry-editor.validators';
+import {
+  invalidEntryValueValidator,
+  maxEntryValueValidator,
+  minEntryValueValidator,
+} from '../validators/entry-editor.validators';
+import { CommonModule } from '@angular/common';
+import { EntryValue } from '../models/entry-value';
+import { MatError,  MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'entry-input-editor',
   templateUrl: './input-editor.component.html',
-  styleUrls: ['./input-editor.component.scss']
+  styleUrls: ['./input-editor.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatError, MatLabel, ReactiveFormsModule, MatFormFieldModule,
+    MatInputModule
+],
 })
-export class InputEditorComponent implements OnInit, OnDestroy {
-
-  @Input() entry!: Entry;
-
-  private _disabled: boolean = false;
-
-  @Input() set disabled(value: boolean) {
-    this._disabled = value;
-    if(value || this.entry.value?.isReadOnly)
-      this.inputFormControl?.disable();
-    else
-      this.inputFormControl?.enable();
-  }
-  get disabled(): boolean { return this._disabled; }
-
+export class InputEditorComponent implements OnDestroy {
   inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
+  private readOnly: boolean | undefined = undefined;
   isPassword!: boolean;
   isNumber!: boolean;
 
-  constructor() { }
-  ngOnInit(): void {
-    this.determineInputType()
+  disabled = input<boolean>(false);
+  entry = model.required<Entry>();
 
-    // Set up validators
-    var validators = [] as ValidatorFn[];
-    validators.push(invalidEntryValueValidator(this.entry.value.type));
-    if (this.entry.validation?.isRequired)
-      validators.push(Validators.required);
-    if (this.isNumber)
-      this.addNumberValidators(validators);
-    else
-      this.addTextValidators(validators);
+  constructor() {
+    this.inputFormControl = new UntypedFormControl();
+    const reference = effect(() => {
+      this.initialize(this.entry());
+      reference.destroy();
+    });
 
-    // Set up form control
-    this.inputFormControl = new UntypedFormControl(
-      {
-        value: this.entry.value?.current ??  this.entry.value?.default ?? '',
-        disabled: this.disabled || (this.entry.value.isReadOnly ?? false)
-      }, validators);
-
-    this.formControlSubscription = this.inputFormControl.valueChanges.subscribe(value => {
-      if(this.inputFormControl.status == 'VALID')
-        this.entry.value.current = value;
+    effect(() => {
+      this.disableInputFormControl(this.inputFormControl, this.disabled());
     });
   }
 
+
+  initialize(entry: Entry) {
+    this.updateCurrentValue(entry.value, entry.value.current);
+    this.determineInputType();
+
+    const validators = this.setupValidators(entry);
+    this.inputFormControl = this.setupFormControl(entry, validators);
+    this.readOnly = entry.value?.isReadOnly;
+  }
+
+  private updateCurrentValue(currentValue: EntryValue, value: any) {
+    this.entry.update(e => {
+      let copy = Object.assign({}, e);
+      copy.value.current = value ?? currentValue?.default;
+      return copy;
+    });
+  }
+
+  disableInputFormControl(control: UntypedFormControl, disable: boolean) {
+    if (disable || this.readOnly)
+      control.disable();
+    else 
+      control.enable();
+  }
+
+  setupValidators(entry: Entry): ValidatorFn[] {
+    var validators = [] as ValidatorFn[];
+    validators.push(invalidEntryValueValidator(entry.value.type));
+    if (entry.validation?.isRequired)
+      validators.push(Validators.required);
+    if (this.isNumber)
+      this.addNumberValidators(validators);
+
+    else
+      this.addTextValidators(validators);
+
+    return validators;
+  }
+
+  private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
+    const result = new UntypedFormControl(
+      {
+        value: entry.value?.current ?? entry.value?.default ?? '',
+        disabled: this.disabled() || (entry.value.isReadOnly ?? false)
+      }, validators);
+
+    this.formControlSubscription = result.valueChanges.subscribe(value => {
+      if (result.status == 'VALID'){
+        this.updateCurrentValue(this.entry().value, value);
+      }
+    });
+
+    return result;
+  }
+
+
   ngOnDestroy(): void {
-    this.formControlSubscription?.unsubscribe()
+    this.formControlSubscription?.unsubscribe();
   }
 
   addTextValidators(validators: ValidatorFn[]) {
-    if (this.entry.validation?.regex)
-      validators.push(Validators.pattern(this.entry.validation?.regex))
+    const regex = this.entry().validation?.regex;
+    if (regex) {
+      validators.push(Validators.pattern(regex));
+    }
   }
 
   addNumberValidators(validators: ValidatorFn[]) {
-    var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry.value?.type)
-    var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry.value?.type)
-    
-    validators.push(maxEntryValueValidator(Math.min(typeSpecificMaximum, this.entry.validation?.maximum ?? typeSpecificMaximum)));
-    validators.push(minEntryValueValidator(Math.max(typeSpecificMinimum, this.entry.validation?.minimum ?? typeSpecificMinimum)));
+    var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry().value?.type);
+    var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry().value?.type);
+
+    validators.push(
+      maxEntryValueValidator(Math.min(typeSpecificMaximum, this.entry().validation?.maximum ?? typeSpecificMaximum))
+    );
+    validators.push(
+      minEntryValueValidator(Math.max(typeSpecificMinimum, this.entry().validation?.minimum ?? typeSpecificMinimum))
+    );
   }
 
-  getTypeSpecificMaximum(type: EntryValueType | undefined) : number {
+  getTypeSpecificMaximum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 255;
@@ -92,7 +141,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return Number.MAX_SAFE_INTEGER;
       case EntryValueType.Single:
-        return Math.pow(3.4*10,38);
+        return Math.pow(3.4 * 10, 38);
       case EntryValueType.Double:
         return Number.MAX_VALUE;
       default:
@@ -100,7 +149,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTypeSpecificMinimum(type: EntryValueType | undefined) : number {
+  getTypeSpecificMinimum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 0;
@@ -117,7 +166,7 @@ export class InputEditorComponent implements OnInit, OnDestroy {
       case EntryValueType.UInt64:
         return 0;
       case EntryValueType.Single:
-        return -Math.pow(3.4*10,38);
+        return -Math.pow(3.4 * 10, 38);
       case EntryValueType.Double:
         return -Number.MAX_VALUE;
       default:
@@ -126,13 +175,18 @@ export class InputEditorComponent implements OnInit, OnDestroy {
   }
 
   determineInputType() {
-    if (EntryValueType.Int16 === this.entry.value?.type || EntryValueType.UInt16 === this.entry.value?.type ||
-      EntryValueType.Int32 === this.entry.value?.type || EntryValueType.UInt32 === this.entry.value?.type ||
-      EntryValueType.Int64 === this.entry.value?.type || EntryValueType.UInt64 === this.entry.value?.type ||
-      EntryValueType.Single === this.entry.value?.type || EntryValueType.Double === this.entry.value?.type ||
-      EntryValueType.Byte === this.entry.value?.type)
+    if (
+      EntryValueType.Int16 === this.entry().value?.type ||
+      EntryValueType.UInt16 === this.entry().value?.type ||
+      EntryValueType.Int32 === this.entry().value?.type ||
+      EntryValueType.UInt32 === this.entry().value?.type ||
+      EntryValueType.Int64 === this.entry().value?.type ||
+      EntryValueType.UInt64 === this.entry().value?.type ||
+      EntryValueType.Single === this.entry().value?.type ||
+      EntryValueType.Double === this.entry().value?.type ||
+      EntryValueType.Byte === this.entry().value?.type
+    )
       this.isNumber = true;
-    else if (EntryUnitType.Password === this.entry.value?.unitType)
-      this.isPassword = true;
+    else if (EntryUnitType.Password === this.entry().value?.unitType) this.isPassword = true;
   }
 }
