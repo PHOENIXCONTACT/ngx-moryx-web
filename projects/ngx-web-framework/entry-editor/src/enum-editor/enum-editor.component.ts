@@ -20,9 +20,9 @@ export class EnumEditorComponent {
 
   constructor() {
     effect(() => {
+      const disabled = this.disabled();
       untracked(() => {
         const entry = Object.assign(this.entry());
-      const disabled = this.disabled();
         this.initialize(entry, disabled);
       });
     });
