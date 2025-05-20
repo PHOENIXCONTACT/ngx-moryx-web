@@ -127,9 +127,9 @@ export class EntryEditorComponent {
   }
 
   isEntryTypeSettable(entry: Entry): boolean {
-    return (entry?.value?.type === EntryValueType.Class || entry.value.type === EntryValueType.String ) &&
+    return  entry?.value?.type === EntryValueType.Class &&
             entry.value.possible != null &&
-            entry.value.possible.length >= 1;
+            entry.value.possible.length > 1;
   }
 
   onPatchToSelectedEntryType(identifier: string): void {

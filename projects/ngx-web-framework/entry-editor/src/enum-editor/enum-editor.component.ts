@@ -1,4 +1,4 @@
-import { Component, effect, input, model, untracked } from '@angular/core';
+import { Component, computed, effect, input, model, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
 import { CommonModule } from '@angular/common';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -30,15 +30,16 @@ export class EnumEditorComponent {
 
   initialize(entry: Entry, disabled: boolean) {
     this.entry.update(e => {
+      const value = entry.value?.current ?? entry.value?.default;
       if (entry.value.unitType === EntryUnitType.Flags) {
-        const list = entry.value.current?.split(',').map(str => str.trim()) ?? [];
+        const list = value?.split(',').map(str => str.trim()) ?? [];
         this.FormControl.patchValue(list);
       } else {
-        this.FormControl.patchValue(entry.value.current);
+        this.FormControl.patchValue(value);
       }
 
       let copy = Object.assign({}, e);
-      copy.value.current = entry.value?.current ?? entry.value?.default;
+      copy.value.current = value;
       return copy;
     });
 

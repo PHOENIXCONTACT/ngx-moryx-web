@@ -188,15 +188,15 @@ export class EntryEditorDemoComponent implements OnInit {
       },
       {
         // Select
-        displayName: 'Test Select Name',
-        description: 'This is a Test Select description.',
+        displayName: 'Possible String Select ',
+        description: 'description.',
         identifier: 'Select Identifier',
         value: {
           current: 'Option 1',
           default: undefined,
           isReadOnly: false,
-          possible: ['Option 1', 'Option 2', 'Option 3'],
-          type: EntryValueType.Enum,
+          possible: ['Option 1'],
+          type: EntryValueType.String,
           unitType: EntryUnitType.None,
         },
       },
@@ -216,9 +216,9 @@ export class EntryEditorDemoComponent implements OnInit {
       },      
       {
         // Select
-        displayName: 'String With Possible values',
-        description: 'String With Possible values description.',
-        identifier: 'String With Possible values Identifier',
+        displayName: 'String AND Possible values',
+        description: 'String AND Possible values description.',
+        identifier: 'String AND Possible values Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -230,9 +230,9 @@ export class EntryEditorDemoComponent implements OnInit {
       },
       {
         // Select
-        displayName: 'String With Possible values and default',
-        description: 'String With Possible values description.',
-        identifier: 'String With Possible values Identifier',
+        displayName: 'String & Possible values and default',
+        description: 'String & Possible values description.',
+        identifier: 'String & Possible values Identifier',
         value: {
           current: undefined,
           default: 'Possible 2',
