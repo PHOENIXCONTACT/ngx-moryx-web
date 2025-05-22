@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, OnInit} from '@angular/core';
+import { Component, effect, input, model, OnDestroy, OnInit, signal} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -29,7 +29,7 @@ export class InputEditorComponent implements OnDestroy {
   isPassword!: boolean;
   isNumber!: boolean;
   
-  readOnly = model<boolean>(false);
+  readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
@@ -47,6 +47,7 @@ export class InputEditorComponent implements OnDestroy {
 
 
   initialize(entry: Entry) {
+    this.readOnly.set(entry.value?.isReadOnly || this.isSinglePossibleValue(entry) || entry.value.type === EntryValueType.Exception);
     this.updateCurrentValue(entry.value, entry.value.current);
     this.determineInputType();
 
@@ -62,8 +63,9 @@ export class InputEditorComponent implements OnDestroy {
     });
   }
 
-  isSinglePossibleValue(entry: Entry){
-    return entry.value.possible && entry.value.possible.length === 1
+  isSinglePossibleValue(entry: Entry): boolean{
+    const result =  entry.value.possible && entry.value.possible.length === 1
+    return result ?? false;
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
