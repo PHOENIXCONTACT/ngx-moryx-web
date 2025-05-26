@@ -8,8 +8,8 @@ describe('NavigableEntryEditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavigableEntryEditorComponent ]
-    })
+    imports: [NavigableEntryEditorComponent]
+})
     .compileComponents();
   });
 

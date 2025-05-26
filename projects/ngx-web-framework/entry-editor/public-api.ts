@@ -5,5 +5,5 @@ export * from './src/models/entry-value';
 export * from './src/models/entry-value-type';
 export * from './src/entry-editor/entry-editor.component';
 export * from './src/navigable-entry-editor/navigable-entry-editor.component';
-export * from './src/entry-editor.module';
+
 export * from './src/prototype-to-entry-converter';

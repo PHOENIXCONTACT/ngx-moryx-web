@@ -1,4 +1,4 @@
-@import "../entry-editor.scss";
+@use "../entry-editor.scss" as *;
 .block{
-    display: block!important;
+    display: block !important;
 }
