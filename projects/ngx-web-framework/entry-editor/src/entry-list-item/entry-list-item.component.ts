@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, input, Output } from '@angular/core';
 import { Entry } from '../models/entry';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
@@ -25,7 +25,11 @@ export class EntryListItemComponent {
   editorId = input.required<number>();
   disabled = input<boolean>(false);
   @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();
-
+  isObjectType = computed(() => {
+    return EntryValueType.Class === this.entry().value?.type || 
+           EntryValueType.Collection === this.entry().value?.type
+  })
+  
   EntryValueType = EntryValueType;
   EntryUnitType = EntryUnitType;
   constructor() { }

@@ -39,6 +39,7 @@
     height: 100%;
 }
 .entry-form-field{
-    height: auto;
-    margin-top: 5px;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
 }

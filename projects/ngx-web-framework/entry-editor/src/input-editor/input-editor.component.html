@@ -7,7 +7,8 @@
 
         [attr.min]="isNumber ? entry().validation?.minimum : null"
         [attr.max]="isNumber ? entry().validation?.maximum : null"
-        [placeholder]="entry().description ?? 'No description available'" 
+        [placeholder]="entry().description ?? 'No description available'"
+        [readonly]="readOnly()" 
         matInput [formControl]="inputFormControl">
 
     <mat-error *ngIf="inputFormControl.hasError('min')" class="truncate">

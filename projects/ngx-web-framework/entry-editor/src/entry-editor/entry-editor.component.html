@@ -15,7 +15,7 @@
     </button>
 </div>
 
-<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable(entry()) && EntryValueType.Class === entry().value?.type">
+<div class="settable-dropdown-entry"  *ngIf="isEntryTypeSettable(entry())">
     <mat-form-field  appearance="outline" class="settable-dropdown-entry-selector">
         <mat-label>{{entry().displayName}}</mat-label>
 
@@ -27,7 +27,7 @@
         </mat-select>
     </mat-form-field>
 </div>
-@if(selectedEntryHasPrototypes()){
+@if(subEntries().length){
     <mat-list class="entry-editor-subentries-list">
         <ng-container *ngFor="let subEntry of subEntries()">
             <ng-container *ngIf="EntryValueType.Collection === entry().value?.type; else elseBlock">
@@ -50,29 +50,19 @@
                     <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
                         [disabled]="disabled()" *ngSwitchCase="EntryValueType.Boolean === subEntry.value?.type">
                     </entry-boolean-editor>
-
-                    <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-                        [disabled]="disabled()" *ngSwitchCase="
-                                        (subEntry.value?.possible === null ||
-                                        subEntry.value?.possible === undefined || !subEntry.value?.possible?.length) &&
-                                        (EntryValueType.Byte === subEntry.value?.type ||
-                                        EntryValueType.Int16 === subEntry.value?.type ||
-                                        EntryValueType.UInt16 === subEntry.value?.type ||
-                                        EntryValueType.Int32 === subEntry.value?.type ||
-                                        EntryValueType.UInt32 === subEntry.value?.type ||
-                                        EntryValueType.Int64 === subEntry.value?.type ||
-                                        EntryValueType.UInt64 === subEntry.value?.type ||
-                                        EntryValueType.Single === subEntry.value?.type ||
-                                        EntryValueType.Double === subEntry.value?.type ||
-                                        EntryValueType.String === subEntry.value?.type ||
-                                        EntryValueType.Exception === subEntry.value?.type)">
-                    </entry-input-editor>
+                    <!-- To display a dropdown the entry should have possible value greate than 1, except collections and Class
+                      since both have possible values but are already handle in cases above -->
                     <entry-enum-editor matLine class="entry-editor-subentries-list-item"
                     [entry]="subEntry"
-                    [disabled]="disabled()" *ngSwitchCase="EntryValueType.Enum === subEntry.value?.type ||
-                        (subEntry.value?.possible?.length &&
-                        EntryValueType.Collection != subEntry.value?.type) && isEntryTypeSettable(subEntry)">
+                    [disabled]="disabled()" 
+                    *ngSwitchCase="EntryValueType.Enum === subEntry.value.type || 
+                                   (subEntry.value.possible && subEntry.value.possible.length > 1) &&
+                                   (subEntry.value?.type !== EntryValueType.Collection && !isEntryTypeSettable(subEntry))">
                     </entry-enum-editor>
+                    <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+                        [disabled]="disabled()" 
+                        *ngSwitchCase="isPrimitiveType(subEntry)">
+                    </entry-input-editor>
                 </ng-container>
             </ng-template>
         </ng-container>

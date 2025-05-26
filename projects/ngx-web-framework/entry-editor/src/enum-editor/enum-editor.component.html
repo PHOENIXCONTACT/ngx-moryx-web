@@ -6,7 +6,7 @@
             {{pv}}
         </mat-option>
     </mat-select>
-    <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}">
+    <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
         {{entry().description}}
     </mat-hint>
 </mat-form-field>
