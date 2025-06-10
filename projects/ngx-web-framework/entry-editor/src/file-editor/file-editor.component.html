@@ -7,11 +7,10 @@
                 aria-label="Text field for selecting a file path." title="Filename" class="file-input-field">
         </mat-form-field>
         <button mat-button type="button" (click)="fileUpload.click()" class="file-input-button" type="button"
-            [disabled]="(disabled || (entry.value.isReadOnly ?? false))"
-            [ngClass]="{'entry-editor-disabled': (disabled || (entry.value.isReadOnly ?? false))}">
+            [disabled]="(disabled() || (entry().value.isReadOnly ?? false))"
+            [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}">
             <span class="material-symbols-outlined">upload</span>
         </button>
-      </mat-form-field>
     </div>
     <mat-error *ngIf="inputFormControl.hasError('required')" class="truncate">
         {{entry().displayName}} is <strong>required</strong>
