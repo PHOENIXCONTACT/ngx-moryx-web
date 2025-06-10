@@ -1,4 +1,4 @@
-import { Component, effect, input, model, untracked } from '@angular/core';
+import { Component, computed, effect, input, model, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
 import { CommonModule } from '@angular/common';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -20,9 +20,9 @@ export class EnumEditorComponent {
 
   constructor() {
     effect(() => {
+      const disabled = this.disabled();
       untracked(() => {
         const entry = Object.assign(this.entry());
-      const disabled = this.disabled();
         this.initialize(entry, disabled);
       });
     });
@@ -30,15 +30,16 @@ export class EnumEditorComponent {
 
   initialize(entry: Entry, disabled: boolean) {
     this.entry.update(e => {
+      const value = entry.value?.current ?? entry.value?.default;
       if (entry.value.unitType === EntryUnitType.Flags) {
-        const list = entry.value.current?.split(',').map(str => str.trim()) ?? [];
+        const list = value?.split(',').map(str => str.trim()) ?? [];
         this.FormControl.patchValue(list);
       } else {
-        this.FormControl.patchValue(entry.value.current);
+        this.FormControl.patchValue(value);
       }
 
       let copy = Object.assign({}, e);
-      copy.value.current = entry.value?.current ?? entry.value?.default;
+      copy.value.current = value;
       return copy;
     });
 
@@ -47,14 +48,22 @@ export class EnumEditorComponent {
   }
 
   changed(event: any) {
-    let value = this.FormControl.value?.toString() ?? '';
-    if (this.entry().value.unitType === EntryUnitType.Flags) {
-      value = this.FormControl.value?.join(',');
+    if (Array.isArray(this.FormControl.value) && this.FormControl.value.length > 0) {
+      this.entry.update(e => {
+        e.value.current = this.FormControl.value.join(",");
+        return e;
+      });
+    } else if (typeof this.FormControl.value === 'string' && this.FormControl.value.trim().length > 0) {
+      this.entry.update(e => {
+        e.value.current = this.FormControl.value;
+        return e;
+      });
+    } else {
+      this.entry.update(e => {
+        e.value.current = "0";
+        return e;
+      });
     }
-    this.entry.update(e => {
-      e.value.current = value;
-      return e;
-    });
   }
 
   isFlagEnum(): boolean {
