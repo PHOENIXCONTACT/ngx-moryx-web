@@ -1,16 +1,28 @@
-<mat-form-field class="full-width-input entry-form-field" appearance="outline" >
-    <mat-label>{{entry().displayName}}</mat-label>
-    <input aria-label="Text field for changing an entry value." 
-        [type]="isPassword ? 'password': 
-            isNumber ? 'number'
-                : 'text'"
-
-        [attr.min]="isNumber ? entry().validation?.minimum : null"
-        [attr.max]="isNumber ? entry().validation?.maximum : null"
-        [placeholder]="entry().description ?? 'No description available'"
-        [readonly]="readOnly()" 
-        matInput [formControl]="inputFormControl">
-
+<mat-form-field class="full-width-input entry-form-field" appearance="outline">
+  <mat-label>{{ entry().displayName }}</mat-label>
+  <input
+    *ngIf="!useTextArea()"
+    aria-label="Text field for changing an entry value."
+    [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
+    [attr.min]="isNumber ? entry().validation?.minimum : null"
+    [attr.max]="isNumber ? entry().validation?.maximum : null"
+    [placeholder]="entry().description ?? 'No description available'"
+    [readonly]="readOnly()"
+    matInput
+    [formControl]="inputFormControl" />
+  <textarea matInput 
+    [placeholder]="entry().description ?? 'No description available'" 
+    *ngIf="useTextArea()" 
+    rows="5"
+    [formControl]="inputFormControl">
+  </textarea>
+  <button mat-icon-button matSuffix 
+    class="code-button"
+    [attr.aria-label]="'html editor'" 
+    (click)="setTextArea(!useTextArea())"
+    *ngIf="!isPassword && !isNumber && !readOnly() && !useTextArea()">
+    <mat-icon>code</mat-icon>
+  </button>
     <mat-error *ngIf="inputFormControl.hasError('min')" class="truncate">
         Please enter a value higher than {{entry().validation?.minimum}}
     </mat-error>
