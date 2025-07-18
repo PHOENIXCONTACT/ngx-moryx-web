@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, OnInit, signal} from '@angular/core';
+import { Component, effect, input, model, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -11,24 +11,34 @@ import {
 } from '../validators/entry-editor.validators';
 import { CommonModule } from '@angular/common';
 import { EntryValue } from '../models/entry-value';
-import { MatError,  MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'entry-input-editor',
   templateUrl: './input-editor.component.html',
   styleUrls: ['./input-editor.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MatError, MatLabel, ReactiveFormsModule, MatFormFieldModule,
-    MatInputModule
-],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatError,
+    MatLabel,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
+  ],
 })
 export class InputEditorComponent implements OnDestroy {
   inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
   isPassword!: boolean;
   isNumber!: boolean;
-  
+  useTextArea = signal(false);
   readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
@@ -44,7 +54,6 @@ export class InputEditorComponent implements OnDestroy {
       this.disableInputFormControl(this.inputFormControl, this.disabled());
     });
   }
-
 
   initialize(entry: Entry) {
     this.readOnly.set(entry.value?.isReadOnly || this.isSinglePossibleValue(entry) || entry.value.type === EntryValueType.Exception);
@@ -82,7 +91,6 @@ export class InputEditorComponent implements OnDestroy {
       validators.push(Validators.required);
     if (this.isNumber)
       this.addNumberValidators(validators);
-
     else
       this.addTextValidators(validators);
 
@@ -193,5 +201,9 @@ export class InputEditorComponent implements OnDestroy {
     )
       this.isNumber = true;
     else if (EntryUnitType.Password === this.entry().value?.unitType) this.isPassword = true;
+  }
+
+  setTextArea(value: boolean) {
+   this.useTextArea.set(value);
   }
 }
