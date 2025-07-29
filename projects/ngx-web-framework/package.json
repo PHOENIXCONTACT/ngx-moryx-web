@@ -1,6 +1,6 @@
 {
   "name": "@moryx/ngx-web-framework",
-  "version": "19.1.0",
+  "version": "19.1.1",
   "scripts": {
     "ng": "ng",
     "build": "ng build",
