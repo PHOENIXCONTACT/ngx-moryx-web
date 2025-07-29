@@ -80,8 +80,10 @@ export class EntryEditorComponent {
   updateSubEntry(subEntry: Entry) {
     this.entry.update(item => {
       const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
-      if (match) Object.assign(match, subEntry);
-      else item.subEntries?.push(subEntry);
+      if (match) 
+        Object.assign(match, subEntry);
+      else 
+        item.subEntries?.push(subEntry);
       return item;
     });
   }
