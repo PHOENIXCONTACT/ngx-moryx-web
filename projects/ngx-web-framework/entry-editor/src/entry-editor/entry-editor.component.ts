@@ -162,7 +162,8 @@ export class EntryEditorComponent {
   }
 
   isPrimitiveType(entry: Entry){
-    return (entry.value.possible && entry.value.possible.length === 1) ||
+    return entry.value.type !== EntryValueType.Collection &&
+      (entry.value.possible && entry.value.possible.length === 1) ||
       (((entry.value.possible && entry.value.possible.length < 1) || !entry.value.possible)  &&
       (EntryValueType.Byte === entry.value?.type ||
       EntryValueType.Int16 === entry.value?.type ||
@@ -174,6 +175,6 @@ export class EntryEditorComponent {
       EntryValueType.Single === entry.value?.type ||
       EntryValueType.Double === entry.value?.type ||
       EntryValueType.String === entry.value?.type ||
-      EntryValueType.Exception === entry.value?.type))
+      EntryValueType.Exception === entry.value?.type));
   }
 }
