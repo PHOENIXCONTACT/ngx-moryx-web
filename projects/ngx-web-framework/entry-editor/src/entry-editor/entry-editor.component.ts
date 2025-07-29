@@ -47,11 +47,10 @@ import { MatIconButton } from '@angular/material/button';
 export class EntryEditorComponent {
   editorId = input<number | undefined>(undefined);
   disabled = input<boolean>(false);
-  
+
   entry = model.required<Entry>();
   currentEntry: Entry | undefined = undefined;
-  subEntries = signal<Entry[]>([]);
-  
+
   possibleListItemTypes = signal<string[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
   selectedListItemType = signal<string | undefined>(undefined);
@@ -69,7 +68,6 @@ export class EntryEditorComponent {
   }
 
   initialize(entry: Entry) {
-    this.subEntries.set(entry.subEntries ?? []);
     if (entry.value.type == 'Collection') {
       this.possibleListItemTypes.set(entry.value.possible);
       this.prototypes.set(entry.prototypes ?? []);
@@ -78,7 +76,15 @@ export class EntryEditorComponent {
       }
     }
   }
-  
+
+  updateSubEntry(subEntry: Entry) {
+    this.entry.update(item => {
+      const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
+      if (match) Object.assign(match, subEntry);
+      else item.subEntries?.push(subEntry);
+      return item;
+    });
+  }
 
   EntryValueType = EntryValueType;
   EntryUnitType = EntryUnitType;
@@ -133,23 +139,22 @@ export class EntryEditorComponent {
   }
 
   onPatchToSelectedEntryType(identifier: string): void {
-    const entry = this.entry();
-
-    entry.subEntries = [];
-        const prototype = entry?.prototypes?.find(
-          (proto: Entry) => proto.displayName === identifier
-        );
-    if (!prototype) {
-      this.selectedEntryHasPrototypes.update(_ => false);
-      return;
-    }
-    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
-    entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
-    entryPrototype.value.possible = entry.value.possible;
-    entryPrototype.displayName = entry.displayName;
-    entryPrototype.identifier = entry.identifier;
-    this.selectedEntryHasPrototypes.update(_ => true);
-    this.entry.update(_ => entryPrototype);
+    this.entry.update(entry => {
+      entry.subEntries = [];
+      const prototype = entry?.prototypes?.find((proto: Entry) => proto.displayName === identifier);
+      if (!prototype) {
+        this.selectedEntryHasPrototypes.set(false);
+        return entry;
+      }
+      const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
+      entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
+      entryPrototype.value.possible = entry.value.possible;
+      entryPrototype.displayName = entry.displayName;
+      entryPrototype.identifier = entry.identifier;
+      Object.assign(entry, entryPrototype);
+      this.selectedEntryHasPrototypes.set(true);
+      return entry;
+    });
   }
 
   dropdownSelectionChanged(event: MatSelectChange){
