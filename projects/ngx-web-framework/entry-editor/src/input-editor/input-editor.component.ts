@@ -15,6 +15,7 @@ import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-f
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSlider, MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'entry-input-editor',
@@ -30,7 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSliderModule,
   ],
 })
 export class InputEditorComponent implements OnDestroy {
@@ -56,7 +58,9 @@ export class InputEditorComponent implements OnDestroy {
   }
 
   initialize(entry: Entry) {
-    this.readOnly.set(entry.value?.isReadOnly || this.isSinglePossibleValue(entry) || entry.value.type === EntryValueType.Exception);
+    this.readOnly.set(
+      entry.value?.isReadOnly || this.isSinglePossibleValue(entry) || entry.value.type === EntryValueType.Exception
+    );
     this.updateCurrentValue(entry.value, entry.value.current);
     this.determineInputType();
 
@@ -67,32 +71,29 @@ export class InputEditorComponent implements OnDestroy {
   private updateCurrentValue(currentValue: EntryValue, value: any) {
     this.entry.update(e => {
       let copy = Object.assign({}, e);
-      copy.value.current = this.isSinglePossibleValue(e) ? (e.value.possible ?? [''])[0] : value ?? currentValue?.default;
+      copy.value.current = this.isSinglePossibleValue(e)
+        ? (e.value.possible ?? [''])[0]
+        : value ?? currentValue?.default;
       return copy;
     });
   }
 
-  isSinglePossibleValue(entry: Entry): boolean{
-    const result =  entry.value.possible && entry.value.possible.length === 1
+  isSinglePossibleValue(entry: Entry): boolean {
+    const result = entry.value.possible && entry.value.possible.length === 1;
     return result ?? false;
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable)
-      control.disable();
-    else 
-      control.enable();
+    if (disable) control.disable();
+    else control.enable();
   }
 
   setupValidators(entry: Entry): ValidatorFn[] {
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(entry.value.type));
-    if (entry.validation?.isRequired)
-      validators.push(Validators.required);
-    if (this.isNumber)
-      this.addNumberValidators(validators);
-    else
-      this.addTextValidators(validators);
+    if (entry.validation?.isRequired) validators.push(Validators.required);
+    if (this.isNumber) this.addNumberValidators(validators);
+    else this.addTextValidators(validators);
 
     return validators;
   }
@@ -101,18 +102,19 @@ export class InputEditorComponent implements OnDestroy {
     const result = new UntypedFormControl(
       {
         value: entry.value?.current ?? entry.value?.default ?? '',
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false)
-      }, validators);
+        disabled: this.disabled() || (entry.value.isReadOnly ?? false),
+      },
+      validators
+    );
 
     this.formControlSubscription = result.valueChanges.subscribe(value => {
-      if (result.status == 'VALID'){
+      if (result.status == 'VALID') {
         this.updateCurrentValue(this.entry().value, value);
       }
     });
 
     return result;
   }
-
 
   ngOnDestroy(): void {
     this.formControlSubscription?.unsubscribe();
@@ -204,6 +206,32 @@ export class InputEditorComponent implements OnDestroy {
   }
 
   setTextArea(value: boolean) {
-   this.useTextArea.set(value);
+    this.useTextArea.set(value);
+  }
+
+  shouldUseSlider(): boolean {
+    if (!this.isNumber) return false;
+    const min = this.entry().validation?.minimum;
+    const max = this.entry().validation?.maximum;
+    if (min == null || max == null) return false;
+
+    const typeMin = this.getTypeSpecificMinimum(this.entry().value.type);
+    const typeMax = this.getTypeSpecificMaximum(this.entry().value.type);
+
+    return min > typeMin || max < typeMax;
+  }
+
+  onSliderChange(value: number) {
+    this.inputFormControl.setValue(value);
+  }
+
+  getSliderStep(): number {
+    switch (this.entry().value.type) {
+      case EntryValueType.Single:
+      case EntryValueType.Double:
+        return 0.1;
+      default:
+        return 1;
+    }
   }
 }
