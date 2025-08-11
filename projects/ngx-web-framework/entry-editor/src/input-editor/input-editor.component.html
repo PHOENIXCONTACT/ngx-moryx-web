@@ -1,17 +1,31 @@
 <!-- SLIDER -->
-<ng-container *ngIf="shouldUseSlider() && !useTextArea(); else textInput">
+<div *ngIf="shouldUseSlider() && !useTextArea(); else textInput" class="slider-wrap">
   <label class="slider-label">{{ entry().displayName }}</label>
-  <mat-slider
-    class="entry-slider"
-    [min]="entry().validation?.minimum"
-    [max]="entry().validation?.maximum"
-    [step]="getSliderStep()"
-    [discrete]="true"
-    [disabled]="inputFormControl.disabled"
-    [showTickMarks]="true">
-    <input matSliderThumb [ngModel]="entry().value.current" (ngModelChange)="onSliderChange($event)" />
-  </mat-slider>
-</ng-container>
+
+  <div class="slider-row">
+    <mat-slider
+      class="entry-slider"
+      [min]="entry().validation?.minimum"
+      [max]="entry().validation?.maximum"
+      [step]="getSliderStep()"
+      [discrete]="!shouldShowInlineInput()"
+      [disabled]="inputFormControl.disabled"
+      [showTickMarks]="true">
+      <input matSliderThumb [ngModel]="entry().value.current" (ngModelChange)="onSliderChange($event)" />
+    </mat-slider>
+
+    <mat-form-field *ngIf="shouldShowInlineInput()" class="slider-inline-input" appearance="outline">
+      <input
+        matInput
+        type="number"
+        [step]="getSliderStep()"
+        [min]="entry().validation?.minimum!"
+        [max]="entry().validation?.maximum!"
+        [formControl]="inputFormControl"
+        [readonly]="readOnly()" />
+    </mat-form-field>
+  </div>
+</div>
 
 <!-- INPUT -->
 <ng-template #textInput>

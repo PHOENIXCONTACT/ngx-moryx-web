@@ -44,6 +44,7 @@ export class InputEditorComponent implements OnDestroy {
   readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+  private readonly INLINE_INPUT_RANGE_THRESHOLD = 100;
 
   constructor() {
     this.inputFormControl = new UntypedFormControl();
@@ -233,5 +234,21 @@ export class InputEditorComponent implements OnDestroy {
       default:
         return 1;
     }
+  }
+
+  private getRange(): number {
+    const min = this.entry().validation?.minimum ?? 0;
+    const max = this.entry().validation?.maximum ?? 0;
+    return max - min;
+  }
+
+  private maxDigits(): number {
+    const minAbs = Math.abs(this.entry().validation?.minimum ?? 0);
+    const maxAbs = Math.abs(this.entry().validation?.maximum ?? 0);
+    return Math.max(minAbs, maxAbs).toString().length;
+  }
+
+  shouldShowInlineInput(): boolean {
+    return this.isNumber && (this.getRange() > this.INLINE_INPUT_RANGE_THRESHOLD || this.maxDigits() > 3);
   }
 }
