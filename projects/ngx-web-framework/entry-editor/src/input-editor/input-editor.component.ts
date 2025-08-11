@@ -211,16 +211,26 @@ export class InputEditorComponent implements OnDestroy {
   }
 
   shouldUseSlider(): boolean {
-    if (!this.isNumber) return false;
-    const min = this.entry().validation?.minimum;
-    const max = this.entry().validation?.maximum;
-    if (min == null || max == null) return false;
+  const entryData = this.entry();
 
-    const typeMin = this.getTypeSpecificMinimum(this.entry().value.type);
-    const typeMax = this.getTypeSpecificMaximum(this.entry().value.type);
-
-    return min > typeMin || max < typeMax;
+  if ((entryData as any).value.useSlider === false) {
+    return false;
   }
+
+  return this.defaultSliderCheck(entryData);
+}
+
+private defaultSliderCheck(entryData: Entry): boolean {
+  if (!this.isNumber) return false;
+  const min = entryData.validation?.minimum;
+  const max = entryData.validation?.maximum;
+  if (min == null || max == null) return false;
+
+  const typeMin = this.getTypeSpecificMinimum(entryData.value.type);
+  const typeMax = this.getTypeSpecificMaximum(entryData.value.type);
+
+  return min > typeMin || max < typeMax;
+}
 
   onSliderChange(value: number) {
     this.inputFormControl.setValue(value);
