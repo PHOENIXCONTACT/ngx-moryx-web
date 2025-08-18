@@ -1,41 +1,80 @@
-<mat-form-field class="full-width-input entry-form-field" appearance="outline">
-  <mat-label>{{ entry().displayName }}</mat-label>
-  <input
-    *ngIf="!useTextArea()"
-    aria-label="Text field for changing an entry value."
-    [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
-    [attr.min]="isNumber ? entry().validation?.minimum : null"
-    [attr.max]="isNumber ? entry().validation?.maximum : null"
-    [placeholder]="entry().description ?? 'No description available'"
-    [readonly]="readOnly()"
-    matInput
-    [formControl]="inputFormControl" />
-  <textarea matInput 
-    [placeholder]="entry().description ?? 'No description available'" 
-    *ngIf="useTextArea()" 
-    rows="5"
-    [formControl]="inputFormControl">
-  </textarea>
-  <button mat-icon-button matSuffix 
-    class="code-button"
-    [attr.aria-label]="'html editor'" 
-    (click)="setTextArea(!useTextArea())"
-    *ngIf="!isPassword && !isNumber && !readOnly() && !useTextArea()">
-    <mat-icon>code</mat-icon>
-  </button>
+<!-- SLIDER -->
+<div *ngIf="shouldUseSlider() && !useTextArea(); else textInput" class="slider-wrap">
+  <label class="slider-label">{{ entry().displayName }}</label>
+
+  <div class="slider-row">
+    <mat-slider
+      class="entry-slider"
+      [min]="entry().validation?.minimum"
+      [max]="entry().validation?.maximum"
+      [step]="getSliderStep()"
+      [discrete]="!shouldShowInlineInput()"
+      [disabled]="inputFormControl.disabled"
+      [showTickMarks]="true">
+      <input matSliderThumb [ngModel]="entry().value.current" (ngModelChange)="onSliderChange($event)" />
+    </mat-slider>
+
+    <mat-form-field *ngIf="shouldShowInlineInput()" class="slider-inline-input" appearance="outline">
+      <input
+        matInput
+        type="number"
+        [step]="getSliderStep()"
+        [min]="entry().validation?.minimum!"
+        [max]="entry().validation?.maximum!"
+        [formControl]="inputFormControl"
+        [readonly]="readOnly()" />
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- INPUT -->
+<ng-template #textInput>
+  <mat-form-field class="full-width-input entry-form-field" appearance="outline">
+    <mat-label>{{ entry().displayName }}</mat-label>
+    <input
+      *ngIf="!useTextArea()"
+      aria-label="Text field for changing an entry value."
+      [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
+      [attr.min]="isNumber ? entry().validation?.minimum : null"
+      [attr.max]="isNumber ? entry().validation?.maximum : null"
+      [placeholder]="entry().description ?? 'No description available'"
+      [readonly]="readOnly()"
+      matInput
+      [formControl]="inputFormControl" />
+
     <mat-error *ngIf="inputFormControl.hasError('min')" class="truncate">
-        Please enter a value higher than {{entry().validation?.minimum}}
+      Please enter a value higher than {{ entry().validation?.minimum }}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('max')" class="truncate">
-        Please enter a value lower than {{entry().validation?.maximum}}
+      Please enter a value lower than {{ entry().validation?.maximum }}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('pattern')" class="truncate">
-        Please make sure your input matches the following pattern: {{entry().validation?.regex}}
+      Please make sure your input matches the pattern: {{ entry().validation?.regex }}
     </mat-error>
     <mat-error *ngIf="inputFormControl.hasError('required')" class="truncate">
-        {{entry().displayName}} is <strong>required</strong>
+      {{ entry().displayName }} is <strong>required</strong>
     </mat-error>
-    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block" class="truncate">
-        The entered value is <strong>invalid</strong>
+    <mat-error *ngIf="inputFormControl.hasError('invalidEntryValue')" class="block truncate">
+      The entered value is <strong>invalid</strong>
     </mat-error>
-</mat-form-field>
+
+    <!-- TEXTAREA -->
+    <textarea
+      matInput
+      [placeholder]="entry().description ?? 'No description available'"
+      *ngIf="useTextArea()"
+      rows="5"
+      [formControl]="inputFormControl"></textarea>
+
+    <button
+      mat-icon-button
+      matSuffix
+      class="code-button"
+      [disabled]="inputFormControl.disabled"
+      [attr.aria-label]="'html editor'"
+      (click)="setTextArea(!useTextArea())"
+      *ngIf="!isPassword && !isNumber && !readOnly() && !useTextArea()">
+      <mat-icon>code</mat-icon>
+    </button>
+  </mat-form-field>
+</ng-template>
