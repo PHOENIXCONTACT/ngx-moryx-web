@@ -64,17 +64,19 @@ export class FileEditorComponent {
   }
 
   private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
-    let result = new UntypedFormControl(
-      {
-        value: entry.description ?? '',
-        disabled: this.disabled 
-          || (entry.value.isReadOnly ?? false) 
-          || entry.value?.type === EntryValueType.Stream
-      }, 
-      validators);
+    const initial = entry.value?.current ?? '';
 
-    return result;
-  }
+    const ctrl = new UntypedFormControl(
+      {
+        value: initial,
+        disabled: this.disabled() || (entry.value.isReadOnly ?? false) || entry.value?.type === EntryValueType.Stream,
+      },
+      validators
+    );
+
+    return ctrl;
+}
+
 
   onFileSelected(event: any){
     const file:File = event.target.files[0];
