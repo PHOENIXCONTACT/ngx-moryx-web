@@ -14,6 +14,7 @@ export class EntryObjectComponent {
   
   entry = input.required<Entry>();
   editorId = input.required<number>();
+  disabled = input<boolean>(false);
 
   constructor(private service: NavigableEntryService) { }
 
