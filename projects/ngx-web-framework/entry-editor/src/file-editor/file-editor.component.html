@@ -1,5 +1,5 @@
 <div class="file-editor-container">
-    <input title="File Selector" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+    <input title="File Selector" type="file" class="file-input" (change)="onFileSelected($event)" [attr.webkitdirectory]="entry().value.unitType === 'Directory' ? '' : null" #fileUpload />
     <div class="moryx-file-input file-upload">
         <mat-form-field appearance="outline" class="file-input-field entry-form-field">
             <mat-label>{{entry().displayName}}</mat-label>
