@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, ElementRef, input, model, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
@@ -16,7 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
     standalone: true,
     imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule]
 })
+
 export class FileEditorComponent {
+  @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
+  @ViewChild('directoryUpload') directoryUpload!: ElementRef<HTMLInputElement>;
+  
   inputFormControl!: UntypedFormControl; 
   private readOnly: boolean | undefined = undefined;
 
@@ -76,24 +80,56 @@ export class FileEditorComponent {
     return result;
   }
 
-  onFileSelected(event: any){
-    const file:File = event.target.files[0];
-    if (file) {
-      this.inputFormControl.setValue(file.name);
-      const reader = new FileReader();
-      reader.onloadend = (event) => {
-        const result = event.target?.result as String;
-        if (result) {
-          // Use a regex to remove data url part
-          const base64String = result
-            .replace('data:', '')
-            .replace(/^.+,/, '');
+  onTriggerUpload() {
+    const isDirectory = this.entry().value.unitType === "Directory";
+    const input = isDirectory ? this.directoryUpload : this.fileUpload;
 
-          this.updateCurrentValue(this.entry().value, base64String);
-        }
-      }
-      reader.readAsDataURL(file);
-
+    if (input) {
+      input.nativeElement.click();
     }
+  }
+
+  private uploadFiles(files: [File]) {
+    const reader = new FileReader();
+
+    reader.onloadend = (event) => {
+      const result = event.target?.result as String;
+
+      if (result) {
+        // Use a regex to remove data url part
+        const base64String = result
+          .replace('data:', '')
+          .replace(/^.+,/, '');
+        this.updateCurrentValue(this.entry().value, base64String);
+      }
+    }
+
+    for (const file of files) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onFileSelected(event: any){
+    const file: File = event.target.files[0];
+    if (!file) {
+      return
+    }
+
+    this.inputFormControl.setValue(file.name);
+    
+    this.uploadFiles([file]);
+  }
+
+  onDirectorySelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const directoryName = file.webkitRelativePath.split('/')[0];
+    this.inputFormControl.setValue(directoryName);
+
+    this.uploadFiles(event.target.files);
   }
 }
