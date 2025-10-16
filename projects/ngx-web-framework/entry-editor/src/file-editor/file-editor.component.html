@@ -1,11 +1,28 @@
-<div class="file-editor-container">
-    <input title="File Selector" type="file" class="file-input" (change)="onFileSelected($event)" [attr.webkitdirectory]="entry().value.unitType === 'Directory' ? '' : null" #fileUpload />
+<div class="file-editor-container">  
+    <input *ngIf="entry().value.unitType === 'Directory'"
+        title="Directory Selector"
+        type="file"
+        class="file-input"
+        (change)="onDirectorySelected($event)"
+        webkitdirectory
+        #directoryUpload
+        />
+
+    <input *ngIf="entry().value.unitType === 'File'"
+        title="File Selector"
+        type="file"
+        class="file-input"
+        (change)="onFileSelected($event)"
+        #fileUpload
+        />
+
+    
     <div class="moryx-file-input file-upload">
         <mat-form-field appearance="outline" class="file-input-field entry-form-field">
             <mat-label>{{entry().displayName}}</mat-label>
             <input matInput [formControl]="inputFormControl"
                 aria-label="Text field for selecting a file path." title="Filename" class="file-input-field" />
-        <button mat-icon-button (click)="fileUpload.click()" class="file-input-button"
+        <button mat-icon-button (click)="onTriggerUpload()" class="file-input-button"
             [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
             [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}"
           matSuffix >
