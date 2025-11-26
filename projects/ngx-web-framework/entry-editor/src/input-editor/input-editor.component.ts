@@ -67,7 +67,7 @@ export class InputEditorComponent implements OnDestroy {
   private updateCurrentValue(currentValue: EntryValue, value: any) {
     this.entry.update(e => {
       let copy = Object.assign({}, e);
-      copy.value.current = this.isSinglePossibleValue(e) ? (e.value.possible ?? [''])[0] : value ?? currentValue?.default;
+      copy.value.current = this.isSinglePossibleValue(e) ? (e.value.possible?.[0]?.key ?? '') : value ?? currentValue?.default;
       return copy;
     });
   }

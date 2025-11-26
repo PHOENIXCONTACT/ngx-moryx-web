@@ -1,5 +1,6 @@
 import { Component, effect, input, Input, model, OnInit, signal, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
+import { EntryPossible } from '../models/entry-possible';
 import { EntryUnitType } from '../models/entry-unit-type';
 import { EntryValueType } from '../models/entry-value-type';
 import { PrototypeToEntryConverter } from '../prototype-to-entry-converter';
@@ -52,7 +53,7 @@ export class EntryEditorComponent {
   currentEntry: Entry | undefined = undefined;
   subEntries = signal<Entry[]>([]);
   
-  possibleListItemTypes = signal<string[] | undefined | null>(undefined);
+  possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
   selectedListItemType = signal<string | undefined>(undefined);
   selectedEntryHasPrototypes = signal(true);
