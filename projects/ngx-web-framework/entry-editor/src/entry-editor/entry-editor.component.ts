@@ -7,7 +7,7 @@ import { BooleanEditorComponent } from '../boolean-editor/boolean-editor.compone
 import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass, NgFor, NgIf, NgSwitch } from '@angular/common';
 import { MatList } from '@angular/material/list';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FormsModule, NgModel } from '@angular/forms';
 import { EnumEditorComponent } from '../enum-editor/enum-editor.component';
@@ -41,8 +41,9 @@ import { MatIconButton } from '@angular/material/button';
     NgFor,
     CommonModule,
     FormsModule,
-    MatIconButton
-  ],
+    MatIconButton,
+    MatHint
+],
 })
 export class EntryEditorComponent {
   editorId = input<number | undefined>(undefined);
