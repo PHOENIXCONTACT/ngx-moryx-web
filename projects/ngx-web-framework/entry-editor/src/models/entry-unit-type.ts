@@ -5,7 +5,8 @@
 export enum EntryUnitType {
   None = 'None',
   Password = 'Password',
-  File = 'File',
-  Directory = 'Directory',
-  Flags = 'Flags'
+  FilePath = 'FilePath',
+  DirectoryPath = 'DirectoryPath',
+  Flags = 'Flags',
+  Base64 = 'Base64'
 }

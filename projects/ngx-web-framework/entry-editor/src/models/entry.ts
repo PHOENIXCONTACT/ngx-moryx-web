@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { EntryValidation } from '../models/entry-validation';
-import { EntryValue } from '../models/entry-value';
+import { EntryValidation } from './entry-validation';
+import { EntryValue } from './entry-value';
 export interface Entry {
   description?: string | null;
   displayName?: string | null;
