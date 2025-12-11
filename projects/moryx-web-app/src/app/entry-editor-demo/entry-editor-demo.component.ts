@@ -341,6 +341,35 @@ export class EntryEditorDemoComponent implements OnInit {
         },
       },
       {
+        // Directory
+        displayName: 'Test Directory Name',
+        description: 'This is a Test Directory description.',
+        identifier: 'Directory Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Stream,
+          unitType: EntryUnitType.Directory,
+        },
+      },
+      {
+        // Directory
+        displayName: 'Test Directory Name',
+        description: 'This is a Disabled Test Directory description.',
+        identifier: 'Directory Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Stream,
+          unitType: EntryUnitType.Directory,
+        },
+      },
+
+      {
         // Object
         displayName: 'Subentry Object Name',
         description: 'This is a Subentry Object description.',
