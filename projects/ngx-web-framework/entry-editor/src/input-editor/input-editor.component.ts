@@ -232,10 +232,6 @@ private defaultSliderCheck(entryData: Entry): boolean {
   return min > typeMin || max < typeMax;
 }
 
-  onSliderChange(value: number) {
-    this.inputFormControl.setValue(value);
-  }
-
   getSliderStep(): number {
     switch (this.entry().value.type) {
       case EntryValueType.Single:
