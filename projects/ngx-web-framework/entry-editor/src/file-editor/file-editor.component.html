@@ -18,6 +18,7 @@
         mat-icon-button
         (click)="fileUpload.click()"
         class="file-input-button"
+        type="button"
         [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
         [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
         matSuffix>
