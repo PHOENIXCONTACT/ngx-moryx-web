@@ -73,7 +73,7 @@ export class InputEditorComponent implements OnDestroy {
     this.entry.update(e => {
       let copy = Object.assign({}, e);
       copy.value.current = this.isSinglePossibleValue(e)
-        ? (e.value.possible ?? [''])[0]
+        ? (e.value.possible?.[0]?.key ?? '')
         : value ?? currentValue?.default;
       return copy;
     });
@@ -231,10 +231,6 @@ private defaultSliderCheck(entryData: Entry): boolean {
 
   return min > typeMin || max < typeMax;
 }
-
-  onSliderChange(value: number) {
-    this.inputFormControl.setValue(value);
-  }
 
   getSliderStep(): number {
     switch (this.entry().value.type) {

@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+
 export enum EntryValueType {
   Byte = 'Byte',
   Boolean = 'Boolean',

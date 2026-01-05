@@ -11,7 +11,14 @@
       [discrete]="!shouldShowInlineInput()"
       [disabled]="inputFormControl.disabled"
       [showTickMarks]="true">
-      <input matSliderThumb [ngModel]="entry().value.current" (ngModelChange)="onSliderChange($event)" />
+      <input
+        matSliderThumb
+        [ngModel]="
+          inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
+            ? entry().validation?.minimum ?? 0
+            : +inputFormControl.value
+        "
+        (ngModelChange)="inputFormControl.setValue($event)" />
     </mat-slider>
 
     <mat-form-field *ngIf="shouldShowInlineInput()" class="slider-inline-input" appearance="outline">
@@ -22,7 +29,12 @@
         [min]="entry().validation?.minimum!"
         [max]="entry().validation?.maximum!"
         [formControl]="inputFormControl"
-        [readonly]="readOnly()" />
+        [readonly]="readOnly()"
+        [placeholder]="
+          inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
+            ? entry().value.default ?? ''
+            : ''
+        " />
     </mat-form-field>
   </div>
 </div>
@@ -37,10 +49,20 @@
       [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
       [attr.min]="isNumber ? entry().validation?.minimum : null"
       [attr.max]="isNumber ? entry().validation?.maximum : null"
-      [placeholder]="entry().description ?? 'No description available'"
+      [placeholder]="
+        inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
+          ? entry().value.default ?? ''
+          : ''
+      "
       [readonly]="readOnly()"
       matInput
       [formControl]="inputFormControl" />
+
+    <mat-hint
+      [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
+      class="truncate">
+      {{ entry().description }}
+    </mat-hint>
 
     <mat-error *ngIf="inputFormControl.hasError('min')" class="truncate">
       Please enter a value higher than {{ entry().validation?.minimum }}
@@ -61,13 +83,18 @@
     <!-- TEXTAREA -->
     <textarea
       matInput
-      [placeholder]="entry().description ?? 'No description available'"
+      [placeholder]="
+        inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
+          ? entry().value.default ?? ''
+          : ''
+      "
       *ngIf="useTextArea()"
       rows="5"
       [formControl]="inputFormControl"></textarea>
 
     <button
       mat-icon-button
+      type="button"
       matSuffix
       class="code-button"
       [disabled]="inputFormControl.disabled"

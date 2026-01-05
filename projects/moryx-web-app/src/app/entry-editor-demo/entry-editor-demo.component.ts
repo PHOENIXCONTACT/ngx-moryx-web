@@ -5,11 +5,11 @@ import { MatDivider } from '@angular/material/divider';
 import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditorComponent } from '@moryx/ngx-web-framework/entry-editor';
 
 @Component({
-    selector: 'app-entry-editor-demo',
-    templateUrl: './entry-editor-demo.component.html',
-    styleUrls: ['./entry-editor-demo.component.scss'],
-    standalone: true,
-    imports: [CommonModule, NavigableEntryEditorComponent, MatDivider, MatButtonModule]
+  selector: 'app-entry-editor-demo',
+  templateUrl: './entry-editor-demo.component.html',
+  styleUrls: ['./entry-editor-demo.component.scss'],
+  standalone: true,
+  imports: [CommonModule, NavigableEntryEditorComponent, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemoComponent implements OnInit {
   disabled = false;
@@ -129,7 +129,7 @@ export class EntryEditorDemoComponent implements OnInit {
           type: EntryValueType.Single,
           unitType: EntryUnitType.None,
         },
-      },      
+      },
       {
         // Bool
         displayName: 'Test Bool Name (without description)',
@@ -195,7 +195,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: 'Option 1',
           default: undefined,
           isReadOnly: false,
-          possible: ['Option 1'],
+          possible: [{ 'key': 'Option 1', 'displayName': 'Option 1' }],
           type: EntryValueType.String,
           unitType: EntryUnitType.None,
         },
@@ -209,11 +209,11 @@ export class EntryEditorDemoComponent implements OnInit {
           current: undefined,
           default: 'Option 2',
           isReadOnly: false,
-          possible: ['Option 1', 'Option 2', 'Option 3'],
+          possible: [{ 'key': 'Option 1', 'displayName': 'Option 1' }, { 'key': 'Option 2', 'displayName': 'Option 2' }, { 'key': 'Option 3', 'displayName': 'Option 3' }],
           type: EntryValueType.Enum,
           unitType: EntryUnitType.None,
         },
-      },      
+      },
       {
         // Select
         displayName: 'String AND Possible values',
@@ -223,7 +223,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: undefined,
           default: undefined,
           isReadOnly: false,
-          possible: ['Possible 1', 'Possible 2', 'Possible 3'],
+          possible: [{ 'key': 'Possible 1', 'displayName': 'Possible 1' }, { 'key': 'Possible 2', 'displayName': 'Possible 2' }, { 'key': 'Possible 3', 'displayName': 'Possible 3' }],
           type: EntryValueType.String,
           unitType: EntryUnitType.None,
         },
@@ -237,7 +237,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: undefined,
           default: 'Possible 2',
           isReadOnly: false,
-          possible: ['Possible 1', 'Possible 2', 'Possible 3'],
+          possible: [{ 'key': 'Possible 1', 'displayName': 'Possible 1' }, { 'key': 'Possible 2', 'displayName': 'Possible 2' }, { 'key': 'Possible 3', 'displayName': 'Possible 3' }],
           type: EntryValueType.String,
           unitType: EntryUnitType.None,
         },
@@ -251,7 +251,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: '0',
           default: '0.5',
           isReadOnly: false,
-          possible: ['0.5', '2.5', '10.5'],
+          possible: [{ 'key': '0.5', 'displayName': '0.5' }, { 'key': '2.5', 'displayName': '2.5' }, { 'key': '10.5', 'displayName': '10.5' }],
           type: EntryValueType.Double,
           unitType: EntryUnitType.None,
         },
@@ -265,7 +265,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: '0',
           default: '10',
           isReadOnly: false,
-          possible: ['10', '15', '20'],
+          possible: [{ 'key': '10', 'displayName': '10' }, { 'key': '15', 'displayName': '15' }, { 'key': '20', 'displayName': '20' }],
           type: EntryValueType.Int32,
           unitType: EntryUnitType.None,
         },
@@ -279,7 +279,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: undefined,
           default: undefined,
           isReadOnly: true,
-          possible: ['Option 1', 'Option 2', 'Option 3'],
+          possible: [{ 'key': 'Option 1', 'displayName': 'Option 1' }, { 'key': 'Option 2', 'displayName': 'Option 2' }, { 'key': 'Option 3', 'displayName': 'Option 3' }],
           type: EntryValueType.Enum,
           unitType: EntryUnitType.None,
         },
@@ -293,7 +293,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: '0',
           default: '',
           isReadOnly: false,
-          possible: ['Option 1', 'Option 2', 'Option 3'],
+          possible: [{ 'key': 'Option 1', 'displayName': 'Option 1' }, { 'key': 'Option 2', 'displayName': 'Option 2' }, { 'key': 'Option 3', 'displayName': 'Option 3' }],
           type: EntryValueType.Enum,
           unitType: EntryUnitType.Flags,
         },
@@ -307,7 +307,7 @@ export class EntryEditorDemoComponent implements OnInit {
           current: 'Option 1, Option 3',
           default: '',
           isReadOnly: false,
-          possible: ['Option 1', 'Option 2', 'Option 3'],
+          possible: [{ 'key': 'Option 1', 'displayName': 'Option 1' }, { 'key': 'Option 2', 'displayName': 'Option 2' }, { 'key': 'Option 3', 'displayName': 'Option 3' }],
           type: EntryValueType.Enum,
           unitType: EntryUnitType.Flags,
         },
@@ -387,7 +387,7 @@ export class EntryEditorDemoComponent implements OnInit {
         identifier: 'CollectionIdentifier',
         value: {
           default: EntryValueType.Boolean,
-          possible: [EntryValueType.Boolean, EntryValueType.Int64],
+          possible: [{ key: EntryValueType.Boolean, displayName: EntryValueType.Boolean }, { key: EntryValueType.Int64, displayName: EntryValueType.Int64 }],
           type: EntryValueType.Collection,
         },
         prototypes: [
@@ -501,7 +501,7 @@ export class EntryEditorDemoComponent implements OnInit {
               unitType: EntryUnitType.None,
               current: 'LocalizedSubClass',
               default: 'LocalizedSubClass',
-              possible: ['LocalizedSubClass'],
+              possible: [{ "key": "LocalizedSubClass", "displayName": "LocalizedSubClass" }],
               isReadOnly: false,
             },
             validation: {
@@ -565,534 +565,534 @@ export class EntryEditorDemoComponent implements OnInit {
   };
 
   entry2: Entry = {
-      "displayName": "TcpDriverSample",
-      "identifier": "TcpDriverSample",
-      "description": null,
-      "value": {
-        "type": EntryValueType.Class,
-        "unitType": EntryUnitType.None,
-        "current": "TcpDriverSample",
-        "default": "TcpDriverSample",
-        "possible": null,
-        "isReadOnly": false
-      },
-      "validation": {
-        "minimum": -1.7976931348623157e+308,
-        "maximum": 1.7976931348623157e+308,
-        "regex": null,
-        "isRequired": false
-      },
-      "subEntries": [
-        {
-          "displayName": "TcpConfig",
-          "identifier": "TcpConfig",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Class,
-            "unitType": EntryUnitType.None,
-            "current": "TcpClientConfig",
-            "default": "BinaryConnectionConfig",
-            "possible": [
-              "BinaryConnectionConfig",
-              "TcpClientConfig",
-              "TcpListenerConfig"
-            ],
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [
-            {
-              "displayName": "PluginName",
-              "identifier": "PluginName",
-              "description": null,
-              "value": {
-                "type": EntryValueType.String,
-                "unitType": EntryUnitType.None,
-                "current": "TcpClientConnection",
-                "default": null,
-                "possible": null,
-                "isReadOnly": true
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            },
-            {
-              "displayName": "IpAdress",
-              "identifier": "IpAdress",
-              "description": "The IPAdress for this device",
-              "value": {
-                "type": EntryValueType.String,
-                "unitType": EntryUnitType.None,
-                "current": null,
-                "default": null,
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            },
-            {
-              "displayName": "Port",
-              "identifier": "Port",
-              "description": "The TCP-Port for this Device",
-              "value": {
-                "type": EntryValueType.Int32,
-                "unitType": EntryUnitType.None,
-                "current": "0",
-                "default": "5002",
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            },
-            {
-              "displayName": "RetryWaitMs",
-              "identifier": "RetryWaitMs",
-              "description": "Time to wait between attempts to open a connection in ms.",
-              "value": {
-                "type": EntryValueType.Int32,
-                "unitType": EntryUnitType.None,
-                "current": "0",
-                "default": "500",
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            },
-            {
-              "displayName": "MonitoringIntervalMs",
-              "identifier": "MonitoringIntervalMs",
-              "description": "Time in milliseconds to check if connection is still open. Disable with -1",
-              "value": {
-                "type": EntryValueType.Int32,
-                "unitType": EntryUnitType.None,
-                "current": "0",
-                "default": "5000",
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            },
-            {
-              "displayName": "MonitoringTimeoutMs",
-              "identifier": "MonitoringTimeoutMs",
-              "description": "Timeout for a monitoring call",
-              "value": {
-                "type": EntryValueType.Int32,
-                "unitType": EntryUnitType.None,
-                "current": "0",
-                "default": "500",
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            }
+    "displayName": "TcpDriverSample",
+    "identifier": "TcpDriverSample",
+    "description": null,
+    "value": {
+      "type": EntryValueType.Class,
+      "unitType": EntryUnitType.None,
+      "current": "TcpDriverSample",
+      "default": "TcpDriverSample",
+      "possible": null,
+      "isReadOnly": false
+    },
+    "validation": {
+      "minimum": -1.7976931348623157e+308,
+      "maximum": 1.7976931348623157e+308,
+      "regex": null,
+      "isRequired": false
+    },
+    "subEntries": [
+      {
+        "displayName": "TcpConfig",
+        "identifier": "TcpConfig",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Class,
+          "unitType": EntryUnitType.None,
+          "current": "TcpClientConfig",
+          "default": "BinaryConnectionConfig",
+          "possible": [
+            { "key": "BinaryConnectionConfig", "displayName": "BinaryConnectionConfig" },
+            { "key": "TcpClientConfig", "displayName": "TcpClientConfig" },
+            { "key": "TcpListenerConfig", "displayName": "TcpListenerConfig" }
           ],
-          "prototypes": [
-            {
-              "displayName": "BinaryConnectionConfig",
-              "identifier": "BinaryConnectionConfig",
-              "description": null,
-              "value": {
-                "type": EntryValueType.Class,
-                "unitType": EntryUnitType.None,
-                "current": "BinaryConnectionConfig",
-                "default": "BinaryConnectionConfig",
-                "possible": [
-                  "BinaryConnectionConfig",
-                  "TcpClientConfig",
-                  "TcpListenerConfig"
-                ],
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [
-                {
-                  "displayName": "PluginName",
-                  "identifier": "PluginName",
-                  "description": null,
-                  "value": {
-                    "type": EntryValueType.String,
-                    "unitType": EntryUnitType.None,
-                    "current": "CommunicatorConfig",
-                    "default": null,
-                    "possible": null,
-                    "isReadOnly": true
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                }
-              ],
-              "prototypes": []
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [
+          {
+            "displayName": "PluginName",
+            "identifier": "PluginName",
+            "description": null,
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": "TcpClientConnection",
+              "default": null,
+              "possible": null,
+              "isReadOnly": true
             },
-            {
-              "displayName": "TcpClientConfig",
-              "identifier": "TcpClientConfig",
-              "description": null,
-              "value": {
-                "type": EntryValueType.Class,
-                "unitType": EntryUnitType.None,
-                "current": "TcpClientConfig",
-                "default": "TcpClientConfig",
-                "possible": [
-                  "BinaryConnectionConfig",
-                  "TcpClientConfig",
-                  "TcpListenerConfig"
-                ],
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [
-                {
-                  "displayName": "PluginName",
-                  "identifier": "PluginName",
-                  "description": null,
-                  "value": {
-                    "type": EntryValueType.String,
-                    "unitType": EntryUnitType.None,
-                    "current": "TcpClientConnection",
-                    "default": null,
-                    "possible": null,
-                    "isReadOnly": true
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "IpAdress",
-                  "identifier": "IpAdress",
-                  "description": "The IPAdress for this device",
-                  "value": {
-                    "type": EntryValueType.String,
-                    "unitType": EntryUnitType.None,
-                    "current": null,
-                    "default": null,
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "Port",
-                  "identifier": "Port",
-                  "description": "The TCP-Port for this Device",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "5002",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "RetryWaitMs",
-                  "identifier": "RetryWaitMs",
-                  "description": "Time to wait between attempts to open a connection in ms.",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "500",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "MonitoringIntervalMs",
-                  "identifier": "MonitoringIntervalMs",
-                  "description": "Time in milliseconds to check if connection is still open. Disable with -1",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "5000",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "MonitoringTimeoutMs",
-                  "identifier": "MonitoringTimeoutMs",
-                  "description": "Timeout for a monitoring call",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "500",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                }
-              ],
-              "prototypes": []
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
             },
-            {
-              "displayName": "TcpListenerConfig",
-              "identifier": "TcpListenerConfig",
-              "description": null,
-              "value": {
-                "type": EntryValueType.Class,
-                "unitType": EntryUnitType.None,
-                "current": "TcpListenerConfig",
-                "default": "TcpListenerConfig",
-                "possible": [
-                  "BinaryConnectionConfig",
-                  "TcpClientConfig",
-                  "TcpListenerConfig"
-                ],
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [
-                {
-                  "displayName": "PluginName",
-                  "identifier": "PluginName",
-                  "description": null,
-                  "value": {
-                    "type": EntryValueType.String,
-                    "unitType": EntryUnitType.None,
-                    "current": "TcpListenerConnection",
-                    "default": null,
-                    "possible": null,
-                    "isReadOnly": true
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "IpAdress",
-                  "identifier": "IpAdress",
-                  "description": "The IPAdress for this device",
-                  "value": {
-                    "type": EntryValueType.String,
-                    "unitType": EntryUnitType.None,
-                    "current": "0.0.0.0",
-                    "default": "0.0.0.0",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "Port",
-                  "identifier": "Port",
-                  "description": "The TCP-Port for this Device",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "5002",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "ValidateBeforeAssignment",
-                  "identifier": "ValidateBeforeAssignment",
-                  "description": "Validate incoming messages before assigning the connection, even if this is the only listener.",
-                  "value": {
-                    "type": EntryValueType.Boolean,
-                    "unitType": EntryUnitType.None,
-                    "current": "False",
-                    "default": "False",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "MonitoringIntervalMs",
-                  "identifier": "MonitoringIntervalMs",
-                  "description": "Time in milliseconds to check if connection is still open. Disable with -1",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "5000",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                },
-                {
-                  "displayName": "MonitoringTimeoutMs",
-                  "identifier": "MonitoringTimeoutMs",
-                  "description": "Timeout for a monitoring call",
-                  "value": {
-                    "type": EntryValueType.Int32,
-                    "unitType": EntryUnitType.None,
-                    "current": "0",
-                    "default": "500",
-                    "possible": null,
-                    "isReadOnly": false
-                  },
-                  "validation": {
-                    "minimum": -1.7976931348623157e+308,
-                    "maximum": 1.7976931348623157e+308,
-                    "regex": null,
-                    "isRequired": false
-                  },
-                  "subEntries": [],
-                  "prototypes": []
-                }
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "IpAdress",
+            "identifier": "IpAdress",
+            "description": "The IPAdress for this device",
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": null,
+              "default": null,
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "Port",
+            "identifier": "Port",
+            "description": "The TCP-Port for this Device",
+            "value": {
+              "type": EntryValueType.Int32,
+              "unitType": EntryUnitType.None,
+              "current": "0",
+              "default": "5002",
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "RetryWaitMs",
+            "identifier": "RetryWaitMs",
+            "description": "Time to wait between attempts to open a connection in ms.",
+            "value": {
+              "type": EntryValueType.Int32,
+              "unitType": EntryUnitType.None,
+              "current": "0",
+              "default": "500",
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "MonitoringIntervalMs",
+            "identifier": "MonitoringIntervalMs",
+            "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+            "value": {
+              "type": EntryValueType.Int32,
+              "unitType": EntryUnitType.None,
+              "current": "0",
+              "default": "5000",
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          },
+          {
+            "displayName": "MonitoringTimeoutMs",
+            "identifier": "MonitoringTimeoutMs",
+            "description": "Timeout for a monitoring call",
+            "value": {
+              "type": EntryValueType.Int32,
+              "unitType": EntryUnitType.None,
+              "current": "0",
+              "default": "500",
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          }
+        ],
+        "prototypes": [
+          {
+            "displayName": "BinaryConnectionConfig",
+            "identifier": "BinaryConnectionConfig",
+            "description": null,
+            "value": {
+              "type": EntryValueType.Class,
+              "unitType": EntryUnitType.None,
+              "current": "BinaryConnectionConfig",
+              "default": "BinaryConnectionConfig",
+              "possible": [
+                { "key": "BinaryConnectionConfig", "displayName": "BinaryConnectionConfig" },
+                { "key": "TcpClientConfig", "displayName": "TcpClientConfig" },
+                { "key": "TcpListenerConfig", "displayName": "TcpListenerConfig" }
               ],
-              "prototypes": []
-            }
-          ]
-        }
-      ],
-      "prototypes": []
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [
+              {
+                "displayName": "PluginName",
+                "identifier": "PluginName",
+                "description": null,
+                "value": {
+                  "type": EntryValueType.String,
+                  "unitType": EntryUnitType.None,
+                  "current": "CommunicatorConfig",
+                  "default": null,
+                  "possible": null,
+                  "isReadOnly": true
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              }
+            ],
+            "prototypes": []
+          },
+          {
+            "displayName": "TcpClientConfig",
+            "identifier": "TcpClientConfig",
+            "description": null,
+            "value": {
+              "type": EntryValueType.Class,
+              "unitType": EntryUnitType.None,
+              "current": "TcpClientConfig",
+              "default": "TcpClientConfig",
+              "possible": [
+                { "key": "BinaryConnectionConfig", "displayName": "BinaryConnectionConfig" },
+                { "key": "TcpClientConfig", "displayName": "TcpClientConfig" },
+                { "key": "TcpListenerConfig", "displayName": "TcpListenerConfig" }
+              ],
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [
+              {
+                "displayName": "PluginName",
+                "identifier": "PluginName",
+                "description": null,
+                "value": {
+                  "type": EntryValueType.String,
+                  "unitType": EntryUnitType.None,
+                  "current": "TcpClientConnection",
+                  "default": null,
+                  "possible": null,
+                  "isReadOnly": true
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "IpAdress",
+                "identifier": "IpAdress",
+                "description": "The IPAdress for this device",
+                "value": {
+                  "type": EntryValueType.String,
+                  "unitType": EntryUnitType.None,
+                  "current": null,
+                  "default": null,
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "Port",
+                "identifier": "Port",
+                "description": "The TCP-Port for this Device",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "5002",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "RetryWaitMs",
+                "identifier": "RetryWaitMs",
+                "description": "Time to wait between attempts to open a connection in ms.",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "500",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "MonitoringIntervalMs",
+                "identifier": "MonitoringIntervalMs",
+                "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "5000",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "MonitoringTimeoutMs",
+                "identifier": "MonitoringTimeoutMs",
+                "description": "Timeout for a monitoring call",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "500",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              }
+            ],
+            "prototypes": []
+          },
+          {
+            "displayName": "TcpListenerConfig",
+            "identifier": "TcpListenerConfig",
+            "description": null,
+            "value": {
+              "type": EntryValueType.Class,
+              "unitType": EntryUnitType.None,
+              "current": "TcpListenerConfig",
+              "default": "TcpListenerConfig",
+              "possible": [
+                { "key": "BinaryConnectionConfig", "displayName": "BinaryConnectionConfig" },
+                { "key": "TcpClientConfig", "displayName": "TcpClientConfig" },
+                { "key": "TcpListenerConfig", "displayName": "TcpListenerConfig" }
+              ],
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [
+              {
+                "displayName": "PluginName",
+                "identifier": "PluginName",
+                "description": null,
+                "value": {
+                  "type": EntryValueType.String,
+                  "unitType": EntryUnitType.None,
+                  "current": "TcpListenerConnection",
+                  "default": null,
+                  "possible": null,
+                  "isReadOnly": true
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "IpAdress",
+                "identifier": "IpAdress",
+                "description": "The IPAdress for this device",
+                "value": {
+                  "type": EntryValueType.String,
+                  "unitType": EntryUnitType.None,
+                  "current": "0.0.0.0",
+                  "default": "0.0.0.0",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "Port",
+                "identifier": "Port",
+                "description": "The TCP-Port for this Device",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "5002",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "ValidateBeforeAssignment",
+                "identifier": "ValidateBeforeAssignment",
+                "description": "Validate incoming messages before assigning the connection, even if this is the only listener.",
+                "value": {
+                  "type": EntryValueType.Boolean,
+                  "unitType": EntryUnitType.None,
+                  "current": "False",
+                  "default": "False",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "MonitoringIntervalMs",
+                "identifier": "MonitoringIntervalMs",
+                "description": "Time in milliseconds to check if connection is still open. Disable with -1",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "5000",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              },
+              {
+                "displayName": "MonitoringTimeoutMs",
+                "identifier": "MonitoringTimeoutMs",
+                "description": "Timeout for a monitoring call",
+                "value": {
+                  "type": EntryValueType.Int32,
+                  "unitType": EntryUnitType.None,
+                  "current": "0",
+                  "default": "500",
+                  "possible": null,
+                  "isReadOnly": false
+                },
+                "validation": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308,
+                  "regex": null,
+                  "isRequired": false
+                },
+                "subEntries": [],
+                "prototypes": []
+              }
+            ],
+            "prototypes": []
+          }
+        ]
+      }
+    ],
+    "prototypes": []
   }
 
   entry3: Entry = {
-   "displayName": "AcquiredCapabilities",
+    "displayName": "AcquiredCapabilities",
     "identifier": "AcquiredCapabilities",
     "description": null,
     "value": {
@@ -1101,10 +1101,10 @@ export class EntryEditorDemoComponent implements OnInit {
       "current": "SimpleSkill",
       "default": "AssemblyCapability",
       "possible": [
-        "AssemblyCapability",
-        "CombinedCapabilities",
-        "NullCapabilities",
-        "SimpleSkill"
+        { "key": "AssemblyCapability", "displayName": "AssemblyCapability" },
+        { "key": "CombinedCapabilities", "displayName": "CombinedCapabilities" },
+        { "key": "NullCapabilities", "displayName": "NullCapabilities" },
+        { "key": "SimpleSkill", "displayName": "SimpleSkill" }
       ],
       "isReadOnly": false
     },
@@ -1271,220 +1271,218 @@ export class EntryEditorDemoComponent implements OnInit {
 
 
   entry4: Entry = {
-      "displayName": "AssemblyCell",
-      "identifier": "AssemblyCell",
-      "description": null,
-      "value": {
-        "type": EntryValueType.Class,
-        "unitType": EntryUnitType.None,
-        "current": "AssemblyCell",
-        "default": "AssemblyCell",
-        "possible": null,
-        "isReadOnly": false
+    "displayName": "AssemblyCell",
+    "identifier": "AssemblyCell",
+    "description": null,
+    "value": {
+      "type": EntryValueType.Class,
+      "unitType": EntryUnitType.None,
+      "current": "AssemblyCell",
+      "default": "AssemblyCell",
+      "possible": null,
+      "isReadOnly": false
+    },
+    "validation": {
+      "minimum": -1.7976931348623157e+308,
+      "maximum": 1.7976931348623157e+308,
+      "regex": null,
+      "isRequired": false
+    },
+    "subEntries": [
+      {
+        "displayName": "Nominal Power",
+        "identifier": "NominalPower",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Int32,
+          "unitType": EntryUnitType.None,
+          "current": "225",
+          "default": "0",
+          "possible": null,
+          "isReadOnly": true
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
       },
-      "validation": {
-        "minimum": -1.7976931348623157e+308,
-        "maximum": 1.7976931348623157e+308,
-        "regex": null,
-        "isRequired": false
+      {
+        "displayName": "CameraInterface",
+        "identifier": "CameraInterface",
+        "description": null,
+        "value": {
+          "type": EntryValueType.String,
+          "unitType": EntryUnitType.None,
+          "current": null,
+          "default": null,
+          "possible": [],
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
       },
-      "subEntries": [
-        {
-          "displayName": "Nominal Power",
-          "identifier": "NominalPower",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Int32,
-            "unitType": EntryUnitType.None,
-            "current": "225",
-            "default": "0",
-            "possible": null,
-            "isReadOnly": true
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+      {
+        "displayName": "Material Identifier",
+        "identifier": "MaterialIdentifier",
+        "description": null,
+        "value": {
+          "type": EntryValueType.String,
+          "unitType": EntryUnitType.None,
+          "current": "0031465",
+          "default": null,
+          "possible": null,
+          "isReadOnly": true
         },
-        {
-          "displayName": "CameraInterface",
-          "identifier": "CameraInterface",
-          "description": null,
-          "value": {
-            "type": EntryValueType.String,
-            "unitType": EntryUnitType.None,
-            "current": null,
-            "default": null,
-            "possible": [],
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
         },
-        {
-          "displayName": "Material Identifier",
-          "identifier": "MaterialIdentifier",
-          "description": null,
-          "value": {
-            "type": EntryValueType.String,
-            "unitType": EntryUnitType.None,
-            "current": "0031465",
-            "default": null,
-            "possible": null,
-            "isReadOnly": true
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+        "subEntries": [],
+        "prototypes": []
+      },
+      {
+        "displayName": "Reservations",
+        "identifier": "Reservations",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Collection,
+          "unitType": EntryUnitType.None,
+          "current": null,
+          "default": "String",
+          "possible": [{ key: "String", displayName: "String" }],
+          "isReadOnly": false
         },
-        {
-          "displayName": "Reservations",
-          "identifier": "Reservations",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Collection,
-            "unitType": EntryUnitType.None,
-            "current": null,
-            "default": "String",
-            "possible": [
-              "String"
-            ],
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": [
-            {
-              "displayName": "String",
-              "identifier": "CREATED",
-              "description": null,
-              "value": {
-                "type": EntryValueType.String,
-                "unitType": EntryUnitType.None,
-                "current": "",
-                "default": "",
-                "possible": null,
-                "isReadOnly": false
-              },
-              "validation": {
-                "minimum": -1.7976931348623157e+308,
-                "maximum": 1.7976931348623157e+308,
-                "regex": null,
-                "isRequired": false
-              },
-              "subEntries": [],
-              "prototypes": []
-            }
-          ]
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
         },
-        {
-          "displayName": "Instance Count",
-          "identifier": "InstanceCount",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Int32,
-            "unitType": EntryUnitType.None,
-            "current": "0",
-            "default": "0",
-            "possible": null,
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+        "subEntries": [],
+        "prototypes": [
+          {
+            "displayName": "String",
+            "identifier": "CREATED",
+            "description": null,
+            "value": {
+              "type": EntryValueType.String,
+              "unitType": EntryUnitType.None,
+              "current": "",
+              "default": "",
+              "possible": null,
+              "isReadOnly": false
+            },
+            "validation": {
+              "minimum": -1.7976931348623157e+308,
+              "maximum": 1.7976931348623157e+308,
+              "regex": null,
+              "isRequired": false
+            },
+            "subEntries": [],
+            "prototypes": []
+          }
+        ]
+      },
+      {
+        "displayName": "Instance Count",
+        "identifier": "InstanceCount",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Int32,
+          "unitType": EntryUnitType.None,
+          "current": "0",
+          "default": "0",
+          "possible": null,
+          "isReadOnly": false
         },
-        {
-          "displayName": "Manual Mode",
-          "identifier": "ManualMode",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Boolean,
-            "unitType": EntryUnitType.None,
-            "current": "False",
-            "default": "False",
-            "possible": null,
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
         },
-        {
-          "displayName": "State",
-          "identifier": "CellState",
-          "description": null,
-          "value": {
-            "type": EntryValueType.String,
-            "unitType": EntryUnitType.None,
-            "current": "Idle",
-            "default": null,
-            "possible": null,
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
+        "subEntries": [],
+        "prototypes": []
+      },
+      {
+        "displayName": "Manual Mode",
+        "identifier": "ManualMode",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Boolean,
+          "unitType": EntryUnitType.None,
+          "current": "False",
+          "default": "False",
+          "possible": null,
+          "isReadOnly": false
         },
-        {
-          "displayName": "Disabled",
-          "identifier": "Disabled",
-          "description": null,
-          "value": {
-            "type": EntryValueType.Boolean,
-            "unitType": EntryUnitType.None,
-            "current": "False",
-            "default": "False",
-            "possible": null,
-            "isReadOnly": false
-          },
-          "validation": {
-            "minimum": -1.7976931348623157e+308,
-            "maximum": 1.7976931348623157e+308,
-            "regex": null,
-            "isRequired": false
-          },
-          "subEntries": [],
-          "prototypes": []
-        }
-      ],
-      "prototypes": []
-    }
-  ngOnInit(): void {}
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
+      },
+      {
+        "displayName": "State",
+        "identifier": "CellState",
+        "description": null,
+        "value": {
+          "type": EntryValueType.String,
+          "unitType": EntryUnitType.None,
+          "current": "Idle",
+          "default": null,
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
+      },
+      {
+        "displayName": "Disabled",
+        "identifier": "Disabled",
+        "description": null,
+        "value": {
+          "type": EntryValueType.Boolean,
+          "unitType": EntryUnitType.None,
+          "current": "False",
+          "default": "False",
+          "possible": null,
+          "isReadOnly": false
+        },
+        "validation": {
+          "minimum": -1.7976931348623157e+308,
+          "maximum": 1.7976931348623157e+308,
+          "regex": null,
+          "isRequired": false
+        },
+        "subEntries": [],
+        "prototypes": []
+      }
+    ],
+    "prototypes": []
+  }
+  ngOnInit(): void { }
 
   onToggle() {
     this.disabled = !this.disabled;
