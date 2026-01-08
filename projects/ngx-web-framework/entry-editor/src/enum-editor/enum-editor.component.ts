@@ -59,6 +59,7 @@ export class EnumEditorComponent {
         return e;
       });
     } else {
+      console.warn("EnumEditorComponent: No value selected, value is now set to 0");
       this.entry.update(e => {
         e.value.current = "0";
         return e;
