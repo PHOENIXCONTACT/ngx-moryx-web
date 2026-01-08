@@ -323,7 +323,7 @@ export class EntryEditorDemoComponent implements OnInit {
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Stream,
-          unitType: EntryUnitType.File,
+          unitType: EntryUnitType.FilePath,
         },
       },
       {
@@ -337,7 +337,7 @@ export class EntryEditorDemoComponent implements OnInit {
           isReadOnly: true,
           possible: undefined,
           type: EntryValueType.Stream,
-          unitType: EntryUnitType.File,
+          unitType: EntryUnitType.FilePath,
         },
       },
       {
