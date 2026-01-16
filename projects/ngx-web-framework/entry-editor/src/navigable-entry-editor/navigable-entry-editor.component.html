@@ -12,6 +12,8 @@
 
 
     <entry-editor 
-        [editorId]="editorId()" class="navigation-entries" *ngIf="entryInfo.currentEntry" [entry]="entryInfo.currentEntry" [disabled]="disabled()">
+        [editorId]="editorId()" class="navigation-entries" *ngIf="entryInfo.currentEntry" 
+        [(entry)]="entryInfo.currentEntry"
+        [disabled]="disabled()">
     </entry-editor>
 }

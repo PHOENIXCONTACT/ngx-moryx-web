@@ -1,6 +1,12 @@
-<button mat-stroked-button (click)="onOpen()" class="full-width-input entry-object-container">
-  <div class="entry-object">
-    <span class="entry-object-text">{{ entry().displayName }}</span>
-    <span class="material-symbols-outlined"> chevron_right </span>
+<div class="entry-object-wrapper">
+  <button mat-stroked-button (click)="onOpen()" class="full-width-input entry-object-container" type="button">
+    <div class="entry-object">
+      <span class="entry-object-text">{{ entry().displayName }}</span>
+      <span class="material-symbols-outlined"> chevron_right </span>
+    </div>
+  </button>
+
+  <div class="object-entry-hint" [class.entry-editor-disabled]="disabled() || (entry().value.isReadOnly ?? false)">
+    {{ entry().description }}
   </div>
-</button>
+</div>

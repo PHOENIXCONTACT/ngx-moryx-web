@@ -13,6 +13,7 @@
         class="entry-list-item-value"
         [entry]="entry()"
         [editorId]="editorId()"
+        [disabled]="disabled()"
         *ngIf="EntryValueType.Class === entry().value?.type || EntryValueType.Collection === entry().value?.type">
         ></entry-object-editor
       >
@@ -54,11 +55,11 @@
     <button
       mat-icon-button
       class="entry-list-item-delete"
+      type="button"
       (click)="onDelete()"
       [disabled]="disabled()"
       [ngClass]="{ disabled: disabled }">
       <span class="material-symbols-outlined entry-editor-list-item-button-icon">playlist_remove</span>
     </button>
   </div>
-
 </div>

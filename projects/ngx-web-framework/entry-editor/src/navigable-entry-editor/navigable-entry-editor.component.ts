@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, input, effect, model, signal, untracked } from '@angular/core';
+import { Component, OnDestroy, input, effect, model, signal, untracked } from '@angular/core';
 import { Entry } from '../models/entry';
 import { NavigableEntryInformation, NavigableEntryService } from '../services/navigable-entry.service';
 import { EntryEditorComponent } from '../entry-editor/entry-editor.component';
