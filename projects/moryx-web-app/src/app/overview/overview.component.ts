@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
     imports: [RouterLink, MatButtonModule]
 })
 export class OverviewComponent {
+  constructor() {
 
-  constructor() { }
+  }
 }

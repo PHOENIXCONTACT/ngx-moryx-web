@@ -31,7 +31,9 @@
       </mat-hint>
     </mat-form-field>
   </div>
-  <mat-error *ngIf="inputFormControl.hasError('required')" class="truncate">
-    {{ entry().displayName }} is <strong>required</strong>
-  </mat-error>
+  @if (inputFormControl.hasError('required')) {
+    <mat-error class="truncate">
+      {{ entry().displayName }} is <strong>required</strong>
+    </mat-error>
+  }
 </div>

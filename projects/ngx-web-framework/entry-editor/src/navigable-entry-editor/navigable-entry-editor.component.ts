@@ -2,14 +2,14 @@ import { Component, OnDestroy, input, effect, model, signal, untracked } from '@
 import { Entry } from '../models/entry';
 import { NavigableEntryInformation, NavigableEntryService } from '../services/navigable-entry.service';
 import { EntryEditorComponent } from '../entry-editor/entry-editor.component';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'navigable-entry-editor',
   templateUrl: './navigable-entry-editor.component.html',
   styleUrls: ['./navigable-entry-editor.component.scss'],
   standalone: true,
-  imports: [EntryEditorComponent, CommonModule],
+  imports: [EntryEditorComponent],
 })
 export class NavigableEntryEditorComponent implements OnDestroy {
   queryParam = input<string | undefined>(undefined);

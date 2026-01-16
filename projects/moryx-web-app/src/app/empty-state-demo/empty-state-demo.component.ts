@@ -9,5 +9,7 @@ import { EmptyStateComponent } from '@moryx/ngx-web-framework/empty-state';
     imports: [EmptyStateComponent]
 })
 export class EmptyStateDemoComponent {
-  constructor() {}
+  constructor() {
+
+  }
 }

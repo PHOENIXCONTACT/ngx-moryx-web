@@ -11,9 +11,7 @@ const singlePermission = ["Moryx.Example.Permission3"];
     styleUrls: ['./snackbar-demo.component.scss'],
     standalone: false
 })
-
 export class SnackbarDemoComponent {
-
   constructor(private service: MoryxSnackbarService) {
   }
 
@@ -28,5 +26,4 @@ export class SnackbarDemoComponent {
   handleForbidden(): void {
     this.service.handleError(new HttpErrorResponse({ status: 403 }));
   }
-
 }

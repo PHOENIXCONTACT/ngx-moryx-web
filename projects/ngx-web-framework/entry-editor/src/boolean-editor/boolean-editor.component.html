@@ -7,12 +7,13 @@
     color="primary">
     <div class="checkbox-text-area">
       {{ name() }}
-      <mat-hint
-        *ngIf="description()"
-        class="boolean-entry-form-hint"
-        [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }">
-        {{ description() }}
-      </mat-hint>
+      @if (description()) {
+        <mat-hint
+          class="boolean-entry-form-hint"
+          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }">
+          {{ description() }}
+        </mat-hint>
+      }
     </div>
   </mat-checkbox>
 </div>

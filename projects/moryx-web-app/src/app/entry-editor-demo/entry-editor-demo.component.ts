@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
@@ -9,7 +9,7 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditorComponent } f
   templateUrl: './entry-editor-demo.component.html',
   styleUrls: ['./entry-editor-demo.component.scss'],
   standalone: true,
-  imports: [CommonModule, NavigableEntryEditorComponent, MatDivider, MatButtonModule]
+  imports: [NavigableEntryEditorComponent, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemoComponent implements OnInit {
   disabled = false;
@@ -1269,7 +1269,6 @@ export class EntryEditorDemoComponent implements OnInit {
     ]
   }
 
-
   entry4: Entry = {
     "displayName": "AssemblyCell",
     "identifier": "AssemblyCell",
@@ -1482,7 +1481,9 @@ export class EntryEditorDemoComponent implements OnInit {
     ],
     "prototypes": []
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
 
   onToggle() {
     this.disabled = !this.disabled;

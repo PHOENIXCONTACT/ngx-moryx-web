@@ -11,5 +11,7 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'moryx-web-app';
 
-  constructor() { }
+  constructor() {
+
+  }
 }
