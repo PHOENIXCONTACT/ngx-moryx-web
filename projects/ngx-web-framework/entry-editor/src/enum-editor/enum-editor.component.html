@@ -3,7 +3,7 @@
     <mat-select [formControl]="FormControl" (selectionChange)="changed($event)"
         [multiple]="isFlagEnum()">
         <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv">
-            {{pv.key}}
+          {{ pv.displayName ?? pv.key }}
         </mat-option>
     </mat-select>
     <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
