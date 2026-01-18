@@ -1,42 +1,47 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
     "paths": {
       "@moryx/ngx-web-framework/*": [
-        "./projects/ngx-web-framework/*",
-        "./projects/ngx-web-framework"
+        "./dist/ngx-web-framework/*"
       ],
       "@moryx/ngx-web-framework": [
-        "./dist/ngx-web-framework/*",
         "./dist/ngx-web-framework"
-      ],
-      "@angular/*": [
-        "./node_modules/@angular/*"
       ]
     },
-    "declaration": false,
-    "experimentalDecorators": true,
-    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
-    "useDefineForClassFields": false
+    "module": "preserve"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/moryx-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/moryx-demo/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-web-framework/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-web-framework/tsconfig.spec.json"
+    }
+  ]
 }

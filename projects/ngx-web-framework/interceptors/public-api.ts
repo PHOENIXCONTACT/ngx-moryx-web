@@ -1,1 +1,2 @@
-export * from './src/api-interceptor/api-interceptor';
+/* Interceptors */
+export * from './api-interceptor';

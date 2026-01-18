@@ -1,0 +1,119 @@
+@if (!disabled() && EntryValueType.Collection === entry().value?.type) {
+  <div class="entry-editor-add-list-item">
+    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline">
+      <mat-label>Select the type of object</mat-label>
+
+      <mat-select [(ngModel)]="selectedListItemType">
+        <mat-option *ngFor="let pv of possibleListItemTypes()" [value]="pv">
+          {{pv.key}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-icon-button
+      class="entry-editor-add-list-item-button"
+      type="button"
+      (click)="addItemToList()"
+      [disabled]="disabled()"
+      [ngClass]="{ disabled: disabled() }">
+      <span class="material-symbols-outlined entry-editor-list-item-button-icon">playlist_add</span>
+    </button>
+  </div>
+}
+
+@if (isEntryTypeSettable(entry())) {
+  <div class="settable-dropdown-entry">
+    <mat-form-field appearance="outline" class="settable-dropdown-entry-selector">
+      <mat-label>{{ entry().displayName }}</mat-label>
+
+      <mat-select
+        [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
+        [(ngModel)]="entry().value.current"
+        (selectionChange)="dropdownSelectionChanged($event)">
+        <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv">
+          {{ pv.key}}
+        </mat-option>
+      </mat-select>
+      <mat-hint
+        [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
+        class="truncate">
+        {{ entry().description }}
+      </mat-hint>
+    </mat-form-field>
+  </div>
+}
+
+@if(entry().subEntries?.length){
+  <mat-list class="entry-editor-subentries-list">
+    <ng-container *ngFor="let subEntry of entry().subEntries">
+      <ng-container *ngIf="EntryValueType.Collection === entry().value?.type; else elseBlock">
+        <ng-container *ngIf="editorId()">
+          <entry-list-item
+            matLine
+            class="entry-editor-subentries-list-item"
+            [editorId]="editorId()!"
+            [entry]="subEntry"
+            [disabled]="disabled()"
+            (deleteRequest)="onDeleteListItem($event)">
+          </entry-list-item>
+        </ng-container>
+      </ng-container>
+      <ng-template #elseBlock>
+        <ng-container [ngSwitch]="true">
+          <entry-file-editor
+            matLine
+            class="entry-editor-subentries-list-item"
+            [entry]="subEntry"
+            (entryChange)="updateSubEntry($event)"
+            [disabled]="disabled()"
+            *ngSwitchCase="EntryValueType.Stream === subEntry.value?.type">
+          </entry-file-editor>
+          <ng-container *ngIf="editorId()">
+            <entry-object-editor
+              matLine
+              class="entry-editor-subentries-list-item"
+              [entry]="subEntry"
+              [editorId]="editorId()!"
+              [disabled]="disabled()"
+              *ngIf="EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type">
+              ></entry-object-editor
+            >
+          </ng-container>
+          <entry-boolean-editor
+            matLine
+            class="entry-editor-subentries-list-item"
+            [entry]="subEntry"
+            (entryChange)="updateSubEntry($event)"
+            [disabled]="disabled()"
+            *ngSwitchCase="EntryValueType.Boolean === subEntry.value?.type">
+          </entry-boolean-editor>
+          <!-- To display a dropdown the entry should have possible value greate than 1, except collections and Class
+                        since both have possible values but are already handle in cases above -->
+          <entry-enum-editor
+            matLine
+            class="entry-editor-subentries-list-item"
+            [entry]="subEntry"
+            (entryChange)="updateSubEntry($event)"
+            [disabled]="disabled()"
+            *ngSwitchCase="
+            EntryValueType.Enum === subEntry.value.type ||
+            (subEntry.value.possible &&
+              subEntry.value.possible.length > 1 &&
+              subEntry.value?.type !== EntryValueType.Collection &&
+              !isEntryTypeSettable(subEntry))
+          ">
+          </entry-enum-editor>
+          <entry-input-editor
+            matLine
+            class="entry-editor-subentries-list-item"
+            [entry]="subEntry"
+            (entryChange)="updateSubEntry($event)"
+            [disabled]="disabled()"
+            *ngSwitchCase="isPrimitiveType(subEntry)">
+          </entry-input-editor>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+  </mat-list>
+}

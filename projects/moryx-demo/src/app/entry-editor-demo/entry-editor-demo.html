@@ -1,0 +1,13 @@
+<navigable-entry-editor [entry]="testEntry" [disabled]="disabled" queryParam="entryEditor1"></navigable-entry-editor>
+<mat-divider></mat-divider>
+
+<navigable-entry-editor [entry]="tcpDriverSampleEntry" [disabled]="disabled" queryParam="entryEditor3"></navigable-entry-editor>
+<mat-divider></mat-divider>
+
+<navigable-entry-editor [entry]="acquiredCapabilitiesEntry" [disabled]="disabled" queryParam="entryEditor4"></navigable-entry-editor>
+<mat-divider></mat-divider>
+
+<navigable-entry-editor [entry]="assemblyCellEntry" [disabled]="disabled" queryParam="entryEditor5"></navigable-entry-editor>
+<div class="button-area">
+    <button mat-flat-button color="primary" (click)="onToggle()">Toggle Disable</button>
+</div>

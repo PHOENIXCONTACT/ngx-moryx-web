@@ -1,19 +1,92 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
   "newProjectRoot": "projects",
   "projects": {
+    "moryx-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/moryx-demo",
+      "sourceRoot": "projects/moryx-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/moryx-demo/src/main.ts",
+            "tsConfig": "projects/moryx-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/moryx-demo/public"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "node_modules/ngx-web-framework/services/snackbar/i18n",
+                "output": "assets/i18n/snackbar"
+              }
+            ],
+            "styles": [
+              "projects/moryx-demo/src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "moryx-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "moryx-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    },
     "ngx-web-framework": {
       "projectType": "library",
       "root": "projects/ngx-web-framework",
       "sourceRoot": "projects/ngx-web-framework/src",
-      "prefix": "moryx",
+      "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
-          "options": {
-            "project": "projects/ngx-web-framework/ng-package.json"
-          },
           "configurations": {
             "production": {
               "tsConfig": "projects/ngx-web-framework/tsconfig.lib.prod.json"
@@ -25,153 +98,12 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngx-web-framework/src/test.ts",
-            "tsConfig": "projects/ngx-web-framework/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-web-framework/karma.conf.js"
-          }
-        }
-      }
-    },
-    "moryx-web-app": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
-      "root": "projects/moryx-web-app",
-      "sourceRoot": "projects/moryx-web-app/src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:application",
-          "options": {
-            "outputPath": {
-              "base": "dist/moryx-web-app"
-            },
-            "index": "projects/moryx-web-app/src/index.html",
-            "polyfills": [
-              "projects/moryx-web-app/src/polyfills.ts"
-            ],
-            "tsConfig": "projects/moryx-web-app/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/moryx-web-app/src/favicon.ico",
-              "projects/moryx-web-app/src/assets"
-            ],
-            "styles": [
-              "projects/moryx-web-app/src/styles.scss"
-            ],
-            "scripts": [],
-            "browser": "projects/moryx-web-app/src/main.ts"
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "projects/moryx-web-app/src/environments/environment.ts",
-                  "with": "projects/moryx-web-app/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all",
-              "optimization": {
-                "scripts": true,
-                 "styles": true,
-                 "fonts": false
-              }
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "moryx-web-app:build:production"
-            },
-            "development": {
-              "buildTarget": "moryx-web-app:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-          "options": {
-            "buildTarget": "moryx-web-app:build"
-          }
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "main": "projects/moryx-web-app/src/test.ts",
-            "polyfills": "projects/moryx-web-app/src/polyfills.ts",
-            "tsConfig": "projects/moryx-web-app/tsconfig.spec.json",
-            "karmaConfig": "projects/moryx-web-app/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/moryx-web-app/src/favicon.ico",
-              "projects/moryx-web-app/src/assets"
-            ],
-            "styles": [
-              "projects/moryx-web-app/src/styles.scss"
-            ],
-            "scripts": []
+            "tsConfig": "projects/ngx-web-framework/tsconfig.spec.json"
           }
         }
       }
     }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
-  },
-  "cli": {
-    "analytics": false
   }
 }
