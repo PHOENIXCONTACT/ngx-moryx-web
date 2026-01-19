@@ -213,11 +213,11 @@ export class InputEditorComponent implements OnDestroy {
   shouldUseSlider(): boolean {
   const entryData = this.entry();
 
-  if ((entryData as any).value.useSlider === false) {
-    return false;
-  }
-
-  return this.defaultSliderCheck(entryData);
+  // if ((entryData as any).value.useSlider === false) {
+  //   return false;
+  // }
+  // return this.defaultSliderCheck(entryData);
+  return false; // Feature was not implemented on server side and is disabled for now.
 }
 
 private defaultSliderCheck(entryData: Entry): boolean {
