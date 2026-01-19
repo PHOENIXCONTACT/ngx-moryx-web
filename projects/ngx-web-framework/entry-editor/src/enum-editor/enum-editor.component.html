@@ -2,7 +2,7 @@
     <mat-label>{{entry().displayName}}</mat-label>
     <mat-select [formControl]="FormControl" (selectionChange)="changed($event)"
         [multiple]="isFlagEnum()">
-        <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv">
+        <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv.key">
           {{ pv.displayName ?? pv.key }}
         </mat-option>
     </mat-select>

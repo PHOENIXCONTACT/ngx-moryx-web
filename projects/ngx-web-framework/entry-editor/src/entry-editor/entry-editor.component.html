@@ -5,8 +5,8 @@
     <mat-label>Select the type of object</mat-label>
 
         <mat-select [(ngModel)]="selectedListItemType">
-            <mat-option *ngFor="let pv of possibleListItemTypes()" [value]="pv">
-                {{pv.key}}
+            <mat-option *ngFor="let pv of possibleListItemTypes()" [value]="pv.key">
+                {{ pv.displayName ?? pv.key }}
             </mat-option>
         </mat-select>
     </mat-form-field>
@@ -30,8 +30,8 @@
       [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
       [(ngModel)]="entry().value.current"
       (selectionChange)="dropdownSelectionChanged($event)">
-      <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv">
-        {{ pv.key}}
+      <mat-option *ngFor="let pv of entry().value?.possible" [value]="pv.key">
+        {{ pv.displayName ?? pv.key }}
       </mat-option>
     </mat-select>
     <mat-hint
