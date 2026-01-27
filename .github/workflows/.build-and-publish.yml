@@ -58,7 +58,7 @@ jobs:
       if: github.ref_type != 'tag'
 
     - name: 🔨 build `ngx-web-framework`
-      working-directory: ./projects/ngx-web-framework
+      working-directory: ./
       run: npm run build
 
     - name: ⬆️ Upload artifacts
