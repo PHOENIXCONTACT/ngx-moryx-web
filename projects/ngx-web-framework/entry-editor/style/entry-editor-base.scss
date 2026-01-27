@@ -1,0 +1,45 @@
+.full-width-input {
+  flex: 1;
+}
+
+.entry-editor-disabled {
+  color: rgba(0, 0, 0, 0.38);
+  cursor: default;
+}
+
+.entry-editor-list-item-button-icon {
+  font-size: 32px;
+}
+
+.entry-editor-add-list-item {
+  display: flex;
+  margin: 0px 0px 1px 0px;
+  height: fit-content;
+  padding-top: 5px;
+}
+
+.entry-editor-add-list-item-type-selector {
+  flex: 1 1;
+  margin-right: 8px;
+}
+
+.entry-editor-add-list-item-button {
+  height: 38px;
+  width: 38px;
+  margin: 2px 4px 4px -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.truncate {
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
+}
+.entry-form-field{
+  margin: 2px;
+  display: flex;
+  flex-direction: column;
+}
