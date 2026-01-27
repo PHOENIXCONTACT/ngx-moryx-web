@@ -1,0 +1,34 @@
+@use "../style/entry-editor-base" as *;
+
+.mat-checkbox .mat-checkbox-inner-container {
+  transform: scale(1.3);
+  margin-right: 10px;
+}
+
+.mat-checkbox {
+  margin-left: 2px;
+  line-height: 30px;
+}
+
+.checkbox-text-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: var(--mat-form-field-filled-label-text-size);
+}
+
+.entry-checkbox-with-hint {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: center;
+  padding-bottom: 0.875em;
+}
+
+.boolean-entry-form-hint {
+  font-size: 90%;
+  margin-left: -2px;
+  color: hsl(0, 0%, 60%);
+}

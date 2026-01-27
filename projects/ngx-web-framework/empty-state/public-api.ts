@@ -1,1 +1,2 @@
-export * from './src/empty-state/empty-state.component';
+/* EmptyState */
+export * from './empty-state';

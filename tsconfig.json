@@ -1,46 +1,56 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
     "paths": {
-      "@moryx/ngx-web-framework/*": [
-        "./projects/ngx-web-framework/*",
-        "./projects/ngx-web-framework"
+      "@moryx/ngx-web-framework/entry-editor": [
+        "./projects/ngx-web-framework/entry-editor/index.ts"
+      ],
+      "@moryx/ngx-web-framework/empty-state": [
+        "./projects/ngx-web-framework/empty-state/index.ts"
+      ],
+      "@moryx/ngx-web-framework/services": [
+        "./projects/ngx-web-framework/services/index.ts"
+      ],
+      "@moryx/ngx-web-framework/interceptors": [
+        "./projects/ngx-web-framework/interceptors/index.ts"
       ],
       "@moryx/ngx-web-framework": [
-        "./dist/ngx-web-framework/*",
-        "./dist/ngx-web-framework"
-      ],
-      "@angular/*": [
-        "./node_modules/@angular/*"
+        "./projects/ngx-web-framework/src/public-api.ts"
       ]
     },
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
-    "useDefineForClassFields": false
+    "module": "preserve"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/moryx-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/moryx-demo/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-web-framework/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-web-framework/tsconfig.spec.json"
+    }
+  ]
 }
