@@ -14,8 +14,7 @@ on:
       - future
 
 env:
-  dotnet_sdk_version: '8.0.x'
-  NODE_VERSION: 20
+  NODE_VERSION: 24
 
 
 jobs:
@@ -35,7 +34,6 @@ jobs:
             echo "NPM_PACKAGE_SOURCE=//www.myget.org/F/moryx-ci/npm/" >> $GITHUB_OUTPUT
           fi
     outputs:
-      dotnet_sdk_version: ${{ env.dotnet_sdk_version }}
       MORYX_PACKAGE_TARGET: ${{ steps.set-variables.outputs.MORYX_PACKAGE_TARGET }}
       MORYX_PACKAGE_TARGET_V3: ${{ steps.set-variables.outputs.MORYX_PACKAGE_TARGET_V3 }}
       NPM_PACKAGE_SOURCE: ${{ steps.set-variables.outputs.NPM_PACKAGE_SOURCE }}
@@ -62,9 +60,6 @@ jobs:
     - name: 🔨 build `ngx-web-framework`
       working-directory: ./projects/ngx-web-framework
       run: npm run build
-    - name: 🔨 create schematics
-      working-directory: ./projects/ngx-web-framework
-      run: npm run schematics
 
     - name: ⬆️ Upload artifacts
       uses: actions/upload-artifact@v4
