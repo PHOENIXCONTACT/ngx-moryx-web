@@ -143,10 +143,10 @@ export class EntryEditorComponent {
             entry.value.possible.length > 1;
   }
 
-  onPatchToSelectedEntryType(identifier: string): void {
+  onPatchToSelectedEntryType(keyPair: EntryPossible): void {
     this.entry.update(entry => {
       entry.subEntries = [];
-      const prototype = entry?.prototypes?.find((proto: Entry) => proto.displayName === identifier);
+      const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
       if (!prototype) {
         this.selectedEntryHasPrototypes.set(false);
         return entry;
