@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 import { TranslationConstants } from './translation-constants';
@@ -10,11 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(
-    private snackbar: MatSnackBar,
-    private languageService: LanguageService,
-    private translate: TranslateService
-  ) {
+  private snackbar = inject(MatSnackBar);
+  private languageService = inject(LanguageService);
+  private translate = inject(TranslateService);
+
+  constructor() {
     this.translate.addLangs([
       TranslationConstants.LANGUAGES.EN,
       TranslationConstants.LANGUAGES.DE,

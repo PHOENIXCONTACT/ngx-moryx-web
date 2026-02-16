@@ -1,4 +1,4 @@
-import { Component, OnDestroy, input, effect, model, signal, untracked } from '@angular/core';
+import { Component, OnDestroy, input, effect, model, signal, untracked, inject } from '@angular/core';
 import { Entry } from './models/entry';
 import { NavigableEntryInformation, NavigableEntryService } from './services/navigable-entry.service';
 import { EntryEditor } from './entry-editor';
@@ -10,6 +10,8 @@ import { EntryEditor } from './entry-editor';
   styleUrl: './navigable-entry-editor.scss',
 })
 export class NavigableEntryEditor implements OnDestroy {
+  private service = inject(NavigableEntryService);
+
   queryParam = input<string | undefined>(undefined);
   disabled = input.required<boolean>();
   //id of the navigableEditor in order to be able to use several entry editors at the same time
@@ -19,7 +21,7 @@ export class NavigableEntryEditor implements OnDestroy {
 
   entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
 
-  constructor(private service: NavigableEntryService) {
+  constructor() {
     effect(() => {
       // `this.entry()` is assigned to `entry` to make sure,
       // updates on it will be tracked and take 'effect'.

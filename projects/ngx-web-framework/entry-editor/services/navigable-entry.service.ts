@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Entry } from '../models/entry';
 
@@ -6,7 +6,8 @@ import { Entry } from '../models/entry';
   providedIn: 'root',
 })
 export class NavigableEntryService {
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   public entryEditorInformation: Map<number, NavigableEntryInformation> =
     new Map<number, NavigableEntryInformation>();

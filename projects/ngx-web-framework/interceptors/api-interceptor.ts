@@ -1,11 +1,11 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { forwardRef, Injectable, Provider } from '@angular/core';
+import { forwardRef, inject, Injectable, Provider } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { LanguageService } from '@moryx/ngx-web-framework/services';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  constructor(private languageService: LanguageService) {}
+  private languageService = inject(LanguageService);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Apply the headers

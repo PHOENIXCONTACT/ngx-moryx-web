@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { MoryxShell } from '../shell';
 
@@ -7,9 +7,7 @@ import { MoryxShell } from '../shell';
 })
 export class SearchBarService {
   private subscription: Subscription | undefined = undefined;
-
-  constructor(private ngZone: NgZone) {
-  }
+  private ngZone = inject(NgZone);
 
   subscribe(observer: Partial<Observer<SearchRequest>> | undefined): void {
     if (this.subscription !== undefined) {

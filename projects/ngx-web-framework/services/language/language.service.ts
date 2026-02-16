@@ -5,9 +5,6 @@ import { MoryxShell } from '../shell';
   providedIn: 'root',
 })
 export class LanguageService {
-  constructor() {
-  }
-
   getDefaultLanguage(): string {
     if (window.shell) {
       return window.shell.initLanguage();
