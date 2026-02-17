@@ -22,6 +22,9 @@
     "@angular/router": "^21.1.0",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@fontsource/roboto": "^5.2.9",
+    "material-icons": "^1.13.14",
+    "material-symbols": "^0.40.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
