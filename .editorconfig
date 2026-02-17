@@ -16,3 +16,6 @@ ij_typescript_spaces_within_imports = true
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
+
+[*.{ts,tsx,js}]
+file_header_template = Copyright (c) 2026 Phoenix Contact GmbH & Co. KG\nLicensed under the Apache License, Version 2.0

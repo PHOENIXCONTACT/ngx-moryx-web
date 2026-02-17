@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
     selector: 'app-overview',
     templateUrl: './overview.html',
     styleUrls: ['./overview.scss'],
-    standalone: true,
     imports: [RouterLink, MatButtonModule]
 })
 export class Overview {
