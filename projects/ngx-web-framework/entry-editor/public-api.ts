@@ -1,9 +1,10 @@
-export * from './src/models/entry';
-export * from './src/models/entry-unit-type';
-export * from './src/models/entry-validation';
-export * from './src/models/entry-value';
-export * from './src/models/entry-value-type';
-export * from './src/entry-editor/entry-editor.component';
-export * from './src/navigable-entry-editor/navigable-entry-editor.component';
-
-export * from './src/prototype-to-entry-converter';
+/* EmptyState */
+/* Entry Editor */
+export * from './entry-editor';
+export * from './navigable-entry-editor';
+export * from './models/entry';
+export * from './models/entry-unit-type';
+export * from './models/entry-validation';
+export * from './models/entry-value';
+export * from './models/entry-value-type';
+export * from './prototype-to-entry-converter';
