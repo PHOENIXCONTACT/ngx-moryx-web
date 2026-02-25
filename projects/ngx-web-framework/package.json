@@ -1,6 +1,6 @@
 {
   "name": "@moryx/ngx-web-framework",
-  "version": "21.0.1",
+  "version": "21.1.0",
   "schematics": "./schematics/collection.json",
   "dependencies": {
     "tslib": "^2.3.0"

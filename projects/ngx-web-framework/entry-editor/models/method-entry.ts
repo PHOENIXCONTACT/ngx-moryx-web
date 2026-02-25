@@ -7,6 +7,7 @@ export interface MethodEntry {
     name: string;
     displayName: string;
     description: string;
+    isConstructor?: boolean;
     isAsync?: boolean;
     parameters: Entry;
 }

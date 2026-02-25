@@ -1,6 +1,6 @@
 {
   "name": "ngx-moryx-web",
-  "version": "21.0.1",
+  "version": "21.0.0",
   "scripts": {
     "ng": "ng",
     "build": "npm run build:lib && npm run build:schematics",
