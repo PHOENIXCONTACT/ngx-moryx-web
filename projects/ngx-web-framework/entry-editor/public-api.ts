@@ -8,4 +8,5 @@ export * from './models/entry-unit-type';
 export * from './models/entry-validation';
 export * from './models/entry-value';
 export * from './models/entry-value-type';
+export * from './models/entry-possible';
 export * from './prototype-to-entry-converter';
