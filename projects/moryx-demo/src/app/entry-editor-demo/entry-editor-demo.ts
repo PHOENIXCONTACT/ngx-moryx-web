@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import { signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@moryx/ngx-web-framework/entry-editor';
@@ -11,9 +12,9 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   standalone: true,
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
-export class EntryEditorDemo implements OnInit {
+export class EntryEditorDemo {
   disabled = false;
-  testEntry: Entry = {
+  testEntry = signal<Entry>({
     displayName: 'Test Entry',
     description: 'This is the description of a test entry',
     identifier: 'RootEntry',
@@ -91,7 +92,7 @@ export class EntryEditorDemo implements OnInit {
         },
       },
       {
-        // Number
+        // Single
         displayName: 'Type Single Number Name',
         description: 'This is a Test Single description.',
         identifier: 'Single Identifier',
@@ -116,20 +117,6 @@ export class EntryEditorDemo implements OnInit {
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Double,
-          unitType: EntryUnitType.None,
-        },
-      },
-      {
-        // Single
-        displayName: 'Type Single number Name',
-        description: 'This is a Test Single description.',
-        identifier: 'Single Identifier',
-        value: {
-          current: undefined,
-          default: undefined,
-          isReadOnly: false,
-          possible: undefined,
-          type: EntryValueType.Single,
           unitType: EntryUnitType.None,
         },
       },
@@ -332,24 +319,6 @@ export class EntryEditorDemo implements OnInit {
         },
       },
       {
-        // Flag Enum
-        displayName: 'Test Disabled Flag Enum Name',
-        description: 'This is a Disabled Test Flag Enum description.',
-        identifier: 'Disabled Flag Enum Identifier',
-        value: {
-          current: 'Option1Key, Option3Key',
-          default: '',
-          isReadOnly: false,
-          possible: [
-            { 'key': 'Option1Key', 'displayName': 'Option 1' },
-            { 'key': 'Option2Key', 'displayName': 'Option 2' },
-            { 'key': 'Option3Key', 'displayName': 'Option 3' }
-          ],
-          type: EntryValueType.Enum,
-          unitType: EntryUnitType.Flags,
-        },
-      },
-      {
         // File
         displayName: 'Test File Name',
         description: 'This is a Test File description.',
@@ -392,9 +361,9 @@ export class EntryEditorDemo implements OnInit {
         },
         subEntries: [
           {
-            displayName: 'Test List Entry',
-            description: 'Test List Description',
-            identifier: 'List Entry 1',
+            displayName: 'Test Sub-Entry String Property ',
+            description: 'Test Sub-Entry String Property Description',
+            identifier: 'Test Sub-Entry String Property 1',
             value: {
               current: '',
               default: '',
@@ -403,14 +372,17 @@ export class EntryEditorDemo implements OnInit {
           },
           {
             // Object
-            displayName: 'Subentry Object Name',
-            description: 'This is a Subentry Object description.',
+            displayName: 'Test Sub-Entry Object Property',
+            description: 'Test Sub-Entry Object Property Description.',
             identifier: 'SubSubentryObjectIdentifier',
             value: {
               current: undefined,
               default: undefined,
-              isReadOnly: true,
-              possible: undefined,
+              isReadOnly: false,
+              possible: [
+                { key: "Possible Type 1", displayName: "Displayed Possible Type 1" },
+                { key: "Possible Type 2", displayName: "Displayed Possible Type 2" }
+              ],
               type: EntryValueType.Class,
               unitType: EntryUnitType.None,
             },
@@ -602,9 +574,9 @@ export class EntryEditorDemo implements OnInit {
       },
     ],
     value: {},
-  };
+  });
 
-  tcpDriverSampleEntry: Entry = {
+  tcpDriverSampleEntry = signal<Entry>({
     "displayName": "TcpDriverSample",
     "identifier": "TcpDriverSample",
     "description": null,
@@ -1129,9 +1101,9 @@ export class EntryEditorDemo implements OnInit {
       }
     ],
     "prototypes": []
-  }
+  });
 
-  acquiredCapabilitiesEntry: Entry = {
+  acquiredCapabilitiesEntry = signal<Entry>({
     "displayName": "AcquiredCapabilities",
     "identifier": "AcquiredCapabilities",
     "description": null,
@@ -1307,9 +1279,9 @@ export class EntryEditorDemo implements OnInit {
         "prototypes": []
       }
     ]
-  }
+  });
 
-  assemblyCellEntry: Entry = {
+  assemblyCellEntry = signal<Entry>({
     "displayName": "AssemblyCell",
     "identifier": "AssemblyCell",
     "description": null,
@@ -1520,10 +1492,7 @@ export class EntryEditorDemo implements OnInit {
       }
     ],
     "prototypes": []
-  }
-  ngOnInit(): void {
-
-  }
+  });
 
   onToggle() {
     this.disabled = !this.disabled;

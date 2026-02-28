@@ -8,6 +8,7 @@
       </mat-option>
     }
   </mat-select>
+  <!-- ToDo: Check truncate class not working -->
   <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
     {{entry().description}}
   </mat-hint>
