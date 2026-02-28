@@ -7,6 +7,7 @@ import { EntryObject} from '../entry-object/entry-object';
 import { BooleanEditor } from '../boolean-editor/boolean-editor';
 import { InputEditor } from '../input-editor/input-editor';
 import { EnumEditor } from '../enum-editor/enum-editor';
+// ToDo: Remove common module import
 import { CommonModule } from '@angular/common';
 import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
@@ -33,13 +34,8 @@ export class EntryListItem {
   editorId = input.required<number>();
   disabled = input<boolean>(false);
   @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();
-  isObjectType = computed(() => {
-    return EntryValueType.Class === this.entry().value?.type || EntryValueType.Collection === this.entry().value?.type;
-  });
 
   EntryValueType = EntryValueType;
-  EntryUnitType = EntryUnitType;
-  constructor() {}
 
   onDelete() {
     this.deleteRequest.emit(this.entry());

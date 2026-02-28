@@ -1,41 +1,42 @@
 <div class="full-width-input">
   <div class="entry-list-item-content">
-    @if (EntryValueType.Stream === entry().value?.type) {
+    <!-- ToDo: Use switch case & Check for missing signal updates -->
+    @if (EntryValueType.Stream === entry().value.type) {
       <entry-file-editor
         matLine
         class="entry-list-item-value"
         [entry]="entry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Class === entry().value?.type || EntryValueType.Collection === entry().value?.type) {
+    } @else if (EntryValueType.Class === entry().value.type || EntryValueType.Collection === entry().value.type) {
       <entry-object-editor
         matLine
         class="entry-list-item-value"
         [entry]="entry()"
         [editorId]="editorId()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Boolean === entry().value?.type) {
+    } @else if (EntryValueType.Boolean === entry().value.type) {
       <entry-boolean-editor
         matLine
         class="entry-list-item-value"
         [entry]="entry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Enum === entry().value?.type) {
+    } @else if (EntryValueType.Enum === entry().value.type) {
       <entry-enum-editor
         matLine
         class="entry-list-item-value"
         [entry]="entry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Byte === entry().value?.type ||
-                EntryValueType.Int16 === entry().value?.type ||
-                EntryValueType.UInt16 === entry().value?.type ||
-                EntryValueType.Int32 === entry().value?.type ||
-                EntryValueType.UInt32 === entry().value?.type ||
-                EntryValueType.Int64 === entry().value?.type ||
-                EntryValueType.UInt64 === entry().value?.type ||
-                EntryValueType.Single === entry().value?.type ||
-                EntryValueType.Double === entry().value?.type ||
-                EntryValueType.String === entry().value?.type ||
-                EntryValueType.Exception === entry().value?.type) {
+    } @else if (EntryValueType.Byte === entry().value.type ||
+                EntryValueType.Int16 === entry().value.type ||
+                EntryValueType.UInt16 === entry().value.type ||
+                EntryValueType.Int32 === entry().value.type ||
+                EntryValueType.UInt32 === entry().value.type ||
+                EntryValueType.Int64 === entry().value.type ||
+                EntryValueType.UInt64 === entry().value.type ||
+                EntryValueType.Single === entry().value.type ||
+                EntryValueType.Double === entry().value.type ||
+                EntryValueType.String === entry().value.type ||
+                EntryValueType.Exception === entry().value.type) {
       <entry-input-editor
         matLine
         class="entry-list-item-value"
