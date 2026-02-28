@@ -1,9 +1,10 @@
 @if(entryInformation(); as entryInfo) {
   @if (entryInfo.entryPath) {
     <div class="navigation-bar">
+      <!-- ToDo: Update tracking as whole collection is recreated every time -->
       @for (e of entryInfo.entryPath; track e; let isLast = $last) {
         <span class="navigation-bar-item" (click)="onNavigateSpecific(e)">
-          {{e.displayName}}
+          {{e().displayName}}
         </span>
         @if (!isLast) {
           <span class="material-symbols-outlined navigation-bar-layers navigation-bar-divider">
@@ -14,11 +15,11 @@
     </div>
   }
 
-
-  @if (entryInfo.currentEntry) {
+  @if (entryInfo.currentEntry()) {
     <entry-editor
       [editorId]="editorId()" class="navigation-entries"
-      [(entry)]="entryInfo.currentEntry"
+      [entry]="entryInfo.currentEntry()"
+      (entryChange)="onEntryChange($event)"
       [disabled]="disabled()">
     </entry-editor>
   }

@@ -43,6 +43,7 @@
   <mat-form-field class="full-width-input entry-form-field" appearance="outline">
     <mat-label>{{ entry().displayName }}</mat-label>
     @if (!useTextArea()) {
+      <!--  ToDo: Cleanup placeholder -->
       <input
         aria-label="Text field for changing an entry value."
         [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
