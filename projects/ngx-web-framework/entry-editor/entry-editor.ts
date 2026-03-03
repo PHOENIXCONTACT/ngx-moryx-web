@@ -2,7 +2,6 @@ import { Component, effect, input, model, signal, untracked } from '@angular/cor
 import { Entry } from './models/entry';
 import { ReactiveEntry } from './reactive-entry';
 import { EntryPossible } from './models/entry-possible';
-import { EntryUnitType } from './models/entry-unit-type';
 import { EntryValueType } from './models/entry-value-type';
 import { PrototypeToEntryConverter } from './prototype-to-entry-converter';
 import { BooleanEditor } from './boolean-editor/boolean-editor';
@@ -52,6 +51,9 @@ export class EntryEditor {
 
   // Wrapped mode: ReactiveEntry from NavigableEntryEditor
   reactiveEntry = input<ReactiveEntry | undefined>(undefined);
+
+  // Re-exports for template access
+  EntryValueType = EntryValueType;
 
   // Unified internal signal for sub-components
   private _re = signal<ReactiveEntry | null>(null);
@@ -103,9 +105,6 @@ export class EntryEditor {
     }
   }
 
-  EntryValueType = EntryValueType;
-  EntryUnitType = EntryUnitType;
-
   onDeleteListItem(toBeDeleted: ReactiveEntry) {
     const re = this._re();
     if (re && toBeDeleted.identifier) {
@@ -129,12 +128,12 @@ export class EntryEditor {
         }
       }
       if (prototype) {
-        var entry = PrototypeToEntryConverter.cloneEntry(prototype);
+        const entry = PrototypeToEntryConverter.cloneEntry(prototype);
         const currentSubEntries = re.subEntries();
         if (currentSubEntries && currentSubEntries.length > 0) {
-          var last = currentSubEntries[currentSubEntries.length - 1];
-          var count = /\d+/;
-          var current = last.identifier ? Number(last.identifier.match(count)) : 0;
+          const last = currentSubEntries[currentSubEntries.length - 1];
+          const count = /\d+/;
+          const current = last.identifier ? Number(last.identifier.match(count)) : 0;
           this.createdCounter = current + 1;
         } else {
           this.createdCounter = 1;

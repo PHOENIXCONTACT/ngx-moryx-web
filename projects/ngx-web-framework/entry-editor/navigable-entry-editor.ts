@@ -1,4 +1,6 @@
 import { Component, OnDestroy, input, effect, model, signal, untracked, inject, computed } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Entry } from './models/entry';
 import { ReactiveEntry } from './reactive-entry';
 import { NavigableEntryService, NavigableEntryInformation } from './services/navigable-entry.service';
@@ -12,24 +14,21 @@ import { EntryEditor } from './entry-editor';
 })
 export class NavigableEntryEditor implements OnDestroy {
   private service = inject(NavigableEntryService);
+  private route = inject(ActivatedRoute);
+  private queryParamSubscription?: Subscription;
 
   queryParam = input<string | undefined>(undefined);
   disabled = input.required<boolean>();
   // id of the navigableEditor in order to be able to use several entry editors at the same time
   editorId = signal<number>(0);
 
-  // External API - accepts plain Entry
+  // External API - accepts plain Entry (two-way binding propagates changes)
   entry = model.required<Entry>();
 
-  // Internal reactive wrapper
+  // Internal reactive wrapper (needed for navigation and change propagation)
   private _reactiveEntry = signal<ReactiveEntry | null>(null);
 
   entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
-
-  // Provide ReactiveEntry to template
-  get reactiveEntry(): ReactiveEntry | null {
-    return this._reactiveEntry();
-  }
 
   // Computed: current ReactiveEntry from entry path for the current navigation position
   currentReactiveEntry = computed(() => {
@@ -43,22 +42,56 @@ export class NavigableEntryEditor implements OnDestroy {
   });
 
   constructor() {
+    // Initialize ReactiveEntry when entry changes from outside
     effect(() => {
-      // `this.entry()` is assigned to `entry` to make sure,
-      // updates on it will be tracked and take 'effect'.
       const entry = this.entry();
       untracked(() => {
-        // Convert Entry to ReactiveEntry
         const re = ReactiveEntry.fromEntry(entry);
         this._reactiveEntry.set(re);
         this.update(entry, this.editorId());
+        this.setupQueryParamSubscription();
       });
+    });
+  }
+
+  private setupQueryParamSubscription(): void {
+    const qp = this.queryParam();
+    if (!qp) {
+      return;
+    }
+
+    // Unsubscribe from previous subscription
+    this.queryParamSubscription?.unsubscribe();
+
+    // Subscribe to query param changes to detect navigation
+    this.queryParamSubscription = this.route.queryParams.subscribe(() => {
+      this.refreshEntryInformation();
+    });
+  }
+
+  private refreshEntryInformation(): void {
+    const id = this.editorId();
+    if (id === 0) {
+      return;
+    }
+
+    const infos = this.service.entryEditorInformation.get(id);
+    if (!infos) {
+      return;
+    }
+
+    // Create a new object reference to trigger signal update
+    this.entryInformation.set({
+      entryPath: [...infos.entryPath],
+      currentEntry: infos.currentEntry
     });
   }
 
   private findReactiveEntryByPath(entryPath: Entry[]): ReactiveEntry | null {
     const rootRe = this._reactiveEntry();
-    if (!rootRe || entryPath.length === 0) return null;
+    if (!rootRe || entryPath.length === 0) {
+      return null;
+    }
 
     // Start from root and traverse down following the path
     let currentRe = rootRe;
@@ -79,15 +112,11 @@ export class NavigableEntryEditor implements OnDestroy {
     }
     editorId = this.service.signIn(entry, this.queryParam());
     this.editorId.set(editorId);
-    const infos = this.service.entryEditorInformation.get(editorId);
-
-    if (!infos) {
-      return;
-    }
-    this.entryInformation.set(infos);
+    this.refreshEntryInformation();
   }
 
   ngOnDestroy(): void {
+    this.queryParamSubscription?.unsubscribe();
     this.service.signOut(this.editorId());
   }
 

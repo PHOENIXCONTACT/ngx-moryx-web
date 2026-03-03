@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@moryx/ngx-web-framework/entry-editor';
@@ -11,9 +11,9 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   standalone: true,
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
-export class EntryEditorDemo implements OnInit {
+export class EntryEditorDemo {
   disabled = false;
-  testEntry: Entry = {
+  testEntry = signal<Entry>({
     displayName: 'Test Entry',
     description: 'This is the description of a test entry',
     identifier: 'RootEntry',
@@ -94,7 +94,7 @@ export class EntryEditorDemo implements OnInit {
         // Number
         displayName: 'Type Single Number Name',
         description: 'This is a Test Single description.',
-        identifier: 'Single Identifier',
+        identifier: 'Single Number Name Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -123,7 +123,7 @@ export class EntryEditorDemo implements OnInit {
         // Single
         displayName: 'Type Single number Name',
         description: 'This is a Test Single description.',
-        identifier: 'Single Identifier',
+        identifier: 'Single Number Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -315,9 +315,9 @@ export class EntryEditorDemo implements OnInit {
       },
       {
         // Flag Enum
-        displayName: 'Test Disabled Flag Enum Name',
-        description: 'This is a Disabled Test Flag Enum description.',
-        identifier: 'Disabled Flag Enum Identifier',
+        displayName: 'Test Disabled Readonly Flag Enum Name',
+        description: 'This is a Disabled Readonly Test Flag Enum description.',
+        identifier: 'Disabled Readonly Flag Enum Name Identifier',
         value: {
           current: 'Option1Key, Option3Key',
           default: '',
@@ -334,8 +334,8 @@ export class EntryEditorDemo implements OnInit {
       {
         // Flag Enum
         displayName: 'Test Disabled Flag Enum Name',
-        description: 'This is a Disabled Test Flag Enum description.',
-        identifier: 'Disabled Flag Enum Identifier',
+        description: 'This is a Disabled Test Flag Enum Name description.',
+        identifier: 'Disabled Flag Enum Name Identifier',
         value: {
           current: 'Option1Key, Option3Key',
           default: '',
@@ -602,9 +602,9 @@ export class EntryEditorDemo implements OnInit {
       },
     ],
     value: {},
-  };
+  });
 
-  tcpDriverSampleEntry: Entry = {
+  tcpDriverSampleEntry = signal<Entry>({
     "displayName": "TcpDriverSample",
     "identifier": "TcpDriverSample",
     "description": null,
@@ -1129,9 +1129,9 @@ export class EntryEditorDemo implements OnInit {
       }
     ],
     "prototypes": []
-  }
+  });
 
-  acquiredCapabilitiesEntry: Entry = {
+  acquiredCapabilitiesEntry = signal<Entry>({
     "displayName": "AcquiredCapabilities",
     "identifier": "AcquiredCapabilities",
     "description": null,
@@ -1307,9 +1307,9 @@ export class EntryEditorDemo implements OnInit {
         "prototypes": []
       }
     ]
-  }
+  });
 
-  assemblyCellEntry: Entry = {
+  assemblyCellEntry = signal<Entry>({
     "displayName": "AssemblyCell",
     "identifier": "AssemblyCell",
     "description": null,
@@ -1520,12 +1520,13 @@ export class EntryEditorDemo implements OnInit {
       }
     ],
     "prototypes": []
-  }
-  ngOnInit(): void {
-
-  }
+  });
 
   onToggle() {
     this.disabled = !this.disabled;
+  }
+
+  onEntryChange($event: Entry) {
+    console.log("onEntryChange", $event);
   }
 }
