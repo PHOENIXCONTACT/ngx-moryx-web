@@ -1,5 +1,6 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, effect, input, model, signal, untracked } from '@angular/core';
 import { Entry } from './models/entry';
+import { ReactiveEntry } from './reactive-entry';
 import { EntryPossible } from './models/entry-possible';
 import { EntryUnitType } from './models/entry-unit-type';
 import { EntryValueType } from './models/entry-value-type';
@@ -46,9 +47,17 @@ export class EntryEditor {
   editorId = input<number | undefined>(undefined);
   disabled = input<boolean>(false);
 
-  entry = model.required<Entry>();
-  currentEntry: Entry | undefined = undefined;
-  subEntries = signal<Entry[]>([]);
+  // Standalone mode: plain Entry
+  entry = model<Entry | undefined>(undefined);
+
+  // Wrapped mode: ReactiveEntry from NavigableEntryEditor
+  reactiveEntry = input<ReactiveEntry | undefined>(undefined);
+
+  // Unified internal signal for sub-components
+  private _re = signal<ReactiveEntry | null>(null);
+
+  // Track the last processed entry to avoid redundant conversions
+  private _lastEntryRef: Entry | undefined = undefined;
 
   possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
@@ -57,16 +66,34 @@ export class EntryEditor {
 
   private createdCounter?: number;
 
+  // Expose for template
+  get re(): ReactiveEntry | null {
+    return this._re();
+  }
+
   constructor() {
     effect(() => {
-      if(this.currentEntry !== this.entry() ){
-        this.initialize(this.entry());
-        this.currentEntry = this.entry();
-      }
+      const reactiveInput = this.reactiveEntry();
+      const entryInput = this.entry();
+
+      untracked(() => {
+        if (reactiveInput) {
+          // Wrapped mode - use provided ReactiveEntry
+          this._re.set(reactiveInput);
+          this.initializeFromReactiveEntry(reactiveInput);
+        } else if (entryInput && entryInput !== this._lastEntryRef) {
+          // Standalone mode - convert Entry to ReactiveEntry
+          this._lastEntryRef = entryInput;
+          const re = ReactiveEntry.fromEntry(entryInput);
+          this._re.set(re);
+          this.initializeFromReactiveEntry(re);
+        }
+      });
     });
   }
 
-  private initialize(entry: Entry) {
+  private initializeFromReactiveEntry(re: ReactiveEntry) {
+    const entry = re.entry();
     if (entry.value.type == 'Collection') {
       this.possibleListItemTypes.set(entry.value.possible);
       this.prototypes.set(entry.prototypes ?? []);
@@ -76,48 +103,36 @@ export class EntryEditor {
     }
   }
 
-  updateSubEntry(subEntry: Entry) {
-    this.entry.update(item => {
-      const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
-      if (match)
-        Object.assign(match, subEntry);
-      else
-        item.subEntries?.push(subEntry);
-      return item;
-    });
-  }
-
   EntryValueType = EntryValueType;
   EntryUnitType = EntryUnitType;
 
-  onDeleteListItem(toBeDeleted: Entry) {
-    const entry = this.entry();
-
-    if (entry.subEntries !== undefined && entry.subEntries !== null) {
-      var index = entry.subEntries.findIndex(c => c.identifier === toBeDeleted.identifier);
-      if (index > -1) {
-        entry.subEntries.splice(index, 1);
-        this.entry.update(_ => entry);
-      }
+  onDeleteListItem(toBeDeleted: ReactiveEntry) {
+    const re = this._re();
+    if (re && toBeDeleted.identifier) {
+      re.removeSubEntry(toBeDeleted.identifier);
     }
   }
 
   addItemToList() {
+    const re = this._re();
+    if (!re) return;
+
     const prototypes = this.prototypes();
 
     if (this.selectedListItemType() && prototypes) {
+      let prototype: Entry | undefined;
       for (var i = 0; i < prototypes.length; i++) {
         if (prototypes[i].value.type == EntryValueType.Class) {
-          var prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
+          prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
         } else {
-          var prototype = prototypes.find(x => x.displayName === this.selectedListItemType());
+          prototype = prototypes.find(x => x.displayName === this.selectedListItemType());
         }
       }
       if (prototype) {
-        const currentEntry = this.entry();
         var entry = PrototypeToEntryConverter.cloneEntry(prototype);
-        if (currentEntry.subEntries && currentEntry.subEntries.length > 0) {
-          var last = currentEntry.subEntries[currentEntry.subEntries.length - 1];
+        const currentSubEntries = re.subEntries();
+        if (currentSubEntries && currentSubEntries.length > 0) {
+          var last = currentSubEntries[currentSubEntries.length - 1];
           var count = /\d+/;
           var current = last.identifier ? Number(last.identifier.match(count)) : 0;
           this.createdCounter = current + 1;
@@ -126,56 +141,62 @@ export class EntryEditor {
         }
         if (this.createdCounter) {
           entry.identifier = 'CREATED' + this.createdCounter;
-          currentEntry.subEntries?.push(entry);
-          this.entry.update(_ => currentEntry);
+          re.addSubEntry(entry);
         }
       }
     }
   }
 
-  isEntryTypeSettable(entry: Entry): boolean {
-    return  entry?.value?.type === EntryValueType.Class &&
-      entry.value.possible != null &&
-      entry.value.possible.length > 1;
+  isEntryTypeSettable(re: ReactiveEntry): boolean {
+    return re?.value?.type === EntryValueType.Class &&
+      re.value.possible != null &&
+      re.value.possible.length > 1;
   }
 
   onPatchToSelectedEntryType(keyPair: EntryPossible): void {
-    this.entry.update(entry => {
-      entry.subEntries = [];
-      const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
-      if (!prototype) {
-        this.selectedEntryHasPrototypes.set(false);
-        return entry;
-      }
-      const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
-      entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
-      entryPrototype.value.possible = entry.value.possible;
-      entryPrototype.displayName = entry.displayName;
-      entryPrototype.identifier = entry.identifier;
-      Object.assign(entry, entryPrototype);
-      this.selectedEntryHasPrototypes.set(true);
-      return entry;
-    });
+    const re = this._re();
+    if (!re) return;
+
+    const currentEntry = re.entry();
+    const prototype = currentEntry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
+
+    if (!prototype) {
+      this.selectedEntryHasPrototypes.set(false);
+      return;
+    }
+
+    // Build the new entry from the prototype
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
+    entryPrototype.prototypes = JSON.parse(JSON.stringify(currentEntry.prototypes));
+    entryPrototype.value.possible = currentEntry.value.possible;
+    entryPrototype.displayName = currentEntry.displayName;
+    entryPrototype.identifier = currentEntry.identifier;
+
+    // Clear sub-entries and replace entry
+    re.clearSubEntries();
+    re.replaceEntry(entryPrototype);
+
+    this.selectedEntryHasPrototypes.set(true);
   }
 
-  dropdownSelectionChanged(event: MatSelectChange){
+  dropdownSelectionChanged(event: MatSelectChange) {
     this.onPatchToSelectedEntryType(event.value);
   }
 
-  isPrimitiveType(entry: Entry){
-    return entry.value.type !== EntryValueType.Collection &&
-      (entry.value.possible && entry.value.possible.length === 1) ||
-      (((entry.value.possible && entry.value.possible.length < 1) || !entry.value.possible)  &&
-        (EntryValueType.Byte === entry.value?.type ||
-          EntryValueType.Int16 === entry.value?.type ||
-          EntryValueType.UInt16 === entry.value?.type ||
-          EntryValueType.Int32 === entry.value?.type ||
-          EntryValueType.UInt32 === entry.value?.type ||
-          EntryValueType.Int64 === entry.value?.type ||
-          EntryValueType.UInt64 === entry.value?.type ||
-          EntryValueType.Single === entry.value?.type ||
-          EntryValueType.Double === entry.value?.type ||
-          EntryValueType.String === entry.value?.type ||
-          EntryValueType.Exception === entry.value?.type));
+  isPrimitiveType(re: ReactiveEntry) {
+    return re.value.type !== EntryValueType.Collection &&
+      (re.value.possible && re.value.possible.length === 1) ||
+      (((re.value.possible && re.value.possible.length < 1) || !re.value.possible) &&
+        (EntryValueType.Byte === re.value?.type ||
+          EntryValueType.Int16 === re.value?.type ||
+          EntryValueType.UInt16 === re.value?.type ||
+          EntryValueType.Int32 === re.value?.type ||
+          EntryValueType.UInt32 === re.value?.type ||
+          EntryValueType.Int64 === re.value?.type ||
+          EntryValueType.UInt64 === re.value?.type ||
+          EntryValueType.Single === re.value?.type ||
+          EntryValueType.Double === re.value?.type ||
+          EntryValueType.String === re.value?.type ||
+          EntryValueType.Exception === re.value?.type));
   }
 }

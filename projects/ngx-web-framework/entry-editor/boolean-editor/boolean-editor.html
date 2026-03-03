@@ -2,16 +2,16 @@
   <mat-checkbox
     (click)="clickContainer($event)"
     [checked]="checked()"
-    [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-    [name]="name()"
+    [disabled]="disabled() || (reactiveEntry().value.isReadOnly ?? false)"
+    [name]="reactiveEntry().displayName ?? ''"
     color="primary">
     <div class="checkbox-text-area">
-      {{ name() }}
-      @if (description()) {
+      {{ reactiveEntry().displayName }}
+      @if (reactiveEntry().description) {
         <mat-hint
           class="boolean-entry-form-hint"
-          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }">
-          {{ description() }}
+          [ngClass]="{ 'entry-editor-disabled': disabled() || (reactiveEntry().value.isReadOnly ?? false) }">
+          {{ reactiveEntry().description }}
         </mat-hint>
       }
     </div>

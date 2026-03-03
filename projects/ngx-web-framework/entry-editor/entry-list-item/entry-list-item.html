@@ -1,45 +1,45 @@
 <div class="full-width-input">
   <div class="entry-list-item-content">
-    @if (EntryValueType.Stream === entry().value?.type) {
+    @if (EntryValueType.Stream === reactiveEntry().value?.type) {
       <entry-file-editor
         matLine
         class="entry-list-item-value"
-        [entry]="entry()"
+        [reactiveEntry]="reactiveEntry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Class === entry().value?.type || EntryValueType.Collection === entry().value?.type) {
+    } @else if (EntryValueType.Class === reactiveEntry().value?.type || EntryValueType.Collection === reactiveEntry().value?.type) {
       <entry-object-editor
         matLine
         class="entry-list-item-value"
-        [entry]="entry()"
+        [reactiveEntry]="reactiveEntry()"
         [editorId]="editorId()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Boolean === entry().value?.type) {
+    } @else if (EntryValueType.Boolean === reactiveEntry().value?.type) {
       <entry-boolean-editor
         matLine
         class="entry-list-item-value"
-        [entry]="entry()"
+        [reactiveEntry]="reactiveEntry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Enum === entry().value?.type) {
+    } @else if (EntryValueType.Enum === reactiveEntry().value?.type) {
       <entry-enum-editor
         matLine
         class="entry-list-item-value"
-        [entry]="entry()"
+        [reactiveEntry]="reactiveEntry()"
         [disabled]="disabled()" />
-    } @else if (EntryValueType.Byte === entry().value?.type ||
-                EntryValueType.Int16 === entry().value?.type ||
-                EntryValueType.UInt16 === entry().value?.type ||
-                EntryValueType.Int32 === entry().value?.type ||
-                EntryValueType.UInt32 === entry().value?.type ||
-                EntryValueType.Int64 === entry().value?.type ||
-                EntryValueType.UInt64 === entry().value?.type ||
-                EntryValueType.Single === entry().value?.type ||
-                EntryValueType.Double === entry().value?.type ||
-                EntryValueType.String === entry().value?.type ||
-                EntryValueType.Exception === entry().value?.type) {
+    } @else if (EntryValueType.Byte === reactiveEntry().value?.type ||
+                EntryValueType.Int16 === reactiveEntry().value?.type ||
+                EntryValueType.UInt16 === reactiveEntry().value?.type ||
+                EntryValueType.Int32 === reactiveEntry().value?.type ||
+                EntryValueType.UInt32 === reactiveEntry().value?.type ||
+                EntryValueType.Int64 === reactiveEntry().value?.type ||
+                EntryValueType.UInt64 === reactiveEntry().value?.type ||
+                EntryValueType.Single === reactiveEntry().value?.type ||
+                EntryValueType.Double === reactiveEntry().value?.type ||
+                EntryValueType.String === reactiveEntry().value?.type ||
+                EntryValueType.Exception === reactiveEntry().value?.type) {
       <entry-input-editor
         matLine
         class="entry-list-item-value"
-        [entry]="entry()"
+        [reactiveEntry]="reactiveEntry()"
         [disabled]="disabled()" />
     }
 

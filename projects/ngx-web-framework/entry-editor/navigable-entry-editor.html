@@ -15,10 +15,10 @@
   }
 
 
-  @if (entryInfo.currentEntry) {
+  @if (currentReactiveEntry(); as re) {
     <entry-editor
       [editorId]="editorId()" class="navigation-entries"
-      [(entry)]="entryInfo.currentEntry"
+      [reactiveEntry]="re"
       [disabled]="disabled()">
     </entry-editor>
   }

@@ -1,5 +1,5 @@
-import { Component, effect, input, model, signal, ViewEncapsulation } from '@angular/core';
-import { Entry } from '../models/entry';
+import { Component, effect, input, signal, ViewEncapsulation } from '@angular/core';
+import { ReactiveEntry } from '../reactive-entry';
 import { MatHint } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
@@ -14,40 +14,34 @@ import { CommonModule, NgClass } from '@angular/common';
 })
 export class BooleanEditor {
   checked = signal<boolean>(false);
-  name = signal<string>('');
-  description = signal<string>('');
 
   disabled = input<boolean>(false);
-  entry = model.required<Entry>();
+  reactiveEntry = input.required<ReactiveEntry>();
 
   constructor() {
     const reference = effect(() => {
-      this.initialize(this.entry());
+      this.initialize(this.reactiveEntry());
       reference.destroy();
     });
   }
 
-  private initialize(entry: Entry) {
+  private initialize(re: ReactiveEntry) {
+    const entry = re.entry();
     const defaultChecked =
       (entry.value?.current ?? entry.value?.default)?.localeCompare('true', undefined, {
         sensitivity: 'base',
       }) === 0;
     this.checked.set(defaultChecked);
-    this.description.set(entry.description ?? '');
-    this.name.set(this.entry().displayName ?? '');
   }
 
   checkedUpdated(value: boolean) {
     this.checked.update(e => !e);
-    this.entry.update(e => {
-      let copy = Object.assign({}, e);
-      copy.value.current = this.checked() + '';
-      return copy;
-    });
+    this.reactiveEntry().setCurrent(this.checked() + '');
   }
 
   clickContainer(event: MouseEvent) {
-    if (!this.disabled()) {
+    const re = this.reactiveEntry();
+    if (!this.disabled() && !re.value?.isReadOnly) {
       this.checkedUpdated(!this.checked());
     }
   }
