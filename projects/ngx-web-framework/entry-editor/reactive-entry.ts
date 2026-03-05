@@ -14,7 +14,11 @@ export class ReactiveEntry {
   // Parent reference for change propagation
   private readonly _parent: ReactiveEntry | null = null;
 
+  // Version counter - increments on each mutation (used to detect actual changes vs initial state)
+  private readonly _version: WritableSignal<number>;
+
   constructor(entry: Entry, parent?: ReactiveEntry) {
+    this._version = signal(0);
     this._entry = signal(structuredClone(entry));
     this._current = signal(entry.value?.current);
     this._subEntries = signal(
@@ -38,6 +42,12 @@ export class ReactiveEntry {
    * Watch this to detect modifications to the entry tree.
    */
   readonly changed: Signal<Entry> = computed(() => this.toEntry());
+
+  /**
+   * Version counter that increments on each mutation.
+   * Use this to distinguish initial state (version 0) from actual changes (version > 0).
+   */
+  readonly version: Signal<number> = computed(() => this._version());
 
   // Non-signal accessors for read-only properties
 
@@ -152,6 +162,9 @@ export class ReactiveEntry {
     if (this._parent) {
       this._parent.syncSubEntries();
       this._parent.notifyParent();
+    } else {
+      // At root level - increment version to signal a change occurred
+      this._version.update(v => v + 1);
     }
   }
 }

@@ -8,7 +8,7 @@ import { BooleanEditor } from './boolean-editor/boolean-editor';
 import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { MatList } from '@angular/material/list';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { EnumEditor } from './enum-editor/enum-editor';
@@ -61,6 +61,10 @@ export class EntryEditor {
   // Track the last processed entry to avoid redundant conversions
   private _lastEntryRef: Entry | undefined = undefined;
 
+  // Track which ReactiveEntry instance we have seen and its last synced version
+  private _lastSyncedReactiveEntry: ReactiveEntry | null = null;
+  private _lastSyncedVersion = 0;
+
   possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
   selectedListItemType = signal<string | undefined>(undefined);
@@ -104,9 +108,25 @@ export class EntryEditor {
         return;
       }
 
+      const version = re.version();
+
+      // If this is a new ReactiveEntry instance, record it and skip initial sync
+      if (re !== this._lastSyncedReactiveEntry) {
+        this._lastSyncedReactiveEntry = re;
+        this._lastSyncedVersion = version;
+        return;
+      }
+
+      // Only sync when version has increased (actual mutation occurred)
+      if (version <= this._lastSyncedVersion) {
+        return;
+      }
+
       const changedEntry = re.changed();
 
       untracked(() => {
+        // Track that we have synced this version
+        this._lastSyncedVersion = version;
         this._lastEntryRef = changedEntry;
         this.entry.set(changedEntry);
       });
@@ -115,7 +135,7 @@ export class EntryEditor {
 
   private initializeFromReactiveEntry(re: ReactiveEntry) {
     const entry = re.entry();
-    if (entry.value.type == 'Collection') {
+    if (entry.value.type == EntryValueType.Collection) {
       this.possibleListItemTypes.set(entry.value.possible);
       this.prototypes.set(entry.prototypes ?? []);
       if (entry.value.possible !== undefined && entry.value.possible !== null && entry.value.default !== null) {
@@ -173,7 +193,9 @@ export class EntryEditor {
 
   onPatchToSelectedEntryType(keyPair: EntryPossible): void {
     const re = this._re();
-    if (!re) return;
+    if (!re) {
+      return;
+    }
 
     const currentEntry = re.entry();
     const prototype = currentEntry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);

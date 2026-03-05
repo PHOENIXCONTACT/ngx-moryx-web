@@ -19,17 +19,19 @@ export class NavigableEntryEditor implements OnDestroy {
 
   queryParam = input<string | undefined>(undefined);
   disabled = input.required<boolean>();
-  // id of the navigableEditor in order to be able to use several entry editors at the same time
-  editorId = signal<number>(0);
 
   // External API - accepts plain Entry (two-way binding propagates changes)
   entry = model.required<Entry>();
 
+  // Id of the navigableEditor in order to be able to use several entry editors at the same time
+  editorId = signal<number>(0);
+
   // Internal reactive wrapper (needed for navigation and change propagation)
   private _reactiveEntry = signal<ReactiveEntry | null>(null);
 
-  // Flag to prevent re-initialization loop when syncing changes back
-  private isInternalUpdate = false;
+  // Track which ReactiveEntry instance we haveve seen and its last synced version
+  private lastSyncedRe: ReactiveEntry | null = null;
+  private lastSyncedVersion = 0;
 
   entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
 
@@ -49,10 +51,6 @@ export class NavigableEntryEditor implements OnDestroy {
     effect(() => {
       const entry = this.entry();
       untracked(() => {
-        if (this.isInternalUpdate) {
-          this.isInternalUpdate = false;
-          return;
-        }
         const re = ReactiveEntry.fromEntry(entry);
         this._reactiveEntry.set(re);
         this.update(entry, this.editorId());
@@ -63,25 +61,35 @@ export class NavigableEntryEditor implements OnDestroy {
     // Watch for changes in ReactiveEntry and sync back to entry model
     effect(() => {
       const re = this._reactiveEntry();
-      if (!re) return;
+      if (!re) {
+        return;
+      }
+
+      const version = re.version();
+
+      // If this is a new ReactiveEntry instance, record it and skip initial sync
+      if (re !== this.lastSyncedRe) {
+        this.lastSyncedRe = re;
+        this.lastSyncedVersion = version;
+        return;
+      }
+
+      // Only sync when version has increased (actual mutation occurred)
+      if (version <= this.lastSyncedVersion) return;
 
       // Read the changed signal - this creates the dependency
       const changedEntry = re.changed();
 
       untracked(() => {
+        // Track that we've synced this version
+        this.lastSyncedVersion = version;
         // Sync back to entry model
-        this.isInternalUpdate = true;
         this.entry.set(changedEntry);
       });
     });
   }
 
   private setupQueryParamSubscription(): void {
-    const qp = this.queryParam();
-    if (!qp) {
-      return;
-    }
-
     // Unsubscribe from previous subscription
     this.queryParamSubscription?.unsubscribe();
 

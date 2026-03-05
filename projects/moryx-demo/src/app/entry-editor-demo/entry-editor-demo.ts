@@ -12,7 +12,7 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemo {
-  disabled = false;
+  disabled = signal(false);
   testEntry = signal<Entry>({
     displayName: 'Test Entry',
     description: 'This is the description of a test entry',
@@ -1523,10 +1523,11 @@ export class EntryEditorDemo {
   });
 
   onToggle() {
-    this.disabled = !this.disabled;
+    this.disabled.update((v) => !v);
   }
 
   onEntryChange($event: Entry) {
     console.log("onEntryChange", $event);
+    this.testEntry.set($event);
   }
 }
