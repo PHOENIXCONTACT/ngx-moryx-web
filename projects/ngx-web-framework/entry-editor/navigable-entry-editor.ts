@@ -28,6 +28,9 @@ export class NavigableEntryEditor implements OnDestroy {
   // Internal reactive wrapper (needed for navigation and change propagation)
   private _reactiveEntry = signal<ReactiveEntry | null>(null);
 
+  // Flag to prevent re-initialization loop when syncing changes back
+  private isInternalUpdate = false;
+
   entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
 
   // Computed: current ReactiveEntry from entry path for the current navigation position
@@ -46,10 +49,29 @@ export class NavigableEntryEditor implements OnDestroy {
     effect(() => {
       const entry = this.entry();
       untracked(() => {
+        if (this.isInternalUpdate) {
+          this.isInternalUpdate = false;
+          return;
+        }
         const re = ReactiveEntry.fromEntry(entry);
         this._reactiveEntry.set(re);
         this.update(entry, this.editorId());
         this.setupQueryParamSubscription();
+      });
+    });
+
+    // Watch for changes in ReactiveEntry and sync back to entry model
+    effect(() => {
+      const re = this._reactiveEntry();
+      if (!re) return;
+
+      // Read the changed signal - this creates the dependency
+      const changedEntry = re.changed();
+
+      untracked(() => {
+        // Sync back to entry model
+        this.isInternalUpdate = true;
+        this.entry.set(changedEntry);
       });
     });
   }

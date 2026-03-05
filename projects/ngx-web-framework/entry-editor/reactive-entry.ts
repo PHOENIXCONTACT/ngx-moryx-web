@@ -33,6 +33,12 @@ export class ReactiveEntry {
   readonly subEntries: Signal<ReactiveEntry[]> =
     computed(() => this._subEntries());
 
+  /**
+   * Signal that emits the current Entry whenever any change occurs.
+   * Watch this to detect modifications to the entry tree.
+   */
+  readonly changed: Signal<Entry> = computed(() => this.toEntry());
+
   // Non-signal accessors for read-only properties
 
   /** Access underlying Entry for read-only properties */

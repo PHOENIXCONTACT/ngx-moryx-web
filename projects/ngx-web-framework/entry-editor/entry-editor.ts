@@ -74,6 +74,7 @@ export class EntryEditor {
   }
 
   constructor() {
+    // Existing effect for initialization
     effect(() => {
       const reactiveInput = this.reactiveEntry();
       const entryInput = this.entry();
@@ -90,6 +91,24 @@ export class EntryEditor {
           this._re.set(re);
           this.initializeFromReactiveEntry(re);
         }
+      });
+    });
+
+    // Sync changes back to entry model (standalone mode only)
+    effect(() => {
+      const reactiveInput = this.reactiveEntry();
+      const re = this._re();
+
+      // Only sync in standalone mode (no reactiveEntry input)
+      if (reactiveInput || !re) {
+        return;
+      }
+
+      const changedEntry = re.changed();
+
+      untracked(() => {
+        this._lastEntryRef = changedEntry;
+        this.entry.set(changedEntry);
       });
     });
   }
@@ -120,7 +139,7 @@ export class EntryEditor {
 
     if (this.selectedListItemType() && prototypes) {
       let prototype: Entry | undefined;
-      for (var i = 0; i < prototypes.length; i++) {
+      for (let i = 0; i < prototypes.length; i++) {
         if (prototypes[i].value.type == EntryValueType.Class) {
           prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
         } else {
