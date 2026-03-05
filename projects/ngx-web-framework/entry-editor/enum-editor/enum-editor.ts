@@ -17,6 +17,8 @@ export class EnumEditor {
   reactiveEntry = input.required<ReactiveEntry>();
   formControl = new UntypedFormControl('');
 
+  EntryUnitType = EntryUnitType;
+
   constructor() {
     effect(() => {
       const disabled = this.disabled();
@@ -28,17 +30,17 @@ export class EnumEditor {
   }
 
   private initialize(re: ReactiveEntry, disabled: boolean) {
-    const entry = re.entry();
-    const value = entry.value?.current ?? entry.value?.default;
+    const entryValue = re.value;
+    const value = entryValue.current ?? entryValue.default;
 
-    if (entry.value.unitType === EntryUnitType.Flags) {
+    if (entryValue.unitType === EntryUnitType.Flags) {
       const list = value?.split(',').map(str => str.trim()) ?? [];
       this.formControl.patchValue(list);
     } else {
       this.formControl.patchValue(value);
     }
 
-    if (disabled || (entry.value.isReadOnly ?? false)) {
+    if (disabled || (entryValue.isReadOnly ?? false)) {
       this.formControl.disable();
     } else {
       this.formControl.enable();
@@ -57,10 +59,6 @@ export class EnumEditor {
       newValue = '0';
     }
 
-    this.reactiveEntry().setCurrent(newValue);
-  }
-
-  isFlagEnum(): boolean {
-    return this.reactiveEntry().value.unitType === EntryUnitType.Flags;
+    this.reactiveEntry().setCurrentValue(newValue);
   }
 }

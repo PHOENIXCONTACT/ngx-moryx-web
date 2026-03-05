@@ -10,7 +10,18 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule, MatHint],
+  imports: [
+    CommonModule,
+    MatFormField,
+    MatLabel,
+    FormsModule,
+    MatError,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconButton,
+    MatIconModule,
+    MatHint
+  ],
   templateUrl: './file-editor.html',
   styleUrl: './file-editor.scss',
 })
@@ -33,15 +44,13 @@ export class FileEditor {
   }
 
   private initialize(re: ReactiveEntry) {
-    const entry = re.entry();
     const validators = this.setupValidators(re);
     this.inputFormControl = this.setupFormControl(re, validators);
-    this.readOnly = entry.value?.isReadOnly;
+    this.readOnly = re.value.isReadOnly;
   }
 
   private updateCurrentValue(re: ReactiveEntry, value: any) {
-    const entry = re.entry();
-    re.setCurrent(value ?? entry.value?.default);
+    re.setCurrentValue(value ?? re.value.default);
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
@@ -52,22 +61,21 @@ export class FileEditor {
   }
 
   setupValidators(re: ReactiveEntry): ValidatorFn[] {
-    const entry = re.entry();
     let validators = [] as ValidatorFn[];
-    if (entry.validation?.isRequired)
+    if (re.validation?.isRequired)
       validators.push(Validators.required);
 
     return validators;
   }
 
   private setupFormControl(re: ReactiveEntry, validators: ValidatorFn[]): UntypedFormControl {
-    const entry = re.entry();
-    const initial = entry.value?.current ?? '';
+    const entryValue = re.value;
+    const initial = entryValue.current ?? '';
 
     const ctrl = new UntypedFormControl(
       {
         value: initial,
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false) || entry.value?.type === EntryValueType.Stream,
+        disabled: this.disabled() || (entryValue.isReadOnly ?? false) || entryValue?.type === EntryValueType.Stream,
       },
       validators
     );

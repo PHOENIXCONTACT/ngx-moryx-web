@@ -8,7 +8,7 @@ export class ReactiveEntry {
   private readonly _entry: WritableSignal<Entry>;
 
   // Mutable property signals (only these need reactive tracking)
-  private readonly _current: WritableSignal<string | null | undefined>;
+  private readonly _currentValue: WritableSignal<string | null | undefined>;
   private readonly _subEntries: WritableSignal<ReactiveEntry[]>;
 
   // Parent reference for change propagation
@@ -20,7 +20,7 @@ export class ReactiveEntry {
   constructor(entry: Entry, parent?: ReactiveEntry) {
     this._version = signal(0);
     this._entry = signal(structuredClone(entry));
-    this._current = signal(entry.value?.current);
+    this._currentValue = signal(entry.value?.current);
     this._subEntries = signal(
       (entry.subEntries ?? []).map(sub => new ReactiveEntry(sub, this))
     );
@@ -30,8 +30,8 @@ export class ReactiveEntry {
   // Readable signals for mutable properties
 
   /** The current editable value - reactive */
-  readonly current: Signal<string | null | undefined> =
-    computed(() => this._current());
+  readonly currentValue: Signal<string | null | undefined> =
+    computed(() => this._currentValue());
 
   /** Sub-entries as ReactiveEntry array - reactive */
   readonly subEntries: Signal<ReactiveEntry[]> =
@@ -49,44 +49,40 @@ export class ReactiveEntry {
    */
   readonly version: Signal<number> = computed(() => this._version());
 
-  // Non-signal accessors for read-only properties
-
-  /** Access underlying Entry for read-only properties */
-  entry(): Entry {
-    return this._entry();
-  }
-
   // Convenience getters for common read-only properties
 
-  get displayName(): string | null | undefined {
-    return this._entry().displayName;
+  get displayName(): string | null {
+    return this._entry().displayName ?? null;
   }
 
-  get description(): string | null | undefined {
-    return this._entry().description;
+  get description(): string | null {
+    return this._entry().description ?? null;
   }
 
-  get identifier(): string | null | undefined {
-    return this._entry().identifier;
+  get identifier(): string  {
+    // Hint identifier is generated as optional, so we enforce it here for convenience
+    return this._entry().identifier!;
   }
 
   get value(): EntryValue {
     return this._entry().value;
   }
 
-  get validation(): EntryValidation | undefined {
-    return this._entry().validation;
+  get validation(): EntryValidation {
+    // Hint validation is generated as optional, so we enforce it here for convenience
+    return this._entry().validation!;
   }
 
-  get prototypes(): Array<Entry> | null | undefined {
-    return this._entry().prototypes;
+  get prototypes(): Entry[] {
+    // Hint prototypes is generated as optional, so we enforce it here for convenience
+    return this._entry().prototypes!;
   }
 
   // mutation methods
 
   /** Update the current value */
-  setCurrent(value: string | null | undefined): void {
-    this._current.set(value);
+  setCurrentValue(value: string | null | undefined): void {
+    this._currentValue.set(value);
     this._entry.update(e => ({
       ...e,
       value: { ...e.value, current: value }
@@ -125,7 +121,7 @@ export class ReactiveEntry {
   /** Replace entry completely (for type switching) */
   replaceEntry(entry: Entry): void {
     this._entry.set(structuredClone(entry));
-    this._current.set(entry.value?.current);
+    this._currentValue.set(entry.value.current);
     this._subEntries.set(
       (entry.subEntries ?? []).map(sub => new ReactiveEntry(sub, this))
     );
@@ -139,7 +135,7 @@ export class ReactiveEntry {
     const base = this._entry();
     return {
       ...base,
-      value: { ...base.value, current: this._current() },
+      value: { ...base.value, current: this._currentValue() },
       subEntries: this._subEntries().map(re => re.toEntry())
     };
   }

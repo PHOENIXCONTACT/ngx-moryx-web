@@ -134,12 +134,12 @@ export class EntryEditor {
   }
 
   private initializeFromReactiveEntry(re: ReactiveEntry) {
-    const entry = re.entry();
-    if (entry.value.type == EntryValueType.Collection) {
-      this.possibleListItemTypes.set(entry.value.possible);
-      this.prototypes.set(entry.prototypes ?? []);
-      if (entry.value.possible !== undefined && entry.value.possible !== null && entry.value.default !== null) {
-        this.selectedListItemType.set(entry.value.default);
+    const entryValue = re.value;
+    if (entryValue.type == EntryValueType.Collection) {
+      this.possibleListItemTypes.set(entryValue.possible);
+      this.prototypes.set(re.prototypes ?? []);
+      if (entryValue.possible !== undefined && entryValue.possible !== null && entryValue.default !== null) {
+        this.selectedListItemType.set(entryValue.default);
       }
     }
   }
@@ -153,7 +153,9 @@ export class EntryEditor {
 
   addItemToList() {
     const re = this._re();
-    if (!re) return;
+    if (!re) {
+      return;
+    }
 
     const prototypes = this.prototypes();
 
@@ -192,13 +194,12 @@ export class EntryEditor {
   }
 
   onPatchToSelectedEntryType(keyPair: EntryPossible): void {
-    const re = this._re();
-    if (!re) {
+    const reactiveEntry = this._re();
+    if (!reactiveEntry) {
       return;
     }
 
-    const currentEntry = re.entry();
-    const prototype = currentEntry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
+    const prototype = reactiveEntry.prototypes.find((proto: Entry) => proto.identifier === keyPair.key);
 
     if (!prototype) {
       this.selectedEntryHasPrototypes.set(false);
@@ -207,14 +208,14 @@ export class EntryEditor {
 
     // Build the new entry from the prototype
     const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
-    entryPrototype.prototypes = JSON.parse(JSON.stringify(currentEntry.prototypes));
-    entryPrototype.value.possible = currentEntry.value.possible;
-    entryPrototype.displayName = currentEntry.displayName;
-    entryPrototype.identifier = currentEntry.identifier;
+    entryPrototype.prototypes = JSON.parse(JSON.stringify(reactiveEntry.prototypes));
+    entryPrototype.value.possible = reactiveEntry.value.possible;
+    entryPrototype.displayName = reactiveEntry.displayName;
+    entryPrototype.identifier = reactiveEntry.identifier;
 
     // Clear sub-entries and replace entry
-    re.clearSubEntries();
-    re.replaceEntry(entryPrototype);
+    reactiveEntry.clearSubEntries();
+    reactiveEntry.replaceEntry(entryPrototype);
 
     this.selectedEntryHasPrototypes.set(true);
   }
@@ -223,20 +224,20 @@ export class EntryEditor {
     this.onPatchToSelectedEntryType(event.value);
   }
 
-  isPrimitiveType(re: ReactiveEntry) {
-    return re.value.type !== EntryValueType.Collection &&
-      (re.value.possible && re.value.possible.length === 1) ||
-      (((re.value.possible && re.value.possible.length < 1) || !re.value.possible) &&
-        (EntryValueType.Byte === re.value?.type ||
-          EntryValueType.Int16 === re.value?.type ||
-          EntryValueType.UInt16 === re.value?.type ||
-          EntryValueType.Int32 === re.value?.type ||
-          EntryValueType.UInt32 === re.value?.type ||
-          EntryValueType.Int64 === re.value?.type ||
-          EntryValueType.UInt64 === re.value?.type ||
-          EntryValueType.Single === re.value?.type ||
-          EntryValueType.Double === re.value?.type ||
-          EntryValueType.String === re.value?.type ||
-          EntryValueType.Exception === re.value?.type));
+  isPrimitiveType(reactiveEntry: ReactiveEntry) {
+    return reactiveEntry.value.type !== EntryValueType.Collection &&
+      (reactiveEntry.value.possible && reactiveEntry.value.possible.length === 1) ||
+      (((reactiveEntry.value.possible && reactiveEntry.value.possible.length < 1) || !reactiveEntry.value.possible) &&
+        (EntryValueType.Byte === reactiveEntry.value.type ||
+          EntryValueType.Int16 === reactiveEntry.value.type ||
+          EntryValueType.UInt16 === reactiveEntry.value.type ||
+          EntryValueType.Int32 === reactiveEntry.value.type ||
+          EntryValueType.UInt32 === reactiveEntry.value.type ||
+          EntryValueType.Int64 === reactiveEntry.value.type ||
+          EntryValueType.UInt64 === reactiveEntry.value.type ||
+          EntryValueType.Single === reactiveEntry.value.type ||
+          EntryValueType.Double === reactiveEntry.value.type ||
+          EntryValueType.String === reactiveEntry.value.type ||
+          EntryValueType.Exception === reactiveEntry.value.type));
   }
 }

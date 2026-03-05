@@ -13,7 +13,7 @@ import { EntryEditor } from './entry-editor';
   styleUrl: './navigable-entry-editor.scss',
 })
 export class NavigableEntryEditor implements OnDestroy {
-  private service = inject(NavigableEntryService);
+  private navigableEntryService = inject(NavigableEntryService);
   private route = inject(ActivatedRoute);
   private queryParamSubscription?: Subscription;
 
@@ -30,7 +30,7 @@ export class NavigableEntryEditor implements OnDestroy {
   private _reactiveEntry = signal<ReactiveEntry | null>(null);
 
   // Track which ReactiveEntry instance we haveve seen and its last synced version
-  private lastSyncedRe: ReactiveEntry | null = null;
+  private lastSyncedReactiveEntry: ReactiveEntry | null = null;
   private lastSyncedVersion = 0;
 
   entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
@@ -68,8 +68,8 @@ export class NavigableEntryEditor implements OnDestroy {
       const version = re.version();
 
       // If this is a new ReactiveEntry instance, record it and skip initial sync
-      if (re !== this.lastSyncedRe) {
-        this.lastSyncedRe = re;
+      if (re !== this.lastSyncedReactiveEntry) {
+        this.lastSyncedReactiveEntry = re;
         this.lastSyncedVersion = version;
         return;
       }
@@ -105,7 +105,7 @@ export class NavigableEntryEditor implements OnDestroy {
       return;
     }
 
-    const infos = this.service.entryEditorInformation.get(id);
+    const infos = this.navigableEntryService.entryEditorInformation.get(id);
     if (!infos) {
       return;
     }
@@ -118,39 +118,39 @@ export class NavigableEntryEditor implements OnDestroy {
   }
 
   private findReactiveEntryByPath(entryPath: Entry[]): ReactiveEntry | null {
-    const rootRe = this._reactiveEntry();
-    if (!rootRe || entryPath.length === 0) {
+    const rootReactiveEntry = this._reactiveEntry();
+    if (!rootReactiveEntry || entryPath.length === 0) {
       return null;
     }
 
     // Start from root and traverse down following the path
-    let currentRe = rootRe;
+    let current = rootReactiveEntry;
     for (let i = 1; i < entryPath.length; i++) {
       const pathEntry = entryPath[i];
-      const found = currentRe.subEntries().find(sub => sub.identifier === pathEntry.identifier);
+      const found = current.subEntries().find(sub => sub.identifier === pathEntry.identifier);
       if (!found) {
         return null;
       }
-      currentRe = found;
+      current = found;
     }
-    return currentRe;
+    return current;
   }
 
   private update(entry: Entry, editorId: number) {
     if (editorId !== 0) {
-      this.service.signOut(editorId);
+      this.navigableEntryService.signOut(editorId);
     }
-    editorId = this.service.signIn(entry, this.queryParam());
+    editorId = this.navigableEntryService.signIn(entry, this.queryParam());
     this.editorId.set(editorId);
     this.refreshEntryInformation();
   }
 
   ngOnDestroy(): void {
     this.queryParamSubscription?.unsubscribe();
-    this.service.signOut(this.editorId());
+    this.navigableEntryService.signOut(this.editorId());
   }
 
   onNavigateSpecific(entry: Entry) {
-    this.service.onNavigateToSpecificEntry(this.editorId(), entry);
+    this.navigableEntryService.onNavigateToSpecificEntry(this.editorId(), entry);
   }
 }

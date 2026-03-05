@@ -57,11 +57,11 @@ export class InputEditor implements OnDestroy {
   }
 
   private initialize(re: ReactiveEntry) {
-    const entry = re.entry();
+    const entryValue = re.value;
     this.readOnly.set(
-      entry.value?.isReadOnly || this.isSinglePossibleValue(re) || entry.value.type === EntryValueType.Exception
+      entryValue.isReadOnly || this.isSinglePossibleValue(re) || entryValue.type === EntryValueType.Exception
     );
-    this.updateCurrentValue(re, entry.value.current);
+    this.updateCurrentValue(re, entryValue.current);
     this.determineInputType(re);
 
     const validators = this.setupValidators(re);
@@ -69,11 +69,12 @@ export class InputEditor implements OnDestroy {
   }
 
   private updateCurrentValue(re: ReactiveEntry, value: any) {
-    const entry = re.entry();
+    const entryValue = re.value;
     const newValue = this.isSinglePossibleValue(re)
-      ? (entry.value.possible?.[0]?.key ?? '')
-      : value ?? entry.value?.default;
-    re.setCurrent(newValue);
+      ? (entryValue.possible?.[0]?.key ?? '')
+      : value ?? entryValue.default;
+
+    re.setCurrentValue(newValue);
   }
 
   isSinglePossibleValue(re: ReactiveEntry): boolean {
@@ -82,27 +83,37 @@ export class InputEditor implements OnDestroy {
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable) control.disable();
-    else control.enable();
+    if (disable) {
+      control.disable();
+    }
+    else {
+      control.enable();
+    }
   }
 
   setupValidators(re: ReactiveEntry): ValidatorFn[] {
-    const entry = re.entry();
-    var validators = [] as ValidatorFn[];
-    validators.push(invalidEntryValueValidator(entry.value.type));
-    if (entry.validation?.isRequired) validators.push(Validators.required);
-    if (this.isNumber) this.addNumberValidators(validators, re);
-    else this.addTextValidators(validators, re);
+    let validators = [] as ValidatorFn[];
+    validators.push(invalidEntryValueValidator(re.value.type));
+
+    if (re.validation?.isRequired) {
+      validators.push(Validators.required);
+    }
+
+    if (this.isNumber) {
+      this.addNumberValidators(validators, re);
+    } else {
+      this.addTextValidators(validators, re);
+    }
 
     return validators;
   }
 
   private setupFormControl(re: ReactiveEntry, validators: ValidatorFn[]): UntypedFormControl {
-    const entry = re.entry();
+    const entryValue = re.value;
     const result = new UntypedFormControl(
       {
-        value: entry.value?.current ?? entry.value?.default ?? '',
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false),
+        value: entryValue.current ?? entryValue.default ?? '',
+        disabled: this.disabled() || (entryValue.isReadOnly ?? false),
       },
       validators
     );
@@ -128,15 +139,14 @@ export class InputEditor implements OnDestroy {
   }
 
   addNumberValidators(validators: ValidatorFn[], re: ReactiveEntry) {
-    const entry = re.entry();
-    var typeSpecificMaximum = this.getTypeSpecificMaximum(entry.value?.type);
-    var typeSpecificMinimum = this.getTypeSpecificMinimum(entry.value?.type);
+    const typeSpecificMaximum = this.getTypeSpecificMaximum(re.value.type);
+    const typeSpecificMinimum = this.getTypeSpecificMinimum(re.value.type);
 
     validators.push(
-      maxEntryValueValidator(Math.min(typeSpecificMaximum, entry.validation?.maximum ?? typeSpecificMaximum))
+      maxEntryValueValidator(Math.min(typeSpecificMaximum, re.validation?.maximum ?? typeSpecificMaximum))
     );
     validators.push(
-      minEntryValueValidator(Math.max(typeSpecificMinimum, entry.validation?.minimum ?? typeSpecificMinimum))
+      minEntryValueValidator(Math.max(typeSpecificMinimum, re.validation?.minimum ?? typeSpecificMinimum))
     );
   }
 
@@ -216,10 +226,16 @@ export class InputEditor implements OnDestroy {
   }
 
   private defaultSliderCheck(re: ReactiveEntry): boolean {
-    if (!this.isNumber) return false;
+    if (!this.isNumber) {
+      return false;
+    }
+
     const min = re.validation?.minimum;
     const max = re.validation?.maximum;
-    if (min == null || max == null) return false;
+
+    if (min == null || max == null) {
+      return false;
+    }
 
     const typeMin = this.getTypeSpecificMinimum(re.value.type);
     const typeMax = this.getTypeSpecificMaximum(re.value.type);
@@ -241,6 +257,7 @@ export class InputEditor implements OnDestroy {
     const re = this.reactiveEntry();
     const min = re.validation?.minimum ?? 0;
     const max = re.validation?.maximum ?? 0;
+
     return max - min;
   }
 
@@ -248,6 +265,7 @@ export class InputEditor implements OnDestroy {
     const re = this.reactiveEntry();
     const minAbs = Math.abs(re.validation?.minimum ?? 0);
     const maxAbs = Math.abs(re.validation?.maximum ?? 0);
+
     return Math.max(minAbs, maxAbs).toString().length;
   }
 

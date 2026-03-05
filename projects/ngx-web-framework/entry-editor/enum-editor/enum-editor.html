@@ -1,7 +1,7 @@
 <mat-form-field class="full-width-input entry-form-field" appearance="outline">
   <mat-label>{{ reactiveEntry().displayName }}</mat-label>
   <mat-select [formControl]="formControl" (selectionChange)="changed($event)"
-              [multiple]="isFlagEnum()">
+              [multiple]="reactiveEntry().value.unitType === EntryUnitType.Flags">
     @for (pv of reactiveEntry().value.possible; track pv.key) {
       <mat-option [value]="pv.key">
         {{ pv.displayName ?? pv.key }}

@@ -13,10 +13,10 @@ import { CommonModule, NgClass } from '@angular/common';
   imports: [CommonModule, MatHint, MatCheckbox, FormsModule, NgClass],
 })
 export class BooleanEditor {
-  checked = signal<boolean>(false);
-
   disabled = input<boolean>(false);
   reactiveEntry = input.required<ReactiveEntry>();
+
+  checked = signal<boolean>(false);
 
   constructor() {
     const reference = effect(() => {
@@ -25,10 +25,9 @@ export class BooleanEditor {
     });
   }
 
-  private initialize(re: ReactiveEntry) {
-    const entry = re.entry();
+  private initialize(reactiveEntry: ReactiveEntry) {
     const defaultChecked =
-      (entry.value?.current ?? entry.value?.default)?.localeCompare('true', undefined, {
+      (reactiveEntry.currentValue() ?? reactiveEntry.value.default)?.localeCompare('true', undefined, {
         sensitivity: 'base',
       }) === 0;
     this.checked.set(defaultChecked);
@@ -36,12 +35,11 @@ export class BooleanEditor {
 
   checkedUpdated(value: boolean) {
     this.checked.update(e => !e);
-    this.reactiveEntry().setCurrent(this.checked() + '');
+    this.reactiveEntry().setCurrentValue(this.checked() + '');
   }
 
   clickContainer(event: MouseEvent) {
-    const re = this.reactiveEntry();
-    if (!this.disabled() && !re.value?.isReadOnly) {
+    if (!this.disabled() && !this.reactiveEntry().value.isReadOnly) {
       this.checkedUpdated(!this.checked());
     }
   }

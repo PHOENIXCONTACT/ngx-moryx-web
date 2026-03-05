@@ -32,7 +32,7 @@
 
         <mat-select
           [disabled]="disabled() || (entry.value.isReadOnly ?? false)"
-          [ngModel]="entry.current()"
+          [ngModel]="entry.currentValue()"
           (selectionChange)="dropdownSelectionChanged($event)">
           @for (pv of entry.value?.possible; track pv.key) {
             <mat-option [value]="pv.key">
@@ -70,7 +70,7 @@
             [reactiveEntry]="subEntry"
             [disabled]="disabled()">
           </entry-file-editor>
-        } @else if (EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type) {
+        } @else if (subEntry.value.type === EntryValueType.Class || subEntry.value.type === EntryValueType.Collection) {
           @if (editorId()) {
             <entry-object-editor
               matLine
@@ -80,16 +80,16 @@
               [disabled]="disabled()">
             </entry-object-editor>
           }
-        } @else if (EntryValueType.Boolean === subEntry.value?.type) {
+        } @else if (subEntry.value?.type === EntryValueType.Boolean) {
           <entry-boolean-editor
             matLine
             class="entry-editor-subentries-list-item"
             [reactiveEntry]="subEntry"
             [disabled]="disabled()">
           </entry-boolean-editor>
-        } @else if (EntryValueType.Enum === subEntry.value?.type ||
-                    ((subEntry.value?.possible?.length ?? 0) > 1 &&
-                     subEntry.value?.type !== EntryValueType.Collection &&
+        } @else if (subEntry.value.type === EntryValueType.Enum ||
+                    ((subEntry.value.possible?.length ?? 0) > 1 &&
+                     subEntry.value.type !== EntryValueType.Collection &&
                      !isEntryTypeSettable(subEntry))) {
           <entry-enum-editor
             matLine
