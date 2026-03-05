@@ -1,17 +1,27 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
-import { Entry } from '../models/entry';
+import { ReactiveEntry } from '../reactive-entry';
 import { EntryValueType } from '../models/entry-value-type';
-import { EntryValue } from '../models/entry-value';
 import { CommonModule } from '@angular/common';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
+  imports: [
+    CommonModule,
+    MatFormField,
+    MatLabel,
+    FormsModule,
+    MatError,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconButton,
+    MatIconModule,
+    MatHint
+  ],
   templateUrl: './file-editor.html',
   styleUrl: './file-editor.scss',
 })
@@ -20,31 +30,27 @@ export class FileEditor {
   private readOnly: boolean | undefined = undefined;
 
   disabled = input<boolean>(false);
-  entry = model.required<Entry>();
+  reactiveEntry = input.required<ReactiveEntry>();
 
   constructor() {
     const reference = effect(() => {
-      this.initialize(this.entry());
+      this.initialize(this.reactiveEntry());
       reference.destroy();
-    })
+    });
 
     effect(() => {
       this.disableInputFormControl(this.inputFormControl, this.disabled());
     });
   }
 
-  private initialize(entry: Entry) {
-    const validators = this.setupValidators(entry);
-    this.inputFormControl = this.setupFormControl(entry, validators);
-    this.readOnly = entry.value?.isReadOnly;
+  private initialize(re: ReactiveEntry) {
+    const validators = this.setupValidators(re);
+    this.inputFormControl = this.setupFormControl(re, validators);
+    this.readOnly = re.value.isReadOnly;
   }
 
-  private updateCurrentValue(currentValue: EntryValue, value: any) {
-    this.entry.update(e => {
-      let copy = Object.assign({}, e);
-      copy.value.current = value ?? currentValue?.default;
-      return copy;
-    });
+  private updateCurrentValue(re: ReactiveEntry, value: any) {
+    re.setCurrentValue(value ?? re.value.default);
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
@@ -54,21 +60,22 @@ export class FileEditor {
       control.enable();
   }
 
-  setupValidators(entry: Entry): ValidatorFn[] {
+  setupValidators(re: ReactiveEntry): ValidatorFn[] {
     let validators = [] as ValidatorFn[];
-    if (entry.validation?.isRequired)
+    if (re.validation?.isRequired)
       validators.push(Validators.required);
 
     return validators;
   }
 
-  private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
-    const initial = entry.value?.current ?? '';
+  private setupFormControl(re: ReactiveEntry, validators: ValidatorFn[]): UntypedFormControl {
+    const entryValue = re.value;
+    const initial = entryValue.current ?? '';
 
     const ctrl = new UntypedFormControl(
       {
         value: initial,
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false) || entry.value?.type === EntryValueType.Stream,
+        disabled: this.disabled() || (entryValue.isReadOnly ?? false) || entryValue?.type === EntryValueType.Stream,
       },
       validators
     );
@@ -76,9 +83,8 @@ export class FileEditor {
     return ctrl;
   }
 
-
-  onFileSelected(event: any){
-    const file:File = event.target.files[0];
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
     if (file) {
       this.inputFormControl.setValue(file.name);
       const reader = new FileReader();
@@ -90,11 +96,10 @@ export class FileEditor {
             .replace('data:', '')
             .replace(/^.+,/, '');
 
-          this.updateCurrentValue(this.entry().value, base64String);
+          this.updateCurrentValue(this.reactiveEntry(), base64String);
         }
-      }
+      };
       reader.readAsDataURL(file);
-
     }
   }
 }

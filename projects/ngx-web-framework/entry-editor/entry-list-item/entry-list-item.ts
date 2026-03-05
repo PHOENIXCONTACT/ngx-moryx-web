@@ -1,9 +1,8 @@
-import { Component, computed, EventEmitter, input, Output } from '@angular/core';
-import { Entry } from '../models/entry';
-import { EntryUnitType } from '../models/entry-unit-type';
+import { Component, input, output } from '@angular/core';
+import { ReactiveEntry } from '../reactive-entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { FileEditor } from '../file-editor/file-editor';
-import { EntryObject} from '../entry-object/entry-object';
+import { EntryObject } from '../entry-object/entry-object';
 import { BooleanEditor } from '../boolean-editor/boolean-editor';
 import { InputEditor } from '../input-editor/input-editor';
 import { EnumEditor } from '../enum-editor/enum-editor';
@@ -23,25 +22,21 @@ import { MatListModule } from '@angular/material/list';
     CommonModule,
     MatLine,
     MatIconButton,
-    MatListModule,
+    MatListModule
   ],
   templateUrl: './entry-list-item.html',
   styleUrl: './entry-list-item.scss',
 })
 export class EntryListItem {
-  entry = input.required<Entry>();
+  reactiveEntry = input.required<ReactiveEntry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
-  @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();
-  isObjectType = computed(() => {
-    return EntryValueType.Class === this.entry().value?.type || EntryValueType.Collection === this.entry().value?.type;
-  });
+
+  deleteRequest = output<ReactiveEntry>();
 
   EntryValueType = EntryValueType;
-  EntryUnitType = EntryUnitType;
-  constructor() {}
 
   onDelete() {
-    this.deleteRequest.emit(this.entry());
+    this.deleteRequest.emit(this.reactiveEntry());
   }
 }

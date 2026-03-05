@@ -1,14 +1,14 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, effect, input, model, signal, untracked } from '@angular/core';
 import { Entry } from './models/entry';
+import { ReactiveEntry } from './reactive-entry';
 import { EntryPossible } from './models/entry-possible';
-import { EntryUnitType } from './models/entry-unit-type';
 import { EntryValueType } from './models/entry-value-type';
 import { PrototypeToEntryConverter } from './prototype-to-entry-converter';
 import { BooleanEditor } from './boolean-editor/boolean-editor';
 import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { MatList } from '@angular/material/list';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { EnumEditor } from './enum-editor/enum-editor';
@@ -46,9 +46,24 @@ export class EntryEditor {
   editorId = input<number | undefined>(undefined);
   disabled = input<boolean>(false);
 
-  entry = model.required<Entry>();
-  currentEntry: Entry | undefined = undefined;
-  subEntries = signal<Entry[]>([]);
+  // Standalone mode: plain Entry
+  entry = model<Entry | undefined>(undefined);
+
+  // Wrapped mode: ReactiveEntry from NavigableEntryEditor
+  reactiveEntry = input<ReactiveEntry | undefined>(undefined);
+
+  // Re-exports for template access
+  EntryValueType = EntryValueType;
+
+  // Unified internal signal for sub-components
+  private _re = signal<ReactiveEntry | null>(null);
+
+  // Track the last processed entry to avoid redundant conversions
+  private _lastEntryRef: Entry | undefined = undefined;
+
+  // Track which ReactiveEntry instance we have seen and its last synced version
+  private _lastSyncedReactiveEntry: ReactiveEntry | null = null;
+  private _lastSyncedVersion = 0;
 
   possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
   prototypes = signal<Entry[]>([]);
@@ -57,125 +72,172 @@ export class EntryEditor {
 
   private createdCounter?: number;
 
+  // Expose for template
+  get re(): ReactiveEntry | null {
+    return this._re();
+  }
+
   constructor() {
+    // Existing effect for initialization
     effect(() => {
-      if(this.currentEntry !== this.entry() ){
-        this.initialize(this.entry());
-        this.currentEntry = this.entry();
+      const reactiveInput = this.reactiveEntry();
+      const entryInput = this.entry();
+
+      untracked(() => {
+        if (reactiveInput) {
+          // Wrapped mode - use provided ReactiveEntry
+          this._re.set(reactiveInput);
+          this.initializeFromReactiveEntry(reactiveInput);
+        } else if (entryInput && entryInput !== this._lastEntryRef) {
+          // Standalone mode - convert Entry to ReactiveEntry
+          this._lastEntryRef = entryInput;
+          const re = ReactiveEntry.fromEntry(entryInput);
+          this._re.set(re);
+          this.initializeFromReactiveEntry(re);
+        }
+      });
+    });
+
+    // Sync changes back to entry model (standalone mode only)
+    effect(() => {
+      const reactiveInput = this.reactiveEntry();
+      const re = this._re();
+
+      // Only sync in standalone mode (no reactiveEntry input)
+      if (reactiveInput || !re) {
+        return;
       }
+
+      const version = re.version();
+
+      // If this is a new ReactiveEntry instance, record it and skip initial sync
+      if (re !== this._lastSyncedReactiveEntry) {
+        this._lastSyncedReactiveEntry = re;
+        this._lastSyncedVersion = version;
+        return;
+      }
+
+      // Only sync when version has increased (actual mutation occurred)
+      if (version <= this._lastSyncedVersion) {
+        return;
+      }
+
+      const changedEntry = re.changed();
+
+      untracked(() => {
+        // Track that we have synced this version
+        this._lastSyncedVersion = version;
+        this._lastEntryRef = changedEntry;
+        this.entry.set(changedEntry);
+      });
     });
   }
 
-  private initialize(entry: Entry) {
-    if (entry.value.type == 'Collection') {
-      this.possibleListItemTypes.set(entry.value.possible);
-      this.prototypes.set(entry.prototypes ?? []);
-      if (entry.value.possible !== undefined && entry.value.possible !== null && entry.value.default !== null) {
-        this.selectedListItemType.set(entry.value.default);
+  private initializeFromReactiveEntry(re: ReactiveEntry) {
+    const entryValue = re.value;
+    if (entryValue.type == EntryValueType.Collection) {
+      this.possibleListItemTypes.set(entryValue.possible);
+      this.prototypes.set(re.prototypes ?? []);
+      if (entryValue.possible !== undefined && entryValue.possible !== null && entryValue.default !== null) {
+        this.selectedListItemType.set(entryValue.default);
       }
     }
   }
 
-  updateSubEntry(subEntry: Entry) {
-    this.entry.update(item => {
-      const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
-      if (match)
-        Object.assign(match, subEntry);
-      else
-        item.subEntries?.push(subEntry);
-      return item;
-    });
-  }
-
-  EntryValueType = EntryValueType;
-  EntryUnitType = EntryUnitType;
-
-  onDeleteListItem(toBeDeleted: Entry) {
-    const entry = this.entry();
-
-    if (entry.subEntries !== undefined && entry.subEntries !== null) {
-      var index = entry.subEntries.findIndex(c => c.identifier === toBeDeleted.identifier);
-      if (index > -1) {
-        entry.subEntries.splice(index, 1);
-        this.entry.update(_ => entry);
-      }
+  onDeleteListItem(toBeDeleted: ReactiveEntry) {
+    const re = this._re();
+    if (re && toBeDeleted.identifier) {
+      re.removeSubEntry(toBeDeleted.identifier);
     }
   }
 
   addItemToList() {
+    const re = this._re();
+    if (!re) {
+      return;
+    }
+
     const prototypes = this.prototypes();
 
     if (this.selectedListItemType() && prototypes) {
-      for (var i = 0; i < prototypes.length; i++) {
+      let prototype: Entry | undefined;
+      for (let i = 0; i < prototypes.length; i++) {
         if (prototypes[i].value.type == EntryValueType.Class) {
-          var prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
+          prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
         } else {
-          var prototype = prototypes.find(x => x.displayName === this.selectedListItemType());
+          prototype = prototypes.find(x => x.displayName === this.selectedListItemType());
         }
       }
       if (prototype) {
-        const currentEntry = this.entry();
-        var entry = PrototypeToEntryConverter.cloneEntry(prototype);
-        if (currentEntry.subEntries && currentEntry.subEntries.length > 0) {
-          var last = currentEntry.subEntries[currentEntry.subEntries.length - 1];
-          var count = /\d+/;
-          var current = last.identifier ? Number(last.identifier.match(count)) : 0;
+        const entry = PrototypeToEntryConverter.cloneEntry(prototype);
+        const currentSubEntries = re.subEntries();
+        if (currentSubEntries && currentSubEntries.length > 0) {
+          const last = currentSubEntries[currentSubEntries.length - 1];
+          const count = /\d+/;
+          const current = last.identifier ? Number(last.identifier.match(count)) : 0;
           this.createdCounter = current + 1;
         } else {
           this.createdCounter = 1;
         }
         if (this.createdCounter) {
           entry.identifier = 'CREATED' + this.createdCounter;
-          currentEntry.subEntries?.push(entry);
-          this.entry.update(_ => currentEntry);
+          re.addSubEntry(entry);
         }
       }
     }
   }
 
-  isEntryTypeSettable(entry: Entry): boolean {
-    return  entry?.value?.type === EntryValueType.Class &&
-      entry.value.possible != null &&
-      entry.value.possible.length > 1;
+  isEntryTypeSettable(re: ReactiveEntry): boolean {
+    return re?.value?.type === EntryValueType.Class &&
+      re.value.possible != null &&
+      re.value.possible.length > 1;
   }
 
   onPatchToSelectedEntryType(keyPair: EntryPossible): void {
-    this.entry.update(entry => {
-      entry.subEntries = [];
-      const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
-      if (!prototype) {
-        this.selectedEntryHasPrototypes.set(false);
-        return entry;
-      }
-      const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
-      entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
-      entryPrototype.value.possible = entry.value.possible;
-      entryPrototype.displayName = entry.displayName;
-      entryPrototype.identifier = entry.identifier;
-      Object.assign(entry, entryPrototype);
-      this.selectedEntryHasPrototypes.set(true);
-      return entry;
-    });
+    const reactiveEntry = this._re();
+    if (!reactiveEntry) {
+      return;
+    }
+
+    const prototype = reactiveEntry.prototypes.find((proto: Entry) => proto.identifier === keyPair.key);
+
+    if (!prototype) {
+      this.selectedEntryHasPrototypes.set(false);
+      return;
+    }
+
+    // Build the new entry from the prototype
+    const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
+    entryPrototype.prototypes = JSON.parse(JSON.stringify(reactiveEntry.prototypes));
+    entryPrototype.value.possible = reactiveEntry.value.possible;
+    entryPrototype.displayName = reactiveEntry.displayName;
+    entryPrototype.identifier = reactiveEntry.identifier;
+
+    // Clear sub-entries and replace entry
+    reactiveEntry.clearSubEntries();
+    reactiveEntry.replaceEntry(entryPrototype);
+
+    this.selectedEntryHasPrototypes.set(true);
   }
 
-  dropdownSelectionChanged(event: MatSelectChange){
+  dropdownSelectionChanged(event: MatSelectChange) {
     this.onPatchToSelectedEntryType(event.value);
   }
 
-  isPrimitiveType(entry: Entry){
-    return entry.value.type !== EntryValueType.Collection &&
-      (entry.value.possible && entry.value.possible.length === 1) ||
-      (((entry.value.possible && entry.value.possible.length < 1) || !entry.value.possible)  &&
-        (EntryValueType.Byte === entry.value?.type ||
-          EntryValueType.Int16 === entry.value?.type ||
-          EntryValueType.UInt16 === entry.value?.type ||
-          EntryValueType.Int32 === entry.value?.type ||
-          EntryValueType.UInt32 === entry.value?.type ||
-          EntryValueType.Int64 === entry.value?.type ||
-          EntryValueType.UInt64 === entry.value?.type ||
-          EntryValueType.Single === entry.value?.type ||
-          EntryValueType.Double === entry.value?.type ||
-          EntryValueType.String === entry.value?.type ||
-          EntryValueType.Exception === entry.value?.type));
+  isPrimitiveType(reactiveEntry: ReactiveEntry) {
+    return reactiveEntry.value.type !== EntryValueType.Collection &&
+      (reactiveEntry.value.possible && reactiveEntry.value.possible.length === 1) ||
+      (((reactiveEntry.value.possible && reactiveEntry.value.possible.length < 1) || !reactiveEntry.value.possible) &&
+        (EntryValueType.Byte === reactiveEntry.value.type ||
+          EntryValueType.Int16 === reactiveEntry.value.type ||
+          EntryValueType.UInt16 === reactiveEntry.value.type ||
+          EntryValueType.Int32 === reactiveEntry.value.type ||
+          EntryValueType.UInt32 === reactiveEntry.value.type ||
+          EntryValueType.Int64 === reactiveEntry.value.type ||
+          EntryValueType.UInt64 === reactiveEntry.value.type ||
+          EntryValueType.Single === reactiveEntry.value.type ||
+          EntryValueType.Double === reactiveEntry.value.type ||
+          EntryValueType.String === reactiveEntry.value.type ||
+          EntryValueType.Exception === reactiveEntry.value.type));
   }
 }

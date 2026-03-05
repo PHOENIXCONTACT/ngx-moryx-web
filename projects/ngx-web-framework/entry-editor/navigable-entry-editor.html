@@ -1,7 +1,7 @@
 @if(entryInformation(); as entryInfo) {
   @if (entryInfo.entryPath) {
     <div class="navigation-bar">
-      @for (e of entryInfo.entryPath; track e; let isLast = $last) {
+      @for (e of entryInfo.entryPath; track e.identifier; let isLast = $last) {
         <span class="navigation-bar-item" (click)="onNavigateSpecific(e)">
           {{e.displayName}}
         </span>
@@ -14,11 +14,10 @@
     </div>
   }
 
-
-  @if (entryInfo.currentEntry) {
+  @if (currentReactiveEntry(); as re) {
     <entry-editor
       [editorId]="editorId()" class="navigation-entries"
-      [(entry)]="entryInfo.currentEntry"
+      [reactiveEntry]="re"
       [disabled]="disabled()">
     </entry-editor>
   }

@@ -1,14 +1,14 @@
 <mat-form-field class="full-width-input entry-form-field" appearance="outline">
-  <mat-label>{{entry().displayName}}</mat-label>
+  <mat-label>{{ reactiveEntry().displayName }}</mat-label>
   <mat-select [formControl]="formControl" (selectionChange)="changed($event)"
-              [multiple]="isFlagEnum()">
-    @for (pv of entry().value.possible; track pv) {
+              [multiple]="reactiveEntry().value.unitType === EntryUnitType.Flags">
+    @for (pv of reactiveEntry().value.possible; track pv.key) {
       <mat-option [value]="pv.key">
         {{ pv.displayName ?? pv.key }}
       </mat-option>
     }
   </mat-select>
-  <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
-    {{entry().description}}
+  <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (reactiveEntry().value.isReadOnly ?? false))}" class="truncate">
+    {{ reactiveEntry().description }}
   </mat-hint>
 </mat-form-field>

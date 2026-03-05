@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Entry } from '../models/entry';
+import { ReactiveEntry } from '../reactive-entry';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NavigableEntryService } from '../services/navigable-entry.service';
@@ -13,11 +13,12 @@ import { NavigableEntryService } from '../services/navigable-entry.service';
 export class EntryObject {
   private navigableEntryService = inject(NavigableEntryService);
 
-  entry = input.required<Entry>();
+  reactiveEntry = input.required<ReactiveEntry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
 
-  onOpen(){
-    this.navigableEntryService.onOpenEntry(this.editorId(), this.entry());
+  onOpen() {
+    // Convert ReactiveEntry back to Entry for navigation service
+    this.navigableEntryService.onOpenEntry(this.editorId(), this.reactiveEntry().toEntry());
   }
 }

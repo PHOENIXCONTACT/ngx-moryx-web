@@ -1,12 +1,12 @@
 <!-- SLIDER -->
 @if (shouldUseSlider() && !useTextArea()) {
   <div class="slider-wrap">
-    <label class="slider-label">{{ entry().displayName }}</label>
+    <label class="slider-label">{{ reactiveEntry().displayName }}</label>
     <div class="slider-row">
       <mat-slider
         class="entry-slider"
-        [min]="entry().validation?.minimum"
-        [max]="entry().validation?.maximum"
+        [min]="reactiveEntry().validation?.minimum"
+        [max]="reactiveEntry().validation?.maximum"
         [step]="getSliderStep()"
         [discrete]="!shouldShowInlineInput()"
         [disabled]="inputFormControl.disabled"
@@ -15,7 +15,7 @@
           matSliderThumb
           [ngModel]="
           inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
-            ? entry().validation?.minimum ?? 0
+            ? reactiveEntry().validation?.minimum ?? 0
             : +inputFormControl.value
         "
           (ngModelChange)="inputFormControl.setValue($event)" />
@@ -26,13 +26,13 @@
             matInput
             type="number"
             [step]="getSliderStep()"
-            [min]="entry().validation?.minimum!"
-            [max]="entry().validation?.maximum!"
+            [min]="reactiveEntry().validation?.minimum!"
+            [max]="reactiveEntry().validation?.maximum!"
             [formControl]="inputFormControl"
             [readonly]="readOnly()"
             [placeholder]="
           inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
-            ? entry().value.default ?? ''
+            ? reactiveEntry().value.default ?? ''
             : ''
         " />
         </mat-form-field>
@@ -41,16 +41,16 @@
   </div>
 } @else {
   <mat-form-field class="full-width-input entry-form-field" appearance="outline">
-    <mat-label>{{ entry().displayName }}</mat-label>
+    <mat-label>{{ reactiveEntry().displayName }}</mat-label>
     @if (!useTextArea()) {
       <input
         aria-label="Text field for changing an entry value."
         [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
-        [attr.min]="isNumber ? entry().validation?.minimum : null"
-        [attr.max]="isNumber ? entry().validation?.maximum : null"
+        [attr.min]="isNumber ? reactiveEntry().validation?.minimum : null"
+        [attr.max]="isNumber ? reactiveEntry().validation?.maximum : null"
         [placeholder]="
         inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
-          ? entry().value.default ?? ''
+          ? reactiveEntry().value.default ?? ''
           : ''
       "
         [readonly]="readOnly()"
@@ -58,28 +58,28 @@
         [formControl]="inputFormControl" />
     }
     <mat-hint
-      [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
+      [ngClass]="{ 'entry-editor-disabled': disabled() || (reactiveEntry().value.isReadOnly ?? false) }"
       class="truncate">
-      {{ entry().description }}
+      {{ reactiveEntry().description }}
     </mat-hint>
     @if (inputFormControl.hasError('min')) {
       <mat-error class="truncate">
-        Please enter a value higher than {{ entry().validation?.minimum }}
+        Please enter a value higher than {{ reactiveEntry().validation?.minimum }}
       </mat-error>
     }
     @if (inputFormControl.hasError('max')) {
       <mat-error class="truncate">
-        Please enter a value lower than {{ entry().validation?.maximum }}
+        Please enter a value lower than {{ reactiveEntry().validation?.maximum }}
       </mat-error>
     }
     @if (inputFormControl.hasError('pattern')) {
       <mat-error class="truncate">
-        Please make sure your input matches the pattern: {{ entry().validation?.regex }}
+        Please make sure your input matches the pattern: {{ reactiveEntry().validation?.regex }}
       </mat-error>
     }
     @if (inputFormControl.hasError('required')) {
       <mat-error class="truncate">
-        {{ entry().displayName }} is <strong>required</strong>
+        {{ reactiveEntry().displayName }} is <strong>required</strong>
       </mat-error>
     }
     @if (inputFormControl.hasError('invalidEntryValue')) {
@@ -93,7 +93,7 @@
         matInput
         [placeholder]="
         inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
-          ? entry().value.default ?? ''
+          ? reactiveEntry().value.default ?? ''
           : ''
       "
         rows="5"
