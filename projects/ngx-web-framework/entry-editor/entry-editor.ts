@@ -58,6 +58,7 @@ export class EntryEditor {
   private createdCounter?: number;
 
   constructor() {
+    // ToDo: Replace effect and signals with computed
     effect(() => {
       if(this.currentEntry !== this.entry() ){
         this.initialize(this.entry());
@@ -76,24 +77,34 @@ export class EntryEditor {
     }
   }
 
+  // Value change violates immutability requirement of signals. This is to currently circumvented by
+  // - using map on the array an creating a new array reference
+  // - creating a new entry object with the updated value and replacing the old in the mapping
+  // - propagating this reference change upwards in the array
+  // ToDo: In future a 'ReactiveEntry' wrapper would improve performance and reduce reference copying effort
   updateSubEntry(subEntry: Entry) {
     this.entry.update(item => {
       const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
-      if (match)
-        Object.assign(match, subEntry);
-      else
-        item.subEntries?.push(subEntry);
-      return item;
+      if (!match)
+        throw new Error('Failed to find sub entry with identifier ' + subEntry.identifier + ' to mutate its value');
+
+      const updatedMatch = { ...match, value: subEntry.value };
+      const updatedSubEntries = item.subEntries!.map(se =>
+        se.identifier === subEntry.identifier ? updatedMatch : se
+      );
+      const updatedEntry = { ...item, subEntries: updatedSubEntries };
+      return updatedEntry;
     });
   }
 
+  // ToDo: Move to correct place
   EntryValueType = EntryValueType;
   EntryUnitType = EntryUnitType;
 
   onDeleteListItem(toBeDeleted: Entry) {
     const entry = this.entry();
 
-    if (entry.subEntries !== undefined && entry.subEntries !== null) {
+    if (entry.subEntries) {
       var index = entry.subEntries.findIndex(c => c.identifier === toBeDeleted.identifier);
       if (index > -1) {
         entry.subEntries.splice(index, 1);
@@ -105,11 +116,13 @@ export class EntryEditor {
   addItemToList() {
     const prototypes = this.prototypes();
 
+    // ToDo: Clean up function
     if (this.selectedListItemType() && prototypes) {
       for (var i = 0; i < prototypes.length; i++) {
         if (prototypes[i].value.type == EntryValueType.Class) {
           var prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
         } else {
+          // ToDo: Check why this branch is necessary identifier should always be set for prototypes
           var prototype = prototypes.find(x => x.displayName === this.selectedListItemType());
         }
       }
@@ -124,9 +137,11 @@ export class EntryEditor {
         } else {
           this.createdCounter = 1;
         }
+        // ToDo: Add default value to created counter
         if (this.createdCounter) {
           entry.identifier = 'CREATED' + this.createdCounter;
           currentEntry.subEntries?.push(entry);
+          // ToDo: Use set
           this.entry.update(_ => currentEntry);
         }
       }
@@ -158,6 +173,7 @@ export class EntryEditor {
     });
   }
 
+  // ToDo: Remove unnecessary wrapper function
   dropdownSelectionChanged(event: MatSelectChange){
     this.onPatchToSelectedEntryType(event.value);
   }
