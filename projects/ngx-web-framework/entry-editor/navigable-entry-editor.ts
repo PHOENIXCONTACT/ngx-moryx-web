@@ -1,6 +1,6 @@
-import { Component, OnDestroy, input, effect, model, signal, untracked, inject } from '@angular/core';
+import { Component, OnDestroy, input, model, inject, computed, WritableSignal, untracked } from '@angular/core';
 import { Entry } from './models/entry';
-import { NavigableEntryInformation, NavigableEntryService } from './services/navigable-entry.service';
+import { NavigableEntryService } from './services/navigable-entry.service';
 import { EntryEditor } from './entry-editor';
 
 @Component({
@@ -12,44 +12,32 @@ import { EntryEditor } from './entry-editor';
 export class NavigableEntryEditor implements OnDestroy {
   private service = inject(NavigableEntryService);
 
+  // ToDo: Add proper comments for public inputs
   queryParam = input<string | undefined>(undefined);
   disabled = input.required<boolean>();
-  //id of the navigableEditor in order to be able to use several entry editors at the same time
-  editorId = signal<number>(0);
 
   entry = model.required<Entry>();
 
-  entryInformation = signal<NavigableEntryInformation | undefined>(undefined);
+  //id of the navigableEditor in order to be able to use several entry editors at the same time
+  editorId = computed(() => {
+    const queryParam = this.queryParam();
+    return untracked(() => this.service.signIn(this.entry, queryParam));
+  });
 
-  constructor() {
-    effect(() => {
-      // `this.entry()` is assigned to `entry` to make sure,
-      // updates on it will be tracked and take 'effect'.
-
-      const entry = Object.assign(this.entry());
-      untracked(() => {
-        this.update(entry, this.editorId());
-      });
-    });
-  }
-
-  private update(entry: Entry, editorId: number) {
-    if (editorId !== 0) {
-      this.service.signOut(editorId);
-    }
-    editorId = this.service.signIn(entry, this.queryParam());
-    this.editorId.set(editorId);
-    const infos = this.service.entryEditorInformation.get(editorId);
-
-    if (!infos) return;
-    this.entryInformation.set(infos);
+  entryInformation = computed(() => {
+    const editorId = this.editorId();
+    return untracked(() => this.service.entryEditorInformation.get(editorId));
+  });
+    
+  onEntryChange(entry: Entry) {
+    this.service.onEntryChange(this.editorId(), entry);
   }
 
   ngOnDestroy(): void {
     this.service.signOut(this.editorId());
   }
 
-  onNavigateSpecific(entry: Entry) {
+  onNavigateSpecific(entry: WritableSignal<Entry>) {
     this.service.onNavigateToSpecificEntry(this.editorId(), entry);
   }
 }

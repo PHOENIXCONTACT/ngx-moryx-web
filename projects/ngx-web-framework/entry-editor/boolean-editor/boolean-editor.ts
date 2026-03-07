@@ -21,9 +21,9 @@ export class BooleanEditor {
   entry = model.required<Entry>();
 
   constructor() {
-    const reference = effect(() => {
+    // Todo: Replace effect with computed
+    effect(() => {
       this.initialize(this.entry());
-      reference.destroy();
     });
   }
 

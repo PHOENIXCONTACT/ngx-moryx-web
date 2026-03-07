@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, signal } from '@angular/core';
+import { Component, effect, input, model, OnDestroy, signal, untracked } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -10,13 +10,13 @@ import {
   minEntryValueValidator,
 } from '../validators/entry-editor.validators';
 import { CommonModule } from '@angular/common';
-import { EntryValue } from '../models/entry-value';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 
+// ToDo: Format file
 @Component({
   selector: 'entry-input-editor',
   imports: [
@@ -47,9 +47,37 @@ export class InputEditor implements OnDestroy {
 
   constructor() {
     this.inputFormControl = new UntypedFormControl();
+
+    // One-time initialization assuming a different entry (by identifier not only reference) 
+    // creates a new component instance.
     const reference = effect(() => {
       this.initialize(this.entry());
       reference.destroy();
+    });
+
+    // Entry initialization & updates on every ref change
+    effect(() => {
+      const entry = this.entry();
+      
+      untracked(() => {
+        // ToDo: Check emitEvent
+        if(this.isSinglePossibleValue(entry)){
+          const singlePossibleValue = entry.value?.possible?.[0]?.key ?? '';
+          
+          if (this.inputFormControl.value !== singlePossibleValue) {
+            this.inputFormControl.setValue(singlePossibleValue, { emitEvent: false });
+          }          
+
+          if (entry.value?.current !== singlePossibleValue) {
+            this.entry.update(e => { 
+              e.value.current = singlePossibleValue;
+              return { ...e };
+            });
+          }
+        } else if (entry.value?.current !== this.inputFormControl.value) {
+          this.inputFormControl.setValue(entry.value?.current ?? '', { emitEvent: false });
+        }
+      });
     });
 
     effect(() => {
@@ -61,23 +89,14 @@ export class InputEditor implements OnDestroy {
     this.readOnly.set(
       entry.value?.isReadOnly || this.isSinglePossibleValue(entry) || entry.value.type === EntryValueType.Exception
     );
-    this.updateCurrentValue(entry.value, entry.value.current);
+
     this.determineInputType();
 
     const validators = this.setupValidators(entry);
     this.inputFormControl = this.setupFormControl(entry, validators);
   }
 
-  private updateCurrentValue(currentValue: EntryValue, value: any) {
-    this.entry.update(e => {
-      let copy = Object.assign({}, e);
-      copy.value.current = this.isSinglePossibleValue(e)
-        ? (e.value.possible?.[0]?.key ?? '')
-        : value ?? currentValue?.default;
-      return copy;
-    });
-  }
-
+  // ToDo: Check if anything like C# out variable for function exists and use here
   isSinglePossibleValue(entry: Entry): boolean {
     const result = entry.value.possible && entry.value.possible.length === 1;
     return result ?? false;
@@ -109,7 +128,10 @@ export class InputEditor implements OnDestroy {
 
     this.formControlSubscription = result.valueChanges.subscribe(value => {
       if (result.status == 'VALID') {
-        this.updateCurrentValue(this.entry().value, value);
+        this.entry.update(e => { 
+          e.value.current = value;
+          return { ...e };
+        });
       }
     });
 
