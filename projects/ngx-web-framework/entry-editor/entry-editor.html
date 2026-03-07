@@ -1,8 +1,8 @@
-@if (EntryValueType.Collection === entry().value?.type) {
+@if (EntryValueType.Collection === entry().value.type) {
   <div class="entry-editor-add-list-item">
     <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline">
       <mat-label>Select the type of object</mat-label>
-
+      <!-- Check for missing readonly integration for disabled fields and create combined/computed field -->
       <mat-select [(ngModel)]="selectedListItemType" [disabled]="disabled()">
         @for (pv of possibleListItemTypes(); track pv.key) {
           <mat-option [value]="pv.key">
@@ -24,6 +24,7 @@
   </div>
 }
 
+<!-- ToDo: Clarify whether this is only intended for prototype related selections, it is also shown if no prototype exists -->
 @if (isEntryTypeSettable(entry())) {
   <div class="settable-dropdown-entry">
     <mat-form-field appearance="outline" class="settable-dropdown-entry-selector">
@@ -33,7 +34,7 @@
         [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
         [(ngModel)]="entry().value.current"
         (selectionChange)="dropdownSelectionChanged($event)">
-        @for (pv of entry().value?.possible; track pv.key) {
+        @for (pv of entry().value.possible; track pv.key) {
           <mat-option [value]="pv.key">
             {{ pv.displayName ?? pv.key }}
           </mat-option>
@@ -51,18 +52,21 @@
 @if (entry().subEntries?.length) {
   <mat-list class="entry-editor-subentries-list">
     @for (subEntry of entry().subEntries; track subEntry.identifier) {
-      @if (EntryValueType.Collection === entry().value?.type) {
+      <!-- ToDo: Use switch on type -->
+      @if (EntryValueType.Collection === entry().value.type) {
+        <!-- ToDo: Add error message to indicate missing editor id in using application -->
         @if (editorId()) {
           <entry-list-item
             matLine
             class="entry-editor-subentries-list-item"
             [editorId]="editorId()!"
             [entry]="subEntry"
+            (entryChange)="updateSubEntry($event)"
             [disabled]="disabled()"
             (deleteRequest)="onDeleteListItem($event)">
           </entry-list-item>
         }
-      } @else if (EntryValueType.Stream === subEntry.value?.type) {
+      } @else if (EntryValueType.Stream === subEntry.value.type) {
         <entry-file-editor
           matLine
           class="entry-editor-subentries-list-item"
@@ -70,7 +74,8 @@
           (entryChange)="updateSubEntry($event)"
           [disabled]="disabled()">
         </entry-file-editor>
-      } @else if (EntryValueType.Class === subEntry.value?.type || EntryValueType.Collection === subEntry.value?.type) {
+      } @else if (EntryValueType.Class === subEntry.value.type || EntryValueType.Collection === subEntry.value.type) {
+        <!-- ToDo: Add error message to indicate missing editor id in using application -->
         @if (editorId()) {
           <entry-object-editor
             matLine
@@ -80,7 +85,7 @@
             [disabled]="disabled()">
           </entry-object-editor>
         }
-      } @else if (EntryValueType.Boolean === subEntry.value?.type) {
+      } @else if (EntryValueType.Boolean === subEntry.value.type) {
         <entry-boolean-editor
           matLine
           class="entry-editor-subentries-list-item"
@@ -88,9 +93,9 @@
           (entryChange)="updateSubEntry($event)"
           [disabled]="disabled()">
         </entry-boolean-editor>
-      } @else if (EntryValueType.Enum === subEntry.value?.type ||
-                  ((subEntry.value?.possible?.length ?? 0) > 1 &&
-                   subEntry.value?.type !== EntryValueType.Collection &&
+        <!-- ToDo remove isEntryTypeSettable call, which is for class drop downs which are handled elsewhere -->
+      } @else if (EntryValueType.Enum === subEntry.value.type ||
+                  ((subEntry.value.possible?.length ?? 0) > 1 &&
                    !isEntryTypeSettable(subEntry))) {
         <entry-enum-editor
           matLine
@@ -103,6 +108,7 @@
         <entry-input-editor
           matLine
           class="entry-editor-subentries-list-item"
+      }
           [entry]="subEntry"
           (entryChange)="updateSubEntry($event)"
           [disabled]="disabled()">

@@ -6,14 +6,14 @@
       "name": "Launch Edge",
       "type": "pwa-msedge",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      "preLaunchTask": "npm: start-demo",
       "url": "http://localhost:4200/"
     },
     {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      "preLaunchTask": "npm: start-demo",
       "url": "http://localhost:4200/"
     },
     {

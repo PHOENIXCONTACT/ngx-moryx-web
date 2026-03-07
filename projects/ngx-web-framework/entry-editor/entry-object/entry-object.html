@@ -6,6 +6,7 @@
     </div>
   </button>
 
+  <!-- ToDo: If empty the space collapses leaving not enough of a gap to following entries -->
   <div class="object-entry-hint" [class.entry-editor-disabled]="disabled() || (entry().value.isReadOnly ?? false)">
     {{ entry().description }}
   </div>
