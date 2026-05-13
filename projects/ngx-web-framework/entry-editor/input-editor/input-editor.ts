@@ -137,12 +137,14 @@ export class InputEditor implements OnDestroy {
         })()
       : rawInitial;
 
+
+    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };  
     const result = new UntypedFormControl(
       {
         value: initialValue,
         disabled: this.disabled() || (entry.value.isReadOnly ?? false),
       },
-      validators
+      controlOptions
     );
 
     this.formControlSubscription = result.valueChanges.subscribe(value => {
