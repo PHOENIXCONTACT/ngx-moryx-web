@@ -130,12 +130,13 @@ export class InputEditor implements OnDestroy {
   private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
     // Initialvalue: for numbers parse culture independent 
     const rawInitial = entry.value?.current ?? entry.value?.default ?? '';
-    const initialValue = this.isNumber
-      ? (() => {
+    let initialValue;
+    if (this.isNumber) {
           const num = parseCultureIndependentFloat(rawInitial);
-          return Number.isFinite(num as number) ? num : null;
-        })()
-      : rawInitial;
+      initialValue = Number.isFinite(num as number) ? num : null;
+    } else {
+      initialValue = rawInitial;
+    }
 
 
     const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };  
@@ -148,18 +149,29 @@ export class InputEditor implements OnDestroy {
     );
 
     this.formControlSubscription = result.valueChanges.subscribe(value => {
-      if (result.status === 'VALID') {
-        this.entry.update(e => { 
-          if (this.isNumber) {
-            const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
-            e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
-          } else {
-            e.value.current = value;
-          }
-          return { ...e };
-        });
+  if (result.status === 'VALID') {
+    this.entry.update(e => {
+      if (this.isNumber) {
+        const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+        e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
+      } else {
+        e.value.current = value;
       }
+      return { ...e };
     });
+  } else if (this.isNumber) {
+    // For number inputs (updateOn: 'blur'): log on blur when parsing fails (ignore empty)
+    const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+    const parseFailed = !(num != null && Number.isFinite(num as number));
+    const isEmpty = value == null || String(value).trim() === '';
+    if (parseFailed && !isEmpty) {
+      console.warn('number_parse_failed', {
+        field: this.entry().identifier ?? null,
+        valueType: this.entry().value?.type ?? null,
+      });
+    }
+  }
+});
 
     return result;
   }
