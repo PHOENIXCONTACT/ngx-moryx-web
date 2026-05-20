@@ -8,6 +8,7 @@ import {
   invalidEntryValueValidator,
   maxEntryValueValidator,
   minEntryValueValidator,
+  parseCultureIndependentFloat
 } from '../validators/entry-editor.validators';
 import { CommonModule } from '@angular/common';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -61,7 +62,7 @@ export class InputEditor implements OnDestroy {
       
       untracked(() => {
         // ToDo: Check emitEvent
-        if(this.isSinglePossibleValue(entry)){
+        if (this.isSinglePossibleValue(entry)) {
           const singlePossibleValue = entry.value?.possible?.[0]?.key ?? '';
           
           if (this.inputFormControl.value !== singlePossibleValue) {
@@ -74,8 +75,17 @@ export class InputEditor implements OnDestroy {
               return { ...e };
             });
           }
-        } else if (entry.value?.current !== this.inputFormControl.value) {
-          this.inputFormControl.setValue(entry.value?.current ?? '', { emitEvent: false });
+        } else {
+          // Sync Control with Entry-Value:
+          if (this.isNumber) {
+            const num = parseCultureIndependentFloat(entry.value?.current ?? null);
+            const controlVal = this.inputFormControl.value;
+            if ((num ?? null) !== (controlVal ?? null)) {
+              this.inputFormControl.setValue(num, { emitEvent: false });
+            }
+          } else if (entry.value?.current !== this.inputFormControl.value) {
+            this.inputFormControl.setValue(entry.value?.current ?? '', { emitEvent: false });
+          }
         }
       });
     });
@@ -118,22 +128,50 @@ export class InputEditor implements OnDestroy {
   }
 
   private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
+    // Initialvalue: for numbers parse culture independent 
+    const rawInitial = entry.value?.current ?? entry.value?.default ?? '';
+    let initialValue;
+    if (this.isNumber) {
+          const num = parseCultureIndependentFloat(rawInitial);
+      initialValue = Number.isFinite(num as number) ? num : null;
+    } else {
+      initialValue = rawInitial;
+    }
+
+
+    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };  
     const result = new UntypedFormControl(
       {
-        value: entry.value?.current ?? entry.value?.default ?? '',
+        value: initialValue,
         disabled: this.disabled() || (entry.value.isReadOnly ?? false),
       },
-      validators
+      controlOptions
     );
 
     this.formControlSubscription = result.valueChanges.subscribe(value => {
-      if (result.status == 'VALID') {
-        this.entry.update(e => { 
-          e.value.current = value;
-          return { ...e };
-        });
+  if (result.status === 'VALID') {
+    this.entry.update(e => {
+      if (this.isNumber) {
+        const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+        e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
+      } else {
+        e.value.current = value;
       }
+      return { ...e };
     });
+  } else if (this.isNumber) {
+    // For number inputs (updateOn: 'blur'): log on blur when parsing fails (ignore empty)
+    const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+    const parseFailed = !(num != null && Number.isFinite(num as number));
+    const isEmpty = value == null || String(value).trim() === '';
+    if (parseFailed && !isEmpty) {
+      console.warn('number_parse_failed', {
+        field: this.entry().identifier ?? null,
+        valueType: this.entry().value?.type ?? null,
+      });
+    }
+  }
+});
 
     return result;
   }
