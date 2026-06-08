@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from './models/entry';
 import { EntryPossible } from './models/entry-possible';
 import { EntryUnitType } from './models/entry-unit-type';
@@ -40,6 +40,7 @@ import { MatIconButton } from '@angular/material/button';
     MatHint
   ],
   templateUrl: './entry-editor.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './entry-editor.scss',
 })
 export class EntryEditor {

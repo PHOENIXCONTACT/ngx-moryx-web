@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { NavigableEntryService } from '../services/navigable-entry.service';
   selector: 'entry-object-editor',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './entry-object.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './entry-object.scss',
 })
 export class EntryObject {

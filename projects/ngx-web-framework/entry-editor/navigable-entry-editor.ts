@@ -1,4 +1,4 @@
-import { Component, OnDestroy, input, model, inject, computed, WritableSignal, untracked } from '@angular/core';
+import { Component, OnDestroy, input, model, inject, computed, WritableSignal, untracked, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from './models/entry';
 import { NavigableEntryService } from './services/navigable-entry.service';
 import { EntryEditor } from './entry-editor';
@@ -7,6 +7,7 @@ import { EntryEditor } from './entry-editor';
   selector: 'navigable-entry-editor',
   imports: [EntryEditor],
   templateUrl: './navigable-entry-editor.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './navigable-entry-editor.scss',
 })
 export class NavigableEntryEditor implements OnDestroy {
