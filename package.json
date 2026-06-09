@@ -1,6 +1,6 @@
 {
   "name": "ngx-moryx-web",
-  "version": "21.0.0",
+  "version": "22.0.0",
   "scripts": {
     "ng": "ng",
     "build": "npm run build:lib && npm run build:schematics",
@@ -22,7 +22,7 @@
     "@angular/router": "^22.0.0",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
-    "@fontsource/roboto": "^5.2.9",
+    "@fontsource/roboto": "^5.2.10",
     "material-icons": "^1.13.14",
     "material-symbols": "^0.44.12",
     "rxjs": "~7.8.2",
@@ -33,10 +33,10 @@
     "@angular/build": "^22.0.0",
     "@angular/cli": "^22.0.0",
     "@angular/compiler-cli": "^22.0.0",
-    "@types/node": "^25.0.10",
-    "jsdom": "^27.1.0",
+    "@types/node": "^25.9.2",
+    "jsdom": "^29.1.1",
     "ng-packagr": "^22.0.0",
     "typescript": "~6.0.3",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.8"
   }
 }
