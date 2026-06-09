@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { EmptyState } from '@moryx/ngx-web-framework/empty-state';
 
 @Component({
@@ -6,6 +6,7 @@ import { EmptyState } from '@moryx/ngx-web-framework/empty-state';
     templateUrl: './empty-state-demo.html',
     styleUrls: ['./empty-state-demo.scss'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [EmptyState]
 })
 export class EmptyStateDemo {

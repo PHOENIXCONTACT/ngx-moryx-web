@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'entry-file-editor',
   imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
   templateUrl: './file-editor.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-editor.scss',
 })
 export class FileEditor {

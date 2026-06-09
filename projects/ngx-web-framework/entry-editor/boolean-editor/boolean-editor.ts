@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal, ViewEncapsulation } from '@angular/core';
+import { Component, effect, input, model, signal, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { MatHint } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -10,6 +10,7 @@ import { CommonModule, NgClass } from '@angular/common';
   templateUrl: './boolean-editor.html',
   styleUrls: ['./boolean-editor.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, MatHint, MatCheckbox, FormsModule, NgClass],
 })
 export class BooleanEditor {
