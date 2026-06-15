@@ -1,9 +1,7 @@
 <div class="entry-object-wrapper">
-  <button mat-stroked-button (click)="onOpen()" class="full-width-input entry-object-container" type="button">
-    <div class="entry-object">
-      <span class="entry-object-text">{{ entry().displayName }}</span>
-      <span class="material-symbols-outlined"> chevron_right </span>
-    </div>
+  <button mat-stroked-button (click)="onOpen()" type="button">
+    {{ entry().displayName }}
+    <mat-icon iconPositionEnd>chevron_right</mat-icon>
   </button>
 
   <!-- ToDo: If empty the space collapses leaving not enough of a gap to following entries -->
