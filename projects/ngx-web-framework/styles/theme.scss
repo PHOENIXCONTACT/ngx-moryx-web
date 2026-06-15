@@ -5,7 +5,6 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @use 'theme-colors' as *;
-@use 'colors' as *;
 
 html {
   height: 100%;
@@ -30,55 +29,4 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
-}
-
-/* You can add global styles to this file, and also import other style files */
-
-// Scrollbar
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 100vw;
-}
-::-webkit-scrollbar-thumb {
-  background: #bbb;
-  border-radius: 100vw;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #999;
-  border: 0.5px solid #f1f1f1;
-}
-
-// Components
-.moryx-selected {
-  background: $primary-light;
-}
-
-.moryx-side-sheet-title {
-  margin-bottom: 20px;
-}
-
-.moryx-side-sheet-subtitle {
-  margin-top: -20px;
-}
-
-.danger {
-  background-color: darkred;
-  color: white;
-}
-
-.success {
-  background-color: darkgreen;
-  color: white;
-}
-
-// Prevent Bulma override
-table {
-  border-collapse: separate !important;
-}
-
-table td, table th {
-  vertical-align: inherit !important;
 }
