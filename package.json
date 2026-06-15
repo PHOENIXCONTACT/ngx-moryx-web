@@ -20,11 +20,11 @@
     "@angular/material": "~22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
-    "@ngx-translate/core": "^17.0.0",
-    "@ngx-translate/http-loader": "^17.0.0",
+    "@ngx-translate/core": "^18.0.0",
+    "@ngx-translate/http-loader": "^18.0.0",
     "@fontsource/roboto": "^5.2.10",
     "material-icons": "^1.13.14",
-    "material-symbols": "^0.44.12",
+    "material-symbols": "^0.45.1",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.0"
   },
@@ -37,6 +37,6 @@
     "jsdom": "^29.1.1",
     "ng-packagr": "^22.0.0",
     "typescript": "~6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   }
 }
