@@ -40,6 +40,7 @@
               "@fontsource/roboto/500.css",
               "material-icons/iconfont/material-icons.css",
               "material-symbols/outlined.css",
+              "projects/ngx-web-framework/styles/theme.scss",
               "projects/moryx-demo/src/styles.scss"
             ]
           },

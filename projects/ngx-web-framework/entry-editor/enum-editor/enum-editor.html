@@ -1,4 +1,4 @@
-<mat-form-field class="full-width-input entry-form-field" appearance="outline">
+<mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
   <mat-label>{{entry().displayName}}</mat-label>
   <mat-select [formControl]="formControl" (selectionChange)="changed($event)"
               [multiple]="isFlagEnum()">
@@ -8,8 +8,10 @@
       </mat-option>
     }
   </mat-select>
-  <!-- ToDo: Check truncate class not working -->
-  <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
-    {{entry().description}}
-  </mat-hint>
+  @if (entry().description) {
+    <!-- ToDo: Check truncate class not working -->
+    <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
+      {{entry().description}}
+    </mat-hint>
+  }
 </mat-form-field>

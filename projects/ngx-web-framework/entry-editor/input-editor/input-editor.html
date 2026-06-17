@@ -21,7 +21,7 @@
           (ngModelChange)="inputFormControl.setValue($event)" />
       </mat-slider>
       @if (shouldShowInlineInput()) {
-        <mat-form-field class="slider-inline-input" appearance="outline">
+        <mat-form-field class="slider-inline-input" appearance="outline" subscriptSizing="dynamic">
           <input
             matInput
             type="number"
@@ -41,7 +41,7 @@
     </div>
   </div>
 } @else {
-  <mat-form-field class="full-width-input entry-form-field" appearance="outline">
+  <mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ entry().displayName }}</mat-label>
     @if (!useTextArea()) {
       <!--  ToDo: Cleanup placeholder -->
@@ -61,11 +61,13 @@
         matInput
         [formControl]="inputFormControl" />
     }
-    <mat-hint
-      [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
-      class="truncate">
-      {{ entry().description }}
-    </mat-hint>
+    @if (entry().description) {
+      <mat-hint
+        [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
+        class="truncate">
+        {{ entry().description }}
+      </mat-hint>
+    }
     @if (inputFormControl.hasError('min')) {
       <mat-error class="truncate">
         Please enter a value higher than {{ entry().validation?.minimum }}

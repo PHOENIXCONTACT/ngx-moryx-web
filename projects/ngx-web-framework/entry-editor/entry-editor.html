@@ -1,6 +1,6 @@
 @if (EntryValueType.Collection === entry().value.type) {
   <div class="entry-editor-add-list-item">
-    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline">
+    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline" subscriptSizing="dynamic">
       <mat-label>Select the type of object</mat-label>
       <!-- Check for missing readonly integration for disabled fields and create combined/computed field -->
       <mat-select [(ngModel)]="selectedListItemType" [disabled]="disabled()">
@@ -27,7 +27,7 @@
 <!-- ToDo: Clarify whether this is only intended for prototype related selections, it is also shown if no prototype exists -->
 @if (isEntryTypeSettable(entry())) {
   <div class="settable-dropdown-entry">
-    <mat-form-field appearance="outline" class="settable-dropdown-entry-selector">
+    <mat-form-field appearance="outline" class="settable-dropdown-entry-selector" subscriptSizing="dynamic">
       <mat-label>{{ entry().displayName }}</mat-label>
 
       <mat-select
@@ -40,11 +40,13 @@
           </mat-option>
         }
       </mat-select>
-      <mat-hint
-        [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
-        class="truncate">
-        {{ entry().description }}
-      </mat-hint>
+      @if (entry().description) {
+        <mat-hint
+          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
+          class="truncate">
+          {{ entry().description }}
+        </mat-hint>
+      }
     </mat-form-field>
   </div>
 }
@@ -108,7 +110,6 @@
         <entry-input-editor
           matLine
           class="entry-editor-subentries-list-item"
-      }
           [entry]="subEntry"
           (entryChange)="updateSubEntry($event)"
           [disabled]="disabled()">

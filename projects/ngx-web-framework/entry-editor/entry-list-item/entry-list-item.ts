@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, model, Output } from '@angular/core';
+import { Component, EventEmitter, input, model, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { FileEditor } from '../file-editor/file-editor';
@@ -26,6 +26,7 @@ import { MatListModule } from '@angular/material/list';
     MatListModule,
   ],
   templateUrl: './entry-list-item.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './entry-list-item.scss',
 })
 export class EntryListItem {

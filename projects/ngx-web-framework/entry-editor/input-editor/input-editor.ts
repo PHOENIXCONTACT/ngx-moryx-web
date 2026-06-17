@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, signal, untracked } from '@angular/core';
+import { Component, effect, input, model, OnDestroy, signal, untracked, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -33,6 +33,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatSliderModule,
   ],
   templateUrl: './input-editor.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './input-editor.scss',
 })
 export class InputEditor implements OnDestroy {
