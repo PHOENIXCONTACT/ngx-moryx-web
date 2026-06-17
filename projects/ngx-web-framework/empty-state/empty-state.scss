@@ -15,7 +15,7 @@
 }
 
 .empty-state-icon-background {
-  background-color: #dbdbdb;
+  background-color: var(--mat-sys-surface-container-highest);
   border-radius: 50%;
   transform: scale(5);
   padding: 10px;

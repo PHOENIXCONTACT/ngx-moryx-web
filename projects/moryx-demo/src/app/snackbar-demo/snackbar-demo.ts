@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SnackbarService } from '@moryx/ngx-web-framework/services';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-snackbar-demo',
   imports: [MatButtonModule],
   templateUrl: './snackbar-demo.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./snackbar-demo.scss'],
 })
 export class SnackbarDemo {

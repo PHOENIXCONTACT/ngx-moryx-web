@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
@@ -10,6 +10,7 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   templateUrl: './entry-editor-demo.html',
   styleUrls: ['./entry-editor-demo.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemo {

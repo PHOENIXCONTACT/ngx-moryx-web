@@ -1,9 +1,10 @@
-import {Component, input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'empty-state',
   imports: [],
   templateUrl: './empty-state.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './empty-state.scss',
 })
 export class EmptyState {

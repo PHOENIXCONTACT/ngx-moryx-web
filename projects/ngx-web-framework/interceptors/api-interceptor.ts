@@ -11,7 +11,7 @@ export class ApiInterceptor implements HttpInterceptor {
     // Apply the headers
     req = req.clone({
       setHeaders: {
-        'accept-language': `${this.languageService.getDefaultLanguage()}-DE`,
+        'accept-language': `${this.languageService.getFallbackLang()}-DE`,
       },
     });
 

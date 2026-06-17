@@ -20,7 +20,7 @@ export class SnackbarService {
       TranslationConstants.LANGUAGES.DE,
       TranslationConstants.LANGUAGES.IT,
     ]);
-    this.translate.setDefaultLang(this.languageService.getDefaultLanguage());
+    this.translate.setFallbackLang(this.languageService.getFallbackLang());
   }
 
   async showError(errorMessage: string) {
