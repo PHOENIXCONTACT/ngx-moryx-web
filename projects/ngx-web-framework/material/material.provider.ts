@@ -1,4 +1,5 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, inject, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 /**
@@ -26,6 +27,11 @@ export function provideMoryxMaterialDefaults(): EnvironmentProviders {
         // Default is true, keep for explicit set.
         hasBackdrop: true
       }
-    }
+    },
+    provideAppInitializer(() => {
+      // Use material-symbols as default icon font
+      const iconRegistry = inject(MatIconRegistry);
+      iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+    })
   ]);
 }
