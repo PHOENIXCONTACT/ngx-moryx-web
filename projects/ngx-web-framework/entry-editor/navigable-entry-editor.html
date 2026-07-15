@@ -1,26 +1,26 @@
-@if(entryInformation(); as entryInfo) {
+@if (entryInformation(); as entryInfo) {
   @if (entryInfo.entryPath) {
     <div class="navigation-bar">
-      <!-- ToDo: Update tracking as whole collection is recreated every time -->
-      @for (e of entryInfo.entryPath; track e; let isLast = $last) {
-        <span class="navigation-bar-item" (click)="onNavigateSpecific(e)">
-          {{e().displayName}}
-        </span>
-        @if (!isLast) {
-          <span class="material-symbols-outlined navigation-bar-layers navigation-bar-divider">
-            chevron_right
-          </span>
+      <div class="navigation-breadcrumbs">
+        <!-- ToDo: Update tracking as whole collection is recreated every time -->
+        @for (e of entryInfo.entryPath; track e; let isLast = $last) {
+          <mat-chip-set>
+            <mat-chip [highlighted]="isLast" (click)="onNavigateSpecific(e)">{{ e().displayName }}</mat-chip>
+          </mat-chip-set>
+          @if (!isLast) {
+            <mat-icon class="navigation-bar-divider">chevron_right</mat-icon>
+          }
         }
+      </div>
+      @if (entryInfo.currentEntry()?.description; as description) {
+        <p class="navigation-description">{{ description }}</p>
       }
     </div>
   }
 
-  @if (entryInfo.currentEntry()) {
-    <entry-editor
-      [editorId]="editorId()" class="navigation-entries"
-      [entry]="entryInfo.currentEntry()"
-      (entryChange)="onEntryChange($event)"
-      [disabled]="disabled()">
+  @if (entryInfo.currentEntry(); as current) {
+    <entry-editor [editorId]="editorId()" class="navigation-entries" [entry]="current"
+      (entryChange)="onEntryChange($event)" [disabled]="disabled()">
     </entry-editor>
   }
 }

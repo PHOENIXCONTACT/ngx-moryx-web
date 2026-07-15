@@ -1,11 +1,13 @@
 import { Component, OnDestroy, input, model, inject, computed, WritableSignal, untracked, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from './models/entry';
 import { NavigableEntryService } from './services/navigable-entry.service';
+import { MatChip, MatChipSet } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
 import { EntryEditor } from './entry-editor';
 
 @Component({
   selector: 'navigable-entry-editor',
-  imports: [EntryEditor],
+  imports: [EntryEditor, MatChipSet, MatChip, MatIcon],
   templateUrl: './navigable-entry-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './navigable-entry-editor.scss',
