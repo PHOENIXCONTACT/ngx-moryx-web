@@ -1,17 +1,19 @@
 <mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
-  <mat-label>{{entry().displayName}}</mat-label>
-  <mat-select [formControl]="formControl" (selectionChange)="changed($event)"
-              [multiple]="isFlagEnum()">
+  <mat-label>{{ entry().displayName }}</mat-label>
+  <mat-select [formControl]="formControl" (selectionChange)="changed($event)" [multiple]="isFlagEnum()">
     @for (pv of entry().value.possible; track pv) {
-      <mat-option [value]="pv.key">
+      <mat-option [value]="pv.key" [disabled]="entry().value.isReadOnly ?? false">
         {{ pv.displayName ?? pv.key }}
       </mat-option>
     }
   </mat-select>
+  @if (entry().value.isReadOnly) {
+    <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+  }
   @if (entry().description) {
     <!-- ToDo: Check truncate class not working -->
-    <mat-hint [ngClass]="{'entry-editor-disabled': (disabled() || (entry().value.isReadOnly ?? false))}" class="truncate">
-      {{entry().description}}
+    <mat-hint [ngClass]="{ 'entry-editor-disabled': disabled() }" class="truncate">
+      {{ entry().description }}
     </mat-hint>
   }
 </mat-form-field>

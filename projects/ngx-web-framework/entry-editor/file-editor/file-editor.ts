@@ -4,21 +4,20 @@ import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { EntryValue } from '../models/entry-value';
 import { CommonModule } from '@angular/common';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [CommonModule, MatFormField, MatLabel, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
+  imports: [CommonModule, MatFormField, MatLabel, MatPrefix, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
   templateUrl: './file-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-editor.scss',
 })
 export class FileEditor {
   inputFormControl!: UntypedFormControl;
-  private readOnly: boolean | undefined = undefined;
 
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
@@ -37,7 +36,6 @@ export class FileEditor {
   private initialize(entry: Entry) {
     const validators = this.setupValidators(entry);
     this.inputFormControl = this.setupFormControl(entry, validators);
-    this.readOnly = entry.value?.isReadOnly;
   }
 
   private updateCurrentValue(currentValue: EntryValue, value: any) {
@@ -49,7 +47,7 @@ export class FileEditor {
   }
 
   disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable || this.readOnly)
+    if (disable)
       control.disable();
     else
       control.enable();
@@ -69,7 +67,7 @@ export class FileEditor {
     const ctrl = new UntypedFormControl(
       {
         value: initial,
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false) || entry.value?.type === EntryValueType.Stream,
+        disabled: this.disabled() || entry.value?.type === EntryValueType.Stream,
       },
       validators
     );

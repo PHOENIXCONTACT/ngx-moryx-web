@@ -10,6 +10,7 @@ import { EnumEditor } from '../enum-editor/enum-editor';
 import { CommonModule } from '@angular/common';
 import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -23,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
     CommonModule,
     MatLine,
     MatIconButton,
+    MatIcon,
     MatListModule,
   ],
   templateUrl: './entry-list-item.html',

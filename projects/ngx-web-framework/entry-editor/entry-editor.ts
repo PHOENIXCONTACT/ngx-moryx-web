@@ -8,7 +8,7 @@ import { BooleanEditor } from './boolean-editor/boolean-editor';
 import { MatLineModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { MatList } from '@angular/material/list';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { EnumEditor } from './enum-editor/enum-editor';
@@ -17,6 +17,7 @@ import { FileEditor } from './file-editor/file-editor';
 import { EntryObject } from './entry-object/entry-object';
 import { EntryListItem } from './entry-list-item/entry-list-item';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-editor',
@@ -37,7 +38,9 @@ import { MatIconButton } from '@angular/material/button';
     CommonModule,
     FormsModule,
     MatIconButton,
-    MatHint
+    MatIcon,
+    MatHint,
+    MatSuffix
   ],
   templateUrl: './entry-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,

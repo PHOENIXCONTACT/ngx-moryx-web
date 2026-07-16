@@ -1,18 +1,18 @@
 @use "../style/entry-editor-base";
 
-.entry-object-wrapper {
+.entry-object {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
 .object-entry-hint {
-  font-size: 12px;
-  line-height: 16px;
+  font: var(--mat-sys-body-small);
   margin-top: 4px;
   padding-left: 16px;
-}
+  color: var(--mat-sys-on-surface-variant);
 
-.entry-editor-disabled {
-  opacity: 0.6;
+  &.entry-editor-disabled {
+    color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+  }
 }

@@ -1,17 +1,17 @@
-import { Component, effect, input, model, signal, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { MatHint } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-boolean-editor',
   templateUrl: './boolean-editor.html',
   styleUrls: ['./boolean-editor.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CommonModule, MatHint, MatCheckbox, FormsModule, NgClass],
+  imports: [CommonModule, MatHint, MatCheckbox, FormsModule, NgClass, MatIcon],
 })
 export class BooleanEditor {
   checked = signal<boolean>(false);
@@ -48,7 +48,7 @@ export class BooleanEditor {
   }
 
   clickContainer(event: MouseEvent) {
-    if (!this.disabled()) {
+    if (!this.disabled() && !(this.entry().value.isReadOnly ?? false)) {
       this.checkedUpdated(!this.checked());
     }
   }

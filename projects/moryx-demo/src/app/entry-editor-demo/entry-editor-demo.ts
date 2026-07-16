@@ -166,7 +166,7 @@ export class EntryEditorDemo {
       {
         // Bool
         displayName: 'Test Disabled Bool Name',
-        description: 'This is a very very very long Disabled Test Bool description.',
+        description: 'This is a very very very very very very very very very long Disabled Test Bool description.',
         identifier: 'Disabled Bool Identifier',
         value: {
           current: undefined,
