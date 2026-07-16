@@ -21,13 +21,3 @@
   --mat-checkbox-disabled-label-color: var(--mat-sys-on-surface);
 }
 
-mat-hint {
-  display: block;
-  font: var(--mat-sys-body-small);
-  padding-left: 16px;
-  color: var(--mat-sys-on-surface-variant);
-
-  &.entry-editor-disabled {
-    color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
-  }
-}

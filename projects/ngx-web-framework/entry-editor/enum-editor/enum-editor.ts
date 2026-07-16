@@ -44,7 +44,10 @@ export class EnumEditor {
       return copy;
     });
 
-    if (disabled) this.formControl.disable();
+    if (disabled) {
+      this.formControl.disable();
+    }
+
     else this.formControl.enable();
   }
 

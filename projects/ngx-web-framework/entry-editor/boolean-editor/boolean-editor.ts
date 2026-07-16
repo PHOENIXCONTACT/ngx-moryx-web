@@ -1,6 +1,5 @@
 import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
-import { MatHint } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
@@ -10,7 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './boolean-editor.html',
   styleUrls: ['./boolean-editor.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [MatHint, MatCheckbox, FormsModule, MatIcon],
+  imports: [MatCheckbox, FormsModule, MatIcon],
 })
 export class BooleanEditor {
   disabled = input<boolean>(false);

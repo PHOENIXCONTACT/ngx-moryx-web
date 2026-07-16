@@ -10,8 +10,8 @@
     }
   </div>
   @if (description()) {
-    <mat-hint class="truncate" [class.entry-editor-disabled]="disabled()">
+    <div class="entry-hint truncate" [class.entry-editor-disabled]="disabled()">
       {{ description() }}
-    </mat-hint>
+    </div>
   }
 </div>
