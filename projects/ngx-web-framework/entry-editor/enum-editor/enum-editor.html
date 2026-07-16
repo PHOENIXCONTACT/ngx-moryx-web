@@ -12,7 +12,7 @@
   }
   @if (entry().description) {
     <!-- ToDo: Check truncate class not working -->
-    <mat-hint [ngClass]="{ 'entry-editor-disabled': disabled() }" class="truncate">
+    <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
       {{ entry().description }}
     </mat-hint>
   }

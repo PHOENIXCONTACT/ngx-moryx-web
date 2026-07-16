@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Vali
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { EntryValue } from '../models/entry-value';
-import { CommonModule } from '@angular/common';
 import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
@@ -11,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [CommonModule, MatFormField, MatLabel, MatPrefix, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
+  imports: [MatFormField, MatLabel, MatPrefix, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
   templateUrl: './file-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-editor.scss',

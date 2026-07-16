@@ -44,7 +44,7 @@
       <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
     }
     @if (entry().description) {
-      <mat-hint [ngClass]="{ 'entry-editor-disabled': disabled() }" class="truncate">
+      <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
         {{ entry().description }}
       </mat-hint>
     }

@@ -6,7 +6,6 @@ import { EntryValueType } from './models/entry-value-type';
 import { PrototypeToEntryConverter } from './prototype-to-entry-converter';
 import { BooleanEditor } from './boolean-editor/boolean-editor';
 import { MatLineModule, MatOption } from '@angular/material/core';
-import { CommonModule, NgClass } from '@angular/common';
 import { MatList } from '@angular/material/list';
 import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -29,13 +28,11 @@ import { MatIcon } from '@angular/material/icon';
     EntryObject,
     EntryListItem,
     MatLineModule,
-    NgClass,
     MatList,
     MatFormField,
     MatLabel,
     MatSelect,
     MatOption,
-    CommonModule,
     FormsModule,
     MatIconButton,
     MatIcon,

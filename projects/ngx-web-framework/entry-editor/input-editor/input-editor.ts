@@ -10,7 +10,6 @@ import {
   minEntryValueValidator,
   parseCultureIndependentFloat
 } from '../validators/entry-editor.validators';
-import { CommonModule } from '@angular/common';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,7 +20,6 @@ import { MatSliderModule } from '@angular/material/slider';
 @Component({
   selector: 'entry-input-editor',
   imports: [
-    CommonModule,
     FormsModule,
     MatError,
     MatLabel,

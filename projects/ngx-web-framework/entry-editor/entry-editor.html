@@ -11,7 +11,7 @@
     </mat-form-field>
 
     <button mat-icon-button class="entry-editor-add-list-item-button" type="button"
-      (click)="addItemToList()" [disabled]="disabled()" [ngClass]="{ disabled: disabled() }">
+      (click)="addItemToList()" [disabled]="disabled()" [class.disabled]="disabled()">
       <mat-icon>playlist_add</mat-icon>
     </button>
   </div>
@@ -32,7 +32,7 @@
         <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
       }
       @if (entry().description) {
-        <mat-hint [ngClass]="{ 'entry-editor-disabled': disabled() }" class="truncate">
+        <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
           {{ entry().description }}
         </mat-hint>
       }

@@ -30,7 +30,7 @@
     }
 
     <button mat-icon-button class="entry-list-item-delete" type="button" (click)="onDelete()"
-      [disabled]="disabled()" [ngClass]="{ disabled: disabled() }">
+      [disabled]="disabled()" [class.disabled]="disabled()">
       <mat-icon>playlist_remove</mat-icon>
     </button>
   </div>

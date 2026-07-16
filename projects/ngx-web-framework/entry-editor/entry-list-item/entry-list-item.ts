@@ -6,8 +6,6 @@ import { EntryObject} from '../entry-object/entry-object';
 import { BooleanEditor } from '../boolean-editor/boolean-editor';
 import { InputEditor } from '../input-editor/input-editor';
 import { EnumEditor } from '../enum-editor/enum-editor';
-// ToDo: Remove common module import
-import { CommonModule } from '@angular/common';
 import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -21,7 +19,6 @@ import { MatListModule } from '@angular/material/list';
     BooleanEditor,
     InputEditor,
     EnumEditor,
-    CommonModule,
     MatLine,
     MatIconButton,
     MatIcon,

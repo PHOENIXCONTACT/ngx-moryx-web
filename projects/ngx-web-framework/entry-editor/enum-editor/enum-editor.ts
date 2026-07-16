@@ -1,6 +1,5 @@
 import { Component, effect, input, model, untracked, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
-import { NgClass } from '@angular/common';
 import { MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
@@ -9,7 +8,7 @@ import { EntryUnitType } from '../models/entry-unit-type';
 
 @Component({
   selector: 'entry-enum-editor',
-  imports: [NgClass, MatFormField, MatLabel, MatSuffix, MatSelect, MatOption, FormsModule, ReactiveFormsModule, MatIcon, MatHint],
+  imports: [MatFormField, MatLabel, MatSuffix, MatSelect, MatOption, FormsModule, ReactiveFormsModule, MatIcon, MatHint],
   templateUrl: './enum-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './enum-editor.scss',
