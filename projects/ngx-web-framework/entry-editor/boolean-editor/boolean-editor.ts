@@ -13,12 +13,12 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatHint, MatCheckbox, FormsModule, MatIcon],
 })
 export class BooleanEditor {
-  checked = signal<boolean>(false);
-  name = signal<string>('');
-  description = signal<string>('');
-
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+
+  protected checked = signal<boolean>(false);
+  protected name = signal<string>('');
+  protected description = signal<string>('');
 
   constructor() {
     // Todo: Replace effect with computed
@@ -37,7 +37,7 @@ export class BooleanEditor {
     this.name.set(this.entry().displayName ?? '');
   }
 
-  checkedUpdated(value: boolean) {
+  private checkedUpdated(value: boolean) {
     this.checked.update(e => !e);
     this.entry.update(e => {
       let copy = Object.assign({}, e);
@@ -46,7 +46,7 @@ export class BooleanEditor {
     });
   }
 
-  clickContainer(event: MouseEvent) {
+  protected clickContainer(event: MouseEvent) {
     if (!this.disabled() && !(this.entry().value.isReadOnly ?? false)) {
       this.checkedUpdated(!this.checked());
     }

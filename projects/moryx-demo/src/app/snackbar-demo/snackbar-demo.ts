@@ -17,15 +17,15 @@ export class SnackbarDemo {
   constructor(private snackbarService: SnackbarService) {
   }
 
-  handlePermissionsMissing(): void {
+  protected handlePermissionsMissing(): void {
     this.snackbarService.handleError(new HttpErrorResponse({error: this.multiplePermissions, status: 403}));
   }
 
-  handlePermissionMissing(): void {
+  protected handlePermissionMissing(): void {
     this.snackbarService.handleError(new HttpErrorResponse({error: this.singlePermission, status: 403}));
   }
 
-  handleForbidden(): void {
+  protected handleForbidden(): void {
     this.snackbarService.handleError(new HttpErrorResponse({status: 403}));
   }
 }

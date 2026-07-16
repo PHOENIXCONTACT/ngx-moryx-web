@@ -16,7 +16,8 @@ import { EntryUnitType } from '../models/entry-unit-type';
 export class EnumEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
-  formControl = new UntypedFormControl('');
+
+  protected formControl = new UntypedFormControl('');
 
   constructor() {
     effect(() => {
@@ -47,7 +48,7 @@ export class EnumEditor {
     else this.formControl.enable();
   }
 
-  changed(event: any) {
+  protected changed(event: any) {
     if (this.entry().value.isReadOnly) return;
     if (Array.isArray(this.formControl.value) && this.formControl.value.length > 0) {
       this.entry.update(e => {
@@ -68,7 +69,7 @@ export class EnumEditor {
     }
   }
 
-  isFlagEnum(): boolean {
+  protected isFlagEnum(): boolean {
     return this.entry().value.unitType === EntryUnitType.Flags
   }
 }

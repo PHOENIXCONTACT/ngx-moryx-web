@@ -35,12 +35,12 @@ import { MatSliderModule } from '@angular/material/slider';
   styleUrl: './input-editor.scss',
 })
 export class InputEditor implements OnDestroy {
-  inputFormControl!: UntypedFormControl;
+  protected inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
-  isPassword!: boolean;
-  isNumber!: boolean;
-  useTextArea = signal(false);
-  readOnly = signal<boolean>(false);
+  protected isPassword!: boolean;
+  protected isNumber!: boolean;
+  protected useTextArea = signal(false);
+  protected readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
   private readonly INLINE_INPUT_RANGE_THRESHOLD = 100;
@@ -106,17 +106,17 @@ export class InputEditor implements OnDestroy {
   }
 
   // ToDo: Check if anything like C# out variable for function exists and use here
-  isSinglePossibleValue(entry: Entry): boolean {
+  private isSinglePossibleValue(entry: Entry): boolean {
     const result = entry.value.possible && entry.value.possible.length === 1;
     return result ?? false;
   }
 
-  disableInputFormControl(control: UntypedFormControl, disable: boolean) {
+  private disableInputFormControl(control: UntypedFormControl, disable: boolean) {
     if (disable) control.disable();
     else control.enable();
   }
 
-  setupValidators(entry: Entry): ValidatorFn[] {
+  private setupValidators(entry: Entry): ValidatorFn[] {
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(entry.value.type));
     if (entry.validation?.isRequired) validators.push(Validators.required);
@@ -179,14 +179,14 @@ export class InputEditor implements OnDestroy {
     this.formControlSubscription?.unsubscribe();
   }
 
-  addTextValidators(validators: ValidatorFn[]) {
+  private addTextValidators(validators: ValidatorFn[]) {
     const regex = this.entry().validation?.regex;
     if (regex) {
       validators.push(Validators.pattern(regex));
     }
   }
 
-  addNumberValidators(validators: ValidatorFn[]) {
+  private addNumberValidators(validators: ValidatorFn[]) {
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry().value?.type);
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry().value?.type);
 
@@ -198,7 +198,7 @@ export class InputEditor implements OnDestroy {
     );
   }
 
-  getTypeSpecificMaximum(type: EntryValueType | undefined): number {
+  private getTypeSpecificMaximum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 255;
@@ -223,7 +223,7 @@ export class InputEditor implements OnDestroy {
     }
   }
 
-  getTypeSpecificMinimum(type: EntryValueType | undefined): number {
+  private getTypeSpecificMinimum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 0;
@@ -248,7 +248,7 @@ export class InputEditor implements OnDestroy {
     }
   }
 
-  determineInputType() {
+  private determineInputType() {
     if (
       EntryValueType.Int16 === this.entry().value?.type ||
       EntryValueType.UInt16 === this.entry().value?.type ||
@@ -264,11 +264,11 @@ export class InputEditor implements OnDestroy {
     else if (EntryUnitType.Password === this.entry().value?.unitType) this.isPassword = true;
   }
 
-  setTextArea(value: boolean) {
+  protected setTextArea(value: boolean) {
     this.useTextArea.set(value);
   }
 
-  shouldUseSlider(): boolean {
+  protected shouldUseSlider(): boolean {
     return this.defaultSliderCheck(this.entry());
   }
 
@@ -284,7 +284,7 @@ export class InputEditor implements OnDestroy {
     return min > typeMin || max < typeMax;
   }
 
-  getSliderStep(): number {
+  protected getSliderStep(): number {
     switch (this.entry().value.type) {
       case EntryValueType.Single:
       case EntryValueType.Double:
@@ -306,7 +306,7 @@ export class InputEditor implements OnDestroy {
     return Math.max(minAbs, maxAbs).toString().length;
   }
 
-  shouldShowInlineInput(): boolean {
+  protected shouldShowInlineInput(): boolean {
     return this.isNumber && (this.getRange() > this.INLINE_INPUT_RANGE_THRESHOLD || this.maxDigits() > 3);
   }
 }

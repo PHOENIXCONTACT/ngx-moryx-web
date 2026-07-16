@@ -14,8 +14,8 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemo {
-  disabled = signal(false);
-  testEntry = signal<Entry>({
+  protected disabled = signal(false);
+  protected testEntry = signal<Entry>({
     displayName: 'Test Entry',
     description: 'This is the description of a test entry',
     identifier: 'RootEntry',
@@ -1104,7 +1104,7 @@ export class EntryEditorDemo {
     "prototypes": []
   });
 
-  acquiredCapabilitiesEntry = signal<Entry>({
+  protected acquiredCapabilitiesEntry = signal<Entry>({
     "displayName": "AcquiredCapabilities",
     "identifier": "AcquiredCapabilities",
     "description": null,
@@ -1282,7 +1282,7 @@ export class EntryEditorDemo {
     ]
   });
 
-  assemblyCellEntry = signal<Entry>({
+  protected assemblyCellEntry = signal<Entry>({
     "displayName": "AssemblyCell",
     "identifier": "AssemblyCell",
     "description": null,
@@ -1495,15 +1495,15 @@ export class EntryEditorDemo {
     "prototypes": []
   });
 
-  onToggle() {
+  protected onToggle() {
     this.disabled.update(current => !current);
   }
 
-  replaceEntry() {
+  protected replaceEntry() {
     this.testEntry.set(this.assemblyCellEntry());
   }
 
-  onEntryChange($event: Entry) {
+  protected onEntryChange($event: Entry) {
     console.log('Entry changed:', $event);
     this.testEntry.set($event);
   }

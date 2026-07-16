@@ -44,17 +44,21 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './entry-editor.scss',
 })
 export class EntryEditor {
+  /** Unique identifier to support multiple navigable entry editors simultaneously. */
   editorId = input<number | undefined>(undefined);
+
+  /** Whether the editor is disabled. */
   disabled = input<boolean>(false);
 
+  /** The entry to display and edit. Changes are propagated back via two-way binding. */
   entry = model.required<Entry>();
-  currentEntry: Entry | undefined = undefined;
-  subEntries = signal<Entry[]>([]);
 
-  possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
-  prototypes = signal<Entry[]>([]);
-  selectedListItemType = signal<string | undefined>(undefined);
-  selectedEntryHasPrototypes = signal(true);
+  private currentEntry: Entry | undefined = undefined;
+
+  protected possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
+  private prototypes = signal<Entry[]>([]);
+  protected selectedListItemType = signal<string | undefined>(undefined);
+  private selectedEntryHasPrototypes = signal(true);
 
   private createdCounter?: number;
 
@@ -83,7 +87,7 @@ export class EntryEditor {
   // - creating a new entry object with the updated value and replacing the old in the mapping
   // - propagating this reference change upwards in the array
   // ToDo: In future a 'ReactiveEntry' wrapper would improve performance and reduce reference copying effort
-  updateSubEntry(subEntry: Entry) {
+  protected updateSubEntry(subEntry: Entry) {
     this.entry.update(item => {
       const match = item.subEntries?.find(x => x.identifier === subEntry.identifier);
       if (!match)
@@ -99,10 +103,10 @@ export class EntryEditor {
   }
 
   // ToDo: Move to correct place
-  EntryValueType = EntryValueType;
-  EntryUnitType = EntryUnitType;
+  protected EntryValueType = EntryValueType;
+  protected EntryUnitType = EntryUnitType;
 
-  onDeleteListItem(toBeDeleted: Entry) {
+  protected onDeleteListItem(toBeDeleted: Entry) {
     const entry = this.entry();
 
     if (entry.subEntries) {
@@ -114,7 +118,7 @@ export class EntryEditor {
     }
   }
 
-  addItemToList() {
+  protected addItemToList() {
     const prototypes = this.prototypes();
 
     // ToDo: Clean up function
@@ -149,13 +153,13 @@ export class EntryEditor {
     }
   }
 
-  isEntryTypeSettable(entry: Entry): boolean {
+  protected isEntryTypeSettable(entry: Entry): boolean {
     return  entry?.value?.type === EntryValueType.Class &&
       entry.value.possible != null &&
       entry.value.possible.length > 1;
   }
 
-  onPatchToSelectedEntryType(keyPair: EntryPossible): void {
+  private onPatchToSelectedEntryType(keyPair: EntryPossible): void {
     this.entry.update(entry => {
       entry.subEntries = [];
       const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
@@ -175,11 +179,11 @@ export class EntryEditor {
   }
 
   // ToDo: Remove unnecessary wrapper function
-  dropdownSelectionChanged(event: MatSelectChange){
+  protected dropdownSelectionChanged(event: MatSelectChange){
     this.onPatchToSelectedEntryType(event.value);
   }
 
-  isPrimitiveType(entry: Entry){
+  protected isPrimitiveType(entry: Entry){
     return entry.value.type !== EntryValueType.Collection &&
       (entry.value.possible && entry.value.possible.length === 1) ||
       (((entry.value.possible && entry.value.possible.length < 1) || !entry.value.possible)  &&

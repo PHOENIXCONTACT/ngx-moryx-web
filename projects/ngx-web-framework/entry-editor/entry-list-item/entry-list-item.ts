@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, model, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { FileEditor } from '../file-editor/file-editor';
@@ -32,11 +32,11 @@ export class EntryListItem {
   entry = model.required<Entry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
-  @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();
+  deleteRequest = output<Entry>();
 
-  EntryValueType = EntryValueType;
+  protected EntryValueType = EntryValueType;
 
-  onDelete() {
+  protected onDelete() {
     this.deleteRequest.emit(this.entry());
   }
 }

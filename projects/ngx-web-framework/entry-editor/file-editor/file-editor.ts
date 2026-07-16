@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './file-editor.scss',
 })
 export class FileEditor {
-  inputFormControl!: UntypedFormControl;
+  protected inputFormControl!: UntypedFormControl;
 
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
@@ -45,14 +45,14 @@ export class FileEditor {
     });
   }
 
-  disableInputFormControl(control: UntypedFormControl, disable: boolean) {
+  private disableInputFormControl(control: UntypedFormControl, disable: boolean) {
     if (disable)
       control.disable();
     else
       control.enable();
   }
 
-  setupValidators(entry: Entry): ValidatorFn[] {
+  private setupValidators(entry: Entry): ValidatorFn[] {
     let validators = [] as ValidatorFn[];
     if (entry.validation?.isRequired)
       validators.push(Validators.required);
@@ -75,7 +75,7 @@ export class FileEditor {
   }
 
 
-  onFileSelected(event: any){
+  protected onFileSelected(event: any){
     const file:File = event.target.files[0];
     if (file) {
       this.inputFormControl.setValue(file.name);
