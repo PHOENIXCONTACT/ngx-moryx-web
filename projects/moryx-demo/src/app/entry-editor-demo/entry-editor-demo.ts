@@ -14,8 +14,8 @@ import { Entry, EntryUnitType, EntryValueType, NavigableEntryEditor } from '@mor
   imports: [NavigableEntryEditor, MatDivider, MatButtonModule]
 })
 export class EntryEditorDemo {
-  disabled = signal(false);
-  testEntry = signal<Entry>({
+  protected disabled = signal(false);
+  protected testEntry = signal<Entry>({
     displayName: 'Test Entry',
     description: 'This is the description of a test entry',
     identifier: 'RootEntry',
@@ -58,15 +58,15 @@ export class EntryEditorDemo {
       },
       {
         // String
-        displayName: 'Test Disabled String Name',
+        displayName: 'Test Readonly String Name',
         description: 'This is a Test String description.',
-        identifier: 'Disabled String Identifier',
+        identifier: 'Readonly String Identifier',
         validation: {
           isRequired: true,
           regex: '[A-Za-z]+',
         },
         value: {
-          current: 'Current Value of the Disabled Test String',
+          current: 'Current Value of the Readonly Test String',
           default: 'Default Value of the Test String',
           isReadOnly: true,
           possible: undefined,
@@ -165,9 +165,9 @@ export class EntryEditorDemo {
       },
       {
         // Bool
-        displayName: 'Test Disabled Bool Name',
-        description: 'This is a very very very long Disabled Test Bool description.',
-        identifier: 'Disabled Bool Identifier',
+        displayName: 'Test Readonly Bool Name',
+        description: 'This is a very very very very very very very very very long Readonly Test Bool description.',
+        identifier: 'Readonly Bool Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -285,9 +285,9 @@ export class EntryEditorDemo {
       },
       {
         // Select
-        displayName: 'Test Disabled Select Name',
-        description: 'This is a Disabled Test Select description.',
-        identifier: 'Disabled Select Identifier',
+        displayName: 'Test Readonly Select Name',
+        description: 'This is a Readonly Test Select description.',
+        identifier: 'Readonly Select Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -303,9 +303,9 @@ export class EntryEditorDemo {
       },
       {
         // Flag Enum
-        displayName: 'Test Disabled Flag Enum Name',
-        description: 'This is a Disabled Test Flag Enum description.',
-        identifier: 'Disabled Flag Enum Identifier',
+        displayName: 'Test Readonly Flag Enum Name',
+        description: 'This is a Readonly Test Flag Enum description.',
+        identifier: 'Readonly Flag Enum Identifier',
         value: {
           current: 'Option1Key, Option3Key',
           default: '',
@@ -335,9 +335,9 @@ export class EntryEditorDemo {
       },
       {
         // File
-        displayName: 'Disabled Test File Name',
-        description: 'This is a Disabled Test File description.',
-        identifier: 'Disabled File Identifier',
+        displayName: 'Readonly Test File Name',
+        description: 'This is a Readonly Test File description.',
+        identifier: 'Readonly File Identifier',
         value: {
           current: undefined,
           default: undefined,
@@ -1104,7 +1104,7 @@ export class EntryEditorDemo {
     "prototypes": []
   });
 
-  acquiredCapabilitiesEntry = signal<Entry>({
+  protected acquiredCapabilitiesEntry = signal<Entry>({
     "displayName": "AcquiredCapabilities",
     "identifier": "AcquiredCapabilities",
     "description": null,
@@ -1282,7 +1282,7 @@ export class EntryEditorDemo {
     ]
   });
 
-  assemblyCellEntry = signal<Entry>({
+  protected assemblyCellEntry = signal<Entry>({
     "displayName": "AssemblyCell",
     "identifier": "AssemblyCell",
     "description": null,
@@ -1495,15 +1495,15 @@ export class EntryEditorDemo {
     "prototypes": []
   });
 
-  onToggle() {
+  protected onToggle() {
     this.disabled.update(current => !current);
   }
 
-  replaceEntry() {
+  protected replaceEntry() {
     this.testEntry.set(this.assemblyCellEntry());
   }
 
-  onEntryChange($event: Entry) {
+  protected onEntryChange($event: Entry) {
     console.log('Entry changed:', $event);
     this.testEntry.set($event);
   }

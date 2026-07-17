@@ -18,7 +18,7 @@ export class EntryObject {
   editorId = input.required<number>();
   disabled = input<boolean>(false);
 
-  onOpen(){
+  protected onOpen(){
     this.navigableEntryService.onOpenEntry(this.editorId(), this.entry());
   }
 }
