@@ -48,7 +48,7 @@ export class InputEditor implements OnDestroy {
   constructor() {
     this.inputFormControl = new UntypedFormControl();
 
-    // One-time initialization assuming a different entry (by identifier not only reference) 
+    // One-time initialization assuming a different entry (by identifier not only reference)
     // creates a new component instance.
     const reference = effect(() => {
       this.initialize(this.entry());
@@ -58,18 +58,18 @@ export class InputEditor implements OnDestroy {
     // Entry initialization & updates on every ref change
     effect(() => {
       const entry = this.entry();
-      
+
       untracked(() => {
         // ToDo: Check emitEvent
         if (this.isSinglePossibleValue(entry)) {
           const singlePossibleValue = entry.value?.possible?.[0]?.key ?? '';
-          
+
           if (this.inputFormControl.value !== singlePossibleValue) {
             this.inputFormControl.setValue(singlePossibleValue, { emitEvent: false });
-          }          
+          }
 
           if (entry.value?.current !== singlePossibleValue) {
-            this.entry.update(e => { 
+            this.entry.update(e => {
               e.value.current = singlePossibleValue;
               return { ...e };
             });
@@ -117,6 +117,11 @@ export class InputEditor implements OnDestroy {
   }
 
   private setupValidators(entry: Entry): ValidatorFn[] {
+    // Disable validators if readOnly
+    if (this.readOnly()) {
+      return [];
+    }
+
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(entry.value.type));
     if (entry.validation?.isRequired) validators.push(Validators.required);
@@ -127,7 +132,7 @@ export class InputEditor implements OnDestroy {
   }
 
   private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
-    // Initialvalue: for numbers parse culture independent 
+    // Initialvalue: for numbers parse culture independent
     const rawInitial = entry.value?.current ?? entry.value?.default ?? '';
     let initialValue;
     if (this.isNumber) {
@@ -138,7 +143,7 @@ export class InputEditor implements OnDestroy {
     }
 
 
-    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };  
+    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };
     const result = new UntypedFormControl(
       {
         value: initialValue,
