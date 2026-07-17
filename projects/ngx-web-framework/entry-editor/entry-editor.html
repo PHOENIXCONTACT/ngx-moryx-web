@@ -5,21 +5,14 @@
       <!-- Check for missing readonly integration for disabled fields and create combined/computed field -->
       <mat-select [(ngModel)]="selectedListItemType" [disabled]="disabled()">
         @for (pv of possibleListItemTypes(); track pv.key) {
-          <mat-option [value]="pv.key">
-            {{ pv.displayName ?? pv.key }}
-          </mat-option>
+          <mat-option [value]="pv.key">{{ pv.displayName ?? pv.key }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
 
-    <button
-      mat-icon-button
-      class="entry-editor-add-list-item-button"
-      type="button"
-      (click)="addItemToList()"
-      [disabled]="disabled()"
-      [ngClass]="{ disabled: disabled() }">
-      <span class="material-symbols-outlined entry-editor-list-item-button-icon">playlist_add</span>
+    <button mat-icon-button class="entry-editor-add-list-item-button" type="button"
+      (click)="addItemToList()" [disabled]="disabled()" [class.disabled]="disabled()">
+      <mat-icon>playlist_add</mat-icon>
     </button>
   </div>
 }
@@ -29,21 +22,17 @@
   <div class="settable-dropdown-entry">
     <mat-form-field appearance="outline" class="settable-dropdown-entry-selector" subscriptSizing="dynamic">
       <mat-label>{{ entry().displayName }}</mat-label>
-
-      <mat-select
-        [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-        [(ngModel)]="entry().value.current"
-        (selectionChange)="dropdownSelectionChanged($event)">
+      <mat-select [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
+        [(ngModel)]="entry().value.current" (selectionChange)="dropdownSelectionChanged($event)">
         @for (pv of entry().value.possible; track pv.key) {
-          <mat-option [value]="pv.key">
-            {{ pv.displayName ?? pv.key }}
-          </mat-option>
+          <mat-option [value]="pv.key">{{ pv.displayName ?? pv.key }}</mat-option>
         }
       </mat-select>
+      @if (entry().value.isReadOnly) {
+        <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+      }
       @if (entry().description) {
-        <mat-hint
-          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
-          class="truncate">
+        <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
           {{ entry().description }}
         </mat-hint>
       }
@@ -58,61 +47,36 @@
       @if (EntryValueType.Collection === entry().value.type) {
         <!-- ToDo: Add error message to indicate missing editor id in using application -->
         @if (editorId()) {
-          <entry-list-item
-            matLine
-            class="entry-editor-subentries-list-item"
-            [editorId]="editorId()!"
-            [entry]="subEntry"
-            (entryChange)="updateSubEntry($event)"
-            [disabled]="disabled()"
+          <entry-list-item matLine class="entry-editor-subentries-list-item" [editorId]="editorId()!"
+            [entry]="subEntry" (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
             (deleteRequest)="onDeleteListItem($event)">
           </entry-list-item>
         }
       } @else if (EntryValueType.Stream === subEntry.value.type) {
-        <entry-file-editor
-          matLine
-          class="entry-editor-subentries-list-item"
-          [entry]="subEntry"
-          (entryChange)="updateSubEntry($event)"
-          [disabled]="disabled()">
+        <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-file-editor>
       } @else if (EntryValueType.Class === subEntry.value.type || EntryValueType.Collection === subEntry.value.type) {
         <!-- ToDo: Add error message to indicate missing editor id in using application -->
         @if (editorId()) {
-          <entry-object-editor
-            matLine
-            class="entry-editor-subentries-list-item"
-            [entry]="subEntry"
-            [editorId]="editorId()!"
-            [disabled]="disabled()">
+          <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+            [editorId]="editorId()!" [disabled]="disabled()">
           </entry-object-editor>
         }
       } @else if (EntryValueType.Boolean === subEntry.value.type) {
-        <entry-boolean-editor
-          matLine
-          class="entry-editor-subentries-list-item"
-          [entry]="subEntry"
-          (entryChange)="updateSubEntry($event)"
-          [disabled]="disabled()">
+        <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-boolean-editor>
         <!-- ToDo remove isEntryTypeSettable call, which is for class drop downs which are handled elsewhere -->
       } @else if (EntryValueType.Enum === subEntry.value.type ||
                   ((subEntry.value.possible?.length ?? 0) > 1 &&
                    !isEntryTypeSettable(subEntry))) {
-        <entry-enum-editor
-          matLine
-          class="entry-editor-subentries-list-item"
-          [entry]="subEntry"
-          (entryChange)="updateSubEntry($event)"
-          [disabled]="disabled()">
+        <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-enum-editor>
       } @else if (isPrimitiveType(subEntry)) {
-        <entry-input-editor
-          matLine
-          class="entry-editor-subentries-list-item"
-          [entry]="subEntry"
-          (entryChange)="updateSubEntry($event)"
-          [disabled]="disabled()">
+        <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-input-editor>
       }
     }

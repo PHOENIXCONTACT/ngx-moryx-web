@@ -1,19 +1,17 @@
-<div class="entry-checkbox-with-hint entry-editor-item-content">
-  <mat-checkbox
-    (click)="clickContainer($event)"
-    [checked]="checked()"
-    [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-    [name]="name()"
-    color="primary">
-    <div class="checkbox-text-area">
+<div class="boolean-editor">
+  <div class="boolean-input-row">
+    <mat-checkbox (click)="clickContainer($event)" [checked]="checked()"
+      [disabled]="disabled() || (entry().value.isReadOnly ?? false)" [name]="name()" color="primary"
+      [class.readonly]="(entry().value.isReadOnly ?? false) && !disabled()">
       {{ name() }}
-      @if (description()) {
-        <mat-hint
-          class="boolean-entry-form-hint"
-          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }">
-          {{ description() }}
-        </mat-hint>
-      }
+    </mat-checkbox>
+    @if (entry().value.isReadOnly) {
+      <mat-icon [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+    }
+  </div>
+  @if (description()) {
+    <div class="entry-hint truncate" [class.entry-editor-disabled]="disabled()">
+      {{ description() }}
     </div>
-  </mat-checkbox>
+  }
 </div>

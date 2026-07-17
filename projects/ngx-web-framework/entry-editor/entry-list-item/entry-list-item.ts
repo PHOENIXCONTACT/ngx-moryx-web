@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, model, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { FileEditor } from '../file-editor/file-editor';
@@ -6,10 +6,9 @@ import { EntryObject} from '../entry-object/entry-object';
 import { BooleanEditor } from '../boolean-editor/boolean-editor';
 import { InputEditor } from '../input-editor/input-editor';
 import { EnumEditor } from '../enum-editor/enum-editor';
-// ToDo: Remove common module import
-import { CommonModule } from '@angular/common';
 import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -20,9 +19,9 @@ import { MatListModule } from '@angular/material/list';
     BooleanEditor,
     InputEditor,
     EnumEditor,
-    CommonModule,
     MatLine,
     MatIconButton,
+    MatIcon,
     MatListModule,
   ],
   templateUrl: './entry-list-item.html',
@@ -33,11 +32,11 @@ export class EntryListItem {
   entry = model.required<Entry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
-  @Output() deleteRequest: EventEmitter<Entry> = new EventEmitter<Entry>();
+  deleteRequest = output<Entry>();
 
-  EntryValueType = EntryValueType;
+  protected EntryValueType = EntryValueType;
 
-  onDelete() {
+  protected onDelete() {
     this.deleteRequest.emit(this.entry());
   }
 }

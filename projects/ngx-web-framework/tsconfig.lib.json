@@ -15,7 +15,9 @@
     "services/**/*.ts",
     "entry-editor/**/*.ts",
     "empty-state/**/*.ts",
-    "interceptors/**/*.ts"
+    "interceptors/**/*.ts",
+    "material/**/*.ts",
+    "environments/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts"

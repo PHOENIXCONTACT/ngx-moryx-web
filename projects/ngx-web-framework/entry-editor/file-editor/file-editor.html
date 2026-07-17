@@ -3,31 +3,21 @@
   <div class="moryx-file-input file-upload">
     <mat-form-field appearance="outline" class="file-input-field entry-form-field" subscriptSizing="dynamic">
       <mat-label>{{ entry().displayName }}</mat-label>
-      <input
-        matInput
-        [formControl]="inputFormControl"
-        aria-label="Text field for selecting a file path."
-        title="Filename"
-        class="file-input-field"
-        [placeholder]="
-          inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
-            ? entry().value.default ?? ''
-            : ''
-        " />
-      <button
-        mat-icon-button
-        (click)="fileUpload.click()"
-        class="file-input-button"
-        type="button"
-        [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-        [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
-        matSuffix>
-        <span class="material-symbols-outlined">upload</span>
-      </button>
+      <input matInput [formControl]="inputFormControl" [readonly]="entry().value.isReadOnly ?? false"
+        aria-label="Text field for selecting a file path." title="Filename" class="file-input-field"
+        [placeholder]="inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
+          ? entry().value.default ?? ''
+          : ''" />
+      @if (entry().value.isReadOnly) {
+        <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+      } @else {
+        <button mat-icon-button (click)="fileUpload.click()" class="file-input-button" type="button"
+          [disabled]="disabled()" matPrefix>
+          <mat-icon>upload</mat-icon>
+        </button>
+      }
       @if (entry().description) {
-        <mat-hint
-          [ngClass]="{ 'entry-editor-disabled': disabled() || (entry().value.isReadOnly ?? false) }"
-          class="truncate">
+        <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
           {{ entry().description }}
         </mat-hint>
       }

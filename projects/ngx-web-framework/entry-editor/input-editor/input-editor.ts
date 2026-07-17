@@ -10,7 +10,6 @@ import {
   minEntryValueValidator,
   parseCultureIndependentFloat
 } from '../validators/entry-editor.validators';
-import { CommonModule } from '@angular/common';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,7 +20,6 @@ import { MatSliderModule } from '@angular/material/slider';
 @Component({
   selector: 'entry-input-editor',
   imports: [
-    CommonModule,
     FormsModule,
     MatError,
     MatLabel,
@@ -37,12 +35,12 @@ import { MatSliderModule } from '@angular/material/slider';
   styleUrl: './input-editor.scss',
 })
 export class InputEditor implements OnDestroy {
-  inputFormControl!: UntypedFormControl;
+  protected inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
-  isPassword!: boolean;
-  isNumber!: boolean;
-  useTextArea = signal(false);
-  readOnly = signal<boolean>(false);
+  protected isPassword!: boolean;
+  protected isNumber!: boolean;
+  protected useTextArea = signal(false);
+  protected readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
   private readonly INLINE_INPUT_RANGE_THRESHOLD = 100;
@@ -50,7 +48,7 @@ export class InputEditor implements OnDestroy {
   constructor() {
     this.inputFormControl = new UntypedFormControl();
 
-    // One-time initialization assuming a different entry (by identifier not only reference) 
+    // One-time initialization assuming a different entry (by identifier not only reference)
     // creates a new component instance.
     const reference = effect(() => {
       this.initialize(this.entry());
@@ -60,18 +58,18 @@ export class InputEditor implements OnDestroy {
     // Entry initialization & updates on every ref change
     effect(() => {
       const entry = this.entry();
-      
+
       untracked(() => {
         // ToDo: Check emitEvent
         if (this.isSinglePossibleValue(entry)) {
           const singlePossibleValue = entry.value?.possible?.[0]?.key ?? '';
-          
+
           if (this.inputFormControl.value !== singlePossibleValue) {
             this.inputFormControl.setValue(singlePossibleValue, { emitEvent: false });
-          }          
+          }
 
           if (entry.value?.current !== singlePossibleValue) {
-            this.entry.update(e => { 
+            this.entry.update(e => {
               e.value.current = singlePossibleValue;
               return { ...e };
             });
@@ -108,17 +106,22 @@ export class InputEditor implements OnDestroy {
   }
 
   // ToDo: Check if anything like C# out variable for function exists and use here
-  isSinglePossibleValue(entry: Entry): boolean {
+  private isSinglePossibleValue(entry: Entry): boolean {
     const result = entry.value.possible && entry.value.possible.length === 1;
     return result ?? false;
   }
 
-  disableInputFormControl(control: UntypedFormControl, disable: boolean) {
+  private disableInputFormControl(control: UntypedFormControl, disable: boolean) {
     if (disable) control.disable();
     else control.enable();
   }
 
-  setupValidators(entry: Entry): ValidatorFn[] {
+  private setupValidators(entry: Entry): ValidatorFn[] {
+    // Disable validators if readOnly
+    if (this.readOnly()) {
+      return [];
+    }
+
     var validators = [] as ValidatorFn[];
     validators.push(invalidEntryValueValidator(entry.value.type));
     if (entry.validation?.isRequired) validators.push(Validators.required);
@@ -129,7 +132,7 @@ export class InputEditor implements OnDestroy {
   }
 
   private setupFormControl(entry: Entry, validators: ValidatorFn[]): UntypedFormControl {
-    // Initialvalue: for numbers parse culture independent 
+    // Initialvalue: for numbers parse culture independent
     const rawInitial = entry.value?.current ?? entry.value?.default ?? '';
     let initialValue;
     if (this.isNumber) {
@@ -140,7 +143,7 @@ export class InputEditor implements OnDestroy {
     }
 
 
-    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };  
+    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };
     const result = new UntypedFormControl(
       {
         value: initialValue,
@@ -181,14 +184,14 @@ export class InputEditor implements OnDestroy {
     this.formControlSubscription?.unsubscribe();
   }
 
-  addTextValidators(validators: ValidatorFn[]) {
+  private addTextValidators(validators: ValidatorFn[]) {
     const regex = this.entry().validation?.regex;
     if (regex) {
       validators.push(Validators.pattern(regex));
     }
   }
 
-  addNumberValidators(validators: ValidatorFn[]) {
+  private addNumberValidators(validators: ValidatorFn[]) {
     var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry().value?.type);
     var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry().value?.type);
 
@@ -200,7 +203,7 @@ export class InputEditor implements OnDestroy {
     );
   }
 
-  getTypeSpecificMaximum(type: EntryValueType | undefined): number {
+  private getTypeSpecificMaximum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 255;
@@ -225,7 +228,7 @@ export class InputEditor implements OnDestroy {
     }
   }
 
-  getTypeSpecificMinimum(type: EntryValueType | undefined): number {
+  private getTypeSpecificMinimum(type: EntryValueType | undefined): number {
     switch (type) {
       case EntryValueType.Byte:
         return 0;
@@ -250,7 +253,7 @@ export class InputEditor implements OnDestroy {
     }
   }
 
-  determineInputType() {
+  private determineInputType() {
     if (
       EntryValueType.Int16 === this.entry().value?.type ||
       EntryValueType.UInt16 === this.entry().value?.type ||
@@ -266,11 +269,11 @@ export class InputEditor implements OnDestroy {
     else if (EntryUnitType.Password === this.entry().value?.unitType) this.isPassword = true;
   }
 
-  setTextArea(value: boolean) {
+  protected setTextArea(value: boolean) {
     this.useTextArea.set(value);
   }
 
-  shouldUseSlider(): boolean {
+  protected shouldUseSlider(): boolean {
     return this.defaultSliderCheck(this.entry());
   }
 
@@ -286,7 +289,7 @@ export class InputEditor implements OnDestroy {
     return min > typeMin || max < typeMax;
   }
 
-  getSliderStep(): number {
+  protected getSliderStep(): number {
     switch (this.entry().value.type) {
       case EntryValueType.Single:
       case EntryValueType.Double:
@@ -308,7 +311,7 @@ export class InputEditor implements OnDestroy {
     return Math.max(minAbs, maxAbs).toString().length;
   }
 
-  shouldShowInlineInput(): boolean {
+  protected shouldShowInlineInput(): boolean {
     return this.isNumber && (this.getRange() > this.INLINE_INPUT_RANGE_THRESHOLD || this.maxDigits() > 3);
   }
 }
