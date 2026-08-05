@@ -25,7 +25,7 @@
       <mat-select [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
         [(ngModel)]="entry().value.current" (selectionChange)="dropdownSelectionChanged($event)">
         @for (pv of entry().value.possible; track pv.key) {
-          <mat-option [value]="pv.key">{{ pv.displayName ?? pv.key }}</mat-option>
+          <mat-option [value]="pv">{{ pv.displayName ?? pv.key }}</mat-option>
         }
       </mat-select>
       @if (entry().value.isReadOnly) {
