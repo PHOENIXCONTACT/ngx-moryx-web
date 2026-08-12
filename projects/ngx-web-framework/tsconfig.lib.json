@@ -17,7 +17,8 @@
     "empty-state/**/*.ts",
     "interceptors/**/*.ts",
     "material/**/*.ts",
-    "environments/**/*.ts"
+    "environments/**/*.ts",
+    "i18n/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts"
