@@ -16,7 +16,7 @@ import { LanguageService } from '@moryx/ngx-web-framework/services';
  * @param languages All supported language codes (e.g. ['en', 'de', 'it', 'zh']).
  * @param fallbackLang The default language to use when the user's language is not supported (default: 'en').
  */
-export function provideMoryxLocalization(languages: readonly string[], fallbackLang: string = 'en') {
+export function provideMoryxLocalization(languages: string[], fallbackLang: string = 'en') {
   if (!languages.includes(fallbackLang)) {
     throw new Error(`provideMoryxLocalization: fallbackLang '${fallbackLang}' must be included ` +
       `in the languages array [${languages.join(', ')}].`);
@@ -34,10 +34,13 @@ export function provideMoryxLocalization(languages: readonly string[], fallbackL
       const translateService = inject(TranslateService);
       const languageService = inject(LanguageService);
 
-      translateService.addLangs([...languages]);
+      translateService.addLangs(languages);
       translateService.setFallbackLang(fallbackLang);
 
       const lang = languageService.getCurrentLang();
+      if (!languages.includes(lang)) {
+        console.warn(`Language '${lang}' is not supported. Falling back to '${fallbackLang}'.`);
+      }
       translateService.use(languages.includes(lang) ? lang : fallbackLang);
     }),
   ]);
