@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 import { TranslationConstants } from './translation-constants';
-import { LanguageService } from '../language/language.service';
+import { SNACKBAR_TRANSLATIONS } from './snackbar-translations';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -11,16 +11,17 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class SnackbarService {
   private snackbar = inject(MatSnackBar);
-  private languageService = inject(LanguageService);
   private translate = inject(TranslateService);
 
   constructor() {
-    this.translate.addLangs([
-      TranslationConstants.LANGUAGES.EN,
-      TranslationConstants.LANGUAGES.DE,
-      TranslationConstants.LANGUAGES.IT,
-    ]);
-    this.translate.setFallbackLang(this.languageService.getFallbackLang());
+    this.mergeTranslations();
+    this.translate.onLangChange.subscribe(() => this.mergeTranslations());
+  }
+
+  private mergeTranslations() {
+    for (const [lang, translations] of Object.entries(SNACKBAR_TRANSLATIONS)) {
+      this.translate.setTranslation(lang, translations, true);
+    }
   }
 
   async showError(errorMessage: string) {
