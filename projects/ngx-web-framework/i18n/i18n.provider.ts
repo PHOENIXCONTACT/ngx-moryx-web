@@ -1,6 +1,7 @@
 import { inject, LOCALE_ID, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@moryx/ngx-web-framework/services';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Configures Angular's built-in locale and ngx-translate for the application.
@@ -41,7 +42,7 @@ export function provideMoryxLocalization(languages: string[], fallbackLang: stri
       if (!languages.includes(lang)) {
         console.warn(`Language '${lang}' is not supported. Falling back to '${fallbackLang}'.`);
       }
-      translateService.use(languages.includes(lang) ? lang : fallbackLang);
+      return firstValueFrom(translateService.use(languages.includes(lang) ? lang : fallbackLang));
     }),
   ]);
 }
