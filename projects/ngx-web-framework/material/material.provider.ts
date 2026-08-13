@@ -25,7 +25,12 @@ export function provideMoryxMaterialDefaults(): EnvironmentProviders {
         // Dims the background application layout behind the active dialog overlay.
         // This visually isolates the popup and prevents accidental clicks on the underlying UI.
         // Default is true, keep for explicit set.
-        hasBackdrop: true
+        hasBackdrop: true,
+
+        // Focuses the first element matching [cdkFocusInitial], or the first tabbable element.
+        // Must be set explicitly because providing MAT_DIALOG_DEFAULT_OPTIONS as a plain object
+        // loses the MatDialogConfig class defaults (where autoFocus = 'first-tabbable').
+        autoFocus: 'first-tabbable'
       }
     },
     provideAppInitializer(() => {
