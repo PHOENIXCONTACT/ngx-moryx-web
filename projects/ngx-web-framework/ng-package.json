@@ -6,7 +6,6 @@
   },
   "assets": [
     "styles/*",
-    "services/snackbar/i18n/*",
     {
       "glob": "collection.json",
       "input": "./schematics",

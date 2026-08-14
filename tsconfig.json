@@ -27,6 +27,9 @@
       "@moryx/ngx-web-framework/material": [
         "./projects/ngx-web-framework/material/index.ts"
       ],
+      "@moryx/ngx-web-framework/i18n": [
+        "./projects/ngx-web-framework/i18n/index.ts"
+      ],
       "@moryx/ngx-web-framework": [
         "./projects/ngx-web-framework/src/public-api.ts"
       ]
