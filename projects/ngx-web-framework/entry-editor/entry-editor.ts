@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { EnumEditor } from './enum-editor/enum-editor';
 import { InputEditor } from './input-editor/input-editor';
 import { FileEditor } from './file-editor/file-editor';
+import { DateEditor } from './date-editor/date-editor';
+import { TimeEditor } from './time-editor/time-editor';
+import { TimeSpanEditor } from './timespan-editor/timespan-editor';
 import { EntryObject } from './entry-object/entry-object';
 import { EntryListItem } from './entry-list-item/entry-list-item';
 import { MatIconButton } from '@angular/material/button';
@@ -25,6 +28,9 @@ import { MatIcon } from '@angular/material/icon';
     EnumEditor,
     InputEditor,
     FileEditor,
+    DateEditor,
+    TimeEditor,
+    TimeSpanEditor,
     EntryObject,
     EntryListItem,
     MatLineModule,

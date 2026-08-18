@@ -1,0 +1,41 @@
+<div class="full-width-input date-editor">
+  <div class="date-editor-row">
+    <mat-form-field class="date-field" appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ entry().displayName }}</mat-label>
+      <input matInput [matDatepicker]="picker"
+        [ngModel]="dateValue"
+        (ngModelChange)="onDateChange($event)"
+        [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
+        [readonly]="entry().value.isReadOnly ?? false" />
+      @if (entry().value.isReadOnly) {
+        <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+      } @else {
+        <button mat-icon-button (click)="picker.open()" class="date-picker-button" type="button"
+          [disabled]="disabled()" matPrefix>
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+      }
+      <mat-datepicker #picker></mat-datepicker>
+      @if (!isDateTime() && entry().description) {
+        <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
+          {{ entry().description }}
+        </mat-hint>
+      }
+    </mat-form-field>
+    @if (isDateTime()) {
+      <mat-form-field class="time-field" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" step="1"
+          [ngModel]="timeValue()"
+          (ngModelChange)="onTimeChange($event)"
+          [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
+          [readonly]="entry().value.isReadOnly ?? false" />
+      </mat-form-field>
+    }
+  </div>
+  @if (isDateTime() && entry().description) {
+    <div class="entry-hint truncate" [class.entry-editor-disabled]="disabled()">
+      {{ entry().description }}
+    </div>
+  }
+</div>

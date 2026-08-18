@@ -56,7 +56,7 @@
         <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-file-editor>
-      } @else if (EntryValueType.Class === subEntry.value.type || EntryValueType.Collection === subEntry.value.type) {
+      } @else if (EntryValueType.Class === subEntry.value.type || EntryValueType.Collection === subEntry.value.type || EntryValueType.Struct === subEntry.value.type) {
         <!-- ToDo: Add error message to indicate missing editor id in using application -->
         @if (editorId()) {
           <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
@@ -74,6 +74,18 @@
         <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-enum-editor>
+      } @else if (EntryValueType.Date === subEntry.value.type || EntryValueType.DateTime === subEntry.value.type) {
+        <entry-date-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
+        </entry-date-editor>
+      } @else if (EntryValueType.Time === subEntry.value.type) {
+        <entry-time-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
+        </entry-time-editor>
+      } @else if (EntryValueType.TimeSpan === subEntry.value.type) {
+        <entry-timespan-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
+          (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
+        </entry-timespan-editor>
       } @else if (isPrimitiveType(subEntry)) {
         <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">

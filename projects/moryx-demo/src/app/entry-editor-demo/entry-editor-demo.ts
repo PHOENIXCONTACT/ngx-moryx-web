@@ -573,6 +573,90 @@ export class EntryEditorDemo {
         ],
         prototypes: [],
       },
+      {
+        // Date
+        displayName: 'Start Date',
+        description: 'Select a start date.',
+        identifier: 'StartDate',
+        value: {
+          current: '2025-06-15',
+          default: '2025-01-01',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Date,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Date (readonly)
+        displayName: 'Created Date',
+        description: 'The date this entry was created.',
+        identifier: 'CreatedDate',
+        value: {
+          current: '2024-03-20',
+          default: null,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Date,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Time
+        displayName: 'Scheduled Time',
+        description: 'Set the scheduled time.',
+        identifier: 'ScheduledTime',
+        value: {
+          current: '14:30:00',
+          default: '08:00:00',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Time,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Time (readonly)
+        displayName: 'Last Run Time',
+        description: 'The time of the last run.',
+        identifier: 'LastRunTime',
+        value: {
+          current: '09:15:42',
+          default: null,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Time,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // TimeSpan
+        displayName: 'Timeout Duration',
+        description: 'Configure the timeout duration.',
+        identifier: 'TimeoutDuration',
+        value: {
+          current: '00:05:30',
+          default: '00:01:00',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.TimeSpan,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // DateTime
+        displayName: 'Last Modified',
+        description: 'DateTime entry with date and time.',
+        identifier: 'LastModified',
+        value: {
+          current: '2025-11-20T14:30:00.000Z',
+          default: null,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.DateTime,
+          unitType: EntryUnitType.None,
+        },
+      },
     ],
     value: {},
   });
