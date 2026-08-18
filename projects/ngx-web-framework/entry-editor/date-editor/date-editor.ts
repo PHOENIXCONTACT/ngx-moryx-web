@@ -44,10 +44,11 @@ export class DateEditor {
         this.timeValue.set('');
         return;
       }
-      this.dateValue = new Date(raw);
+      const parsed = new Date(raw);
+      this.dateValue = parsed;
       if (this.isDateTime()) {
-        const timePart = raw.split('T')[1];
-        this.timeValue.set(timePart ? timePart.slice(0, 8) : '00:00:00');
+        // Display in local time — new Date() already converted UTC to local
+        this.timeValue.set(parsed.toTimeString().slice(0, 8));
       }
     });
   }
@@ -67,11 +68,12 @@ export class DateEditor {
       if (!this.dateValue) {
         e.value.current = null;
       } else if (this.isDateTime()) {
+        // Set local time — toISOString() converts back to UTC for the server
         const timeParts = (this.timeValue() || '00:00:00').split(':');
         const d = new Date(this.dateValue);
-        d.setHours(parseInt(timeParts[0], 10) || 0);
-        d.setMinutes(parseInt(timeParts[1], 10) || 0);
-        d.setSeconds(parseInt(timeParts[2], 10) || 0);
+        d.setHours(parseInt(timeParts[0]) || 0);
+        d.setMinutes(parseInt(timeParts[1]) || 0);
+        d.setSeconds(parseInt(timeParts[2]) || 0);
         e.value.current = d.toISOString();
       } else {
         e.value.current = this.dateValue.toISOString().split('T')[0];

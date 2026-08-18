@@ -39,7 +39,7 @@ export class TimeSpanEditor {
     const match = raw?.match(/^(?:(?<days>\d+)\.)?(?<time>\d{1,2}:\d{2}:\d{2})/);
     const { days, time } = match?.groups ?? {};
 
-    this.days.set(parseInt(days ?? '0', 10));
+    this.days.set(parseInt(days ?? '0'));
     this.timeValue.set(time ?? '00:00:00');
   }
 
