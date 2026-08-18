@@ -1,4 +1,4 @@
-<div class="full-width-input date-editor">
+<div class="full-width-input entry-form-field date-editor">
   <div class="date-editor-row">
     <mat-form-field class="date-field" appearance="outline" subscriptSizing="dynamic">
       <mat-label>{{ entry().displayName }}</mat-label>
@@ -24,7 +24,6 @@
     </mat-form-field>
     @if (isDateTime()) {
       <mat-form-field class="time-field" appearance="outline" subscriptSizing="dynamic">
-        <mat-label>Time</mat-label>
         <input matInput type="time" step="1"
           [ngModel]="timeValue()"
           (ngModelChange)="onTimeChange($event)"
