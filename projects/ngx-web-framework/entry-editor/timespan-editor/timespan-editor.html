@@ -1,0 +1,23 @@
+<div class="full-width-input entry-form-field timespan-editor">
+  <div class="timespan-row">
+    <mat-form-field class="days-field" appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ TranslationConstants.DAYS | translate }}</mat-label>
+      <input matInput type="number" min="0" [ngModel]="days()" (ngModelChange)="onDaysChange($event)"
+        (blur)="onDaysBlur($event)"
+        [disabled]="disabled()" [readonly]="readOnly()" />
+    </mat-form-field>
+    <mat-form-field class="time-field" appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ entry().displayName }}</mat-label>
+      <input matInput type="time" step="1" [ngModel]="timeValue()" (ngModelChange)="onTimeChange($event)"
+        [disabled]="disabled()" [readonly]="readOnly()" />
+      @if (entry().value.isReadOnly) {
+        <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+      }
+    </mat-form-field>
+  </div>
+  @if (entry().description) {
+    <div class="entry-hint truncate" [class.entry-editor-disabled]="disabled()">
+      {{ entry().description }}
+    </div>
+  }
+</div>

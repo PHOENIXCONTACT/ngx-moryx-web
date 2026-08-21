@@ -1,0 +1,53 @@
+@let currentEntry = entry();
+@let isReadOnly = readOnly();
+@let isDisabled = disabled();
+@let dateTime = isDateTime();
+<div class="full-width-input entry-form-field date-editor">
+  <div class="date-editor-row">
+    <mat-form-field class="date-field" appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ currentEntry.displayName }}</mat-label>
+      <input matInput [matDatepicker]="picker"
+        [ngModel]="dateValue()"
+        (ngModelChange)="onDateChange($event)"
+        [disabled]="isDisabled"
+        [readonly]="isReadOnly"
+        [errorStateMatcher]="errorStateMatcher" />
+      @if (isReadOnly && !dateTime) {
+        <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
+      } @else if (!isReadOnly) {
+        <button mat-icon-button (click)="picker.open()" class="date-picker-button" type="button"
+          [disabled]="isDisabled" matPrefix>
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+      }
+      <mat-datepicker #picker></mat-datepicker>
+      @if (!dateTime && currentEntry.description) {
+        <mat-hint [class.entry-editor-disabled]="isDisabled" class="truncate">
+          {{ currentEntry.description }}
+        </mat-hint>
+      }
+      @if (!dateValue()) {
+        <mat-error class="truncate">
+          {{ TranslationConstants.REQUIRED | translate: { name: currentEntry.displayName } }}
+        </mat-error>
+      }
+    </mat-form-field>
+    @if (dateTime) {
+      <mat-form-field class="time-field" appearance="outline" subscriptSizing="dynamic">
+        <input matInput type="time" step="1"
+          [ngModel]="timeValue()"
+          (ngModelChange)="onTimeChange($event)"
+          [disabled]="isDisabled"
+          [readonly]="isReadOnly" />
+        @if (isReadOnly) {
+          <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
+        }
+      </mat-form-field>
+    }
+  </div>
+  @if (dateTime && currentEntry.description) {
+    <div class="entry-hint truncate" [class.entry-editor-disabled]="isDisabled">
+      {{ currentEntry.description }}
+    </div>
+  }
+</div>

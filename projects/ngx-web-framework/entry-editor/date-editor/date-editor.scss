@@ -1,0 +1,26 @@
+@use "../style/entry-editor-base" as *;
+
+.date-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-editor-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.date-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.time-field {
+  width: 140px;
+  flex: 0 0 auto;
+}
+
+.date-picker-button {
+  margin: 10px;
+}

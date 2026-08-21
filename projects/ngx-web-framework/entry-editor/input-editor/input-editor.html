@@ -50,27 +50,27 @@
     }
     @if (inputFormControl.hasError('min')) {
       <mat-error class="truncate">
-        Please enter a value higher than {{ entry().validation?.minimum }}
+        {{ TranslationConstants.MIN_ERROR | translate: { min: entry().validation?.minimum } }}
       </mat-error>
     }
     @if (inputFormControl.hasError('max')) {
       <mat-error class="truncate">
-        Please enter a value lower than {{ entry().validation?.maximum }}
+        {{ TranslationConstants.MAX_ERROR | translate: { max: entry().validation?.maximum } }}
       </mat-error>
     }
     @if (inputFormControl.hasError('pattern')) {
       <mat-error class="truncate">
-        Please make sure your input matches the pattern: {{ entry().validation?.regex }}
+        {{ TranslationConstants.PATTERN_ERROR | translate: { regex: entry().validation?.regex } }}
       </mat-error>
     }
     @if (inputFormControl.hasError('required')) {
       <mat-error class="truncate">
-        {{ entry().displayName }} is <strong>required</strong>
+        {{ TranslationConstants.REQUIRED | translate: { name: entry().displayName } }}
       </mat-error>
     }
     @if (inputFormControl.hasError('invalidEntryValue')) {
       <mat-error class="block truncate">
-        The entered value is <strong>invalid</strong>
+        {{ TranslationConstants.INVALID_VALUE | translate }}
       </mat-error>
     }
     <!-- TEXTAREA -->
