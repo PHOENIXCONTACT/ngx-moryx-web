@@ -113,8 +113,8 @@ export class EntryEditorDemo {
         identifier: 'Double Identifier',
         validation: { maximum: 41.5, minimum: -41.5 },
         value: {
-          current: undefined,
-          default: undefined,
+          current: '0',
+          default: '0',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Double,
