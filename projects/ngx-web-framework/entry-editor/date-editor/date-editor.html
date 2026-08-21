@@ -9,12 +9,12 @@
       <input matInput [matDatepicker]="picker"
         [ngModel]="dateValue()"
         (ngModelChange)="onDateChange($event)"
-        [disabled]="isDisabled || isReadOnly"
+        [disabled]="isDisabled"
         [readonly]="isReadOnly"
         [errorStateMatcher]="errorStateMatcher" />
-      @if (isReadOnly) {
+      @if (isReadOnly && !dateTime) {
         <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
-      } @else {
+      } @else if (!isReadOnly) {
         <button mat-icon-button (click)="picker.open()" class="date-picker-button" type="button"
           [disabled]="isDisabled" matPrefix>
           <mat-icon>calendar_today</mat-icon>
@@ -37,8 +37,11 @@
         <input matInput type="time" step="1"
           [ngModel]="timeValue()"
           (ngModelChange)="onTimeChange($event)"
-          [disabled]="isDisabled || isReadOnly"
+          [disabled]="isDisabled"
           [readonly]="isReadOnly" />
+        @if (isReadOnly) {
+          <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
+        }
       </mat-form-field>
     }
   </div>

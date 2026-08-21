@@ -6,7 +6,7 @@
   <input matInput type="time" step="1"
     [ngModel]="timeValue()"
     (ngModelChange)="onTimeChange($event)"
-    [disabled]="isDisabled || isReadOnly"
+    [disabled]="isDisabled"
     [readonly]="isReadOnly" />
   @if (isReadOnly) {
     <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>

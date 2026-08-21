@@ -151,7 +151,7 @@ export class InputEditor implements OnDestroy {
     const result = new UntypedFormControl(
       {
         value: initialValue,
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false),
+        disabled: this.disabled(),
       },
       controlOptions
     );
