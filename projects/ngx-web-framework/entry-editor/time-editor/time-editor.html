@@ -1,16 +1,19 @@
+@let currentEntry = entry();
+@let isReadOnly = readOnly();
+@let isDisabled = disabled();
 <mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
-  <mat-label>{{ entry().displayName }}</mat-label>
+  <mat-label>{{ currentEntry.displayName }}</mat-label>
   <input matInput type="time" step="1"
     [ngModel]="timeValue()"
     (ngModelChange)="onTimeChange($event)"
-    [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-    [readonly]="entry().value.isReadOnly ?? false" />
-  @if (entry().value.isReadOnly) {
-    <mat-icon matSuffix [class.entry-editor-disabled]="disabled()">lock</mat-icon>
+    [disabled]="isDisabled || isReadOnly"
+    [readonly]="isReadOnly" />
+  @if (isReadOnly) {
+    <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
   }
-  @if (entry().description) {
-    <mat-hint [class.entry-editor-disabled]="disabled()" class="truncate">
-      {{ entry().description }}
+  @if (currentEntry.description) {
+    <mat-hint [class.entry-editor-disabled]="isDisabled" class="truncate">
+      {{ currentEntry.description }}
     </mat-hint>
   }
 </mat-form-field>

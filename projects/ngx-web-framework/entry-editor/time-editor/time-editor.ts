@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, input, linkedSignal, model, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,21 +21,23 @@ export class TimeEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
-  protected timeValue = signal<string>('');
+  protected readOnly = computed(() => {
+    return this.entry().value?.isReadOnly ?? false
+  });
 
-  constructor() {
-    effect(() => {
-      const entry = this.entry();
+  protected timeValue = linkedSignal<Entry, string>({
+    source: this.entry,
+    computation: (entry) => {
       const raw = entry.value?.current ?? entry.value?.default ?? '';
       // Strip fractional seconds from .NET formats like "14:30:00.0000000"
-      this.timeValue.set(raw.split('.')[0]);
-    });
-  }
+      return raw.split('.')[0];
+    },
+  });
 
   protected onTimeChange(value: string) {
     this.timeValue.set(value);
     this.entry.update(e => {
-      e.value.current = value || null;
+      e.value.current = value || e.value?.default || null;
       return { ...e };
     });
   }

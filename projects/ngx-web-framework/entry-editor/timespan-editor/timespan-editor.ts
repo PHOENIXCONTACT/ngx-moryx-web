@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, input, linkedSignal, model, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,27 +21,28 @@ export class TimeSpanEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
-  protected days = signal(0);
-  protected timeValue = signal('');
-  protected readOnly = signal(false);
-
-  constructor() {
-    effect(() => {
-      const entry = this.entry();
-      this.readOnly.set(entry.value?.isReadOnly ?? false);
-      const raw = entry.value?.current ?? entry.value?.default ?? '';
-      this.parseTimeSpan(raw);
-    });
-  }
+  protected readOnly = computed(() => {
+    return this.entry().value?.isReadOnly ?? false
+  });
 
   // .NET TimeSpan formats: "HH:mm:ss", "d.HH:mm:ss", "d.HH:mm:ss.fffffff"
-  private parseTimeSpan(raw: string) {
-    const match = raw?.match(/^(?:(?<days>\d+)\.)?(?<time>\d{1,2}:\d{2}:\d{2})/);
-    const { days, time } = match?.groups ?? {};
+  protected days = linkedSignal<Entry, number>({
+    source: this.entry,
+    computation: (entry) => {
+      const raw = entry.value?.current ?? entry.value?.default ?? '';
+      const match = raw?.match(/^(?:(?<days>\d+)\.)?/);
+      return parseInt(match?.groups?.['days'] ?? '0');
+    },
+  });
 
-    this.days.set(parseInt(days ?? '0'));
-    this.timeValue.set(time ?? '00:00:00');
-  }
+  protected timeValue = linkedSignal<Entry, string>({
+    source: this.entry,
+    computation: (entry) => {
+      const raw = entry.value?.current ?? entry.value?.default ?? '';
+      const match = raw?.match(/^(?:(?:\d+)\.)?(?<time>\d{1,2}:\d{2}:\d{2})/);
+      return match?.groups?.['time'] ?? '00:00:00';
+    },
+  });
 
   private formatTimeSpan(): string {
     const d = this.days();
