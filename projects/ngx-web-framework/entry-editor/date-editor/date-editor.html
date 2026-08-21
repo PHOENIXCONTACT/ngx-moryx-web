@@ -10,7 +10,8 @@
         [ngModel]="dateValue()"
         (ngModelChange)="onDateChange($event)"
         [disabled]="isDisabled || isReadOnly"
-        [readonly]="isReadOnly" />
+        [readonly]="isReadOnly"
+        [errorStateMatcher]="errorStateMatcher" />
       @if (isReadOnly) {
         <mat-icon matSuffix [class.entry-editor-disabled]="isDisabled">lock</mat-icon>
       } @else {
@@ -24,6 +25,11 @@
         <mat-hint [class.entry-editor-disabled]="isDisabled" class="truncate">
           {{ currentEntry.description }}
         </mat-hint>
+      }
+      @if (!dateValue()) {
+        <mat-error class="truncate">
+          {{ TranslationConstants.REQUIRED | translate: { name: currentEntry.displayName } }}
+        </mat-error>
       }
     </mat-form-field>
     @if (dateTime) {

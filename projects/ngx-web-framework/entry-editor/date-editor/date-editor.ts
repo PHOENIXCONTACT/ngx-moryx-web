@@ -1,5 +1,6 @@
 import { Component, computed, input, linkedSignal, model, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +9,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 @Component({
   selector: 'entry-date-editor',
@@ -19,6 +22,7 @@ import { MatIconButton } from '@angular/material/button';
     MatNativeDateModule,
     MatIcon,
     MatIconButton,
+    TranslatePipe,
   ],
   templateUrl: './date-editor.html',
   styleUrl: './date-editor.scss',
@@ -27,6 +31,8 @@ import { MatIconButton } from '@angular/material/button';
 export class DateEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+
+  protected TranslationConstants = TranslationConstants;
 
   protected readOnly = computed(() => {
     return this.entry().value?.isReadOnly ?? false;
@@ -61,12 +67,15 @@ export class DateEditor {
     },
   });
 
+  protected errorStateMatcher: ErrorStateMatcher = {
+    isErrorState: () => !this.dateValue(),
+  };
+
   protected onDateChange(date: Date | null) {
-    if (!date && this.entry().validation?.isRequired) {
-      return;
-    }
     this.dateValue.set(date);
-    this.emitChange();
+    if (date) {
+      this.emitChange();
+    }
   }
 
   protected onTimeChange(value: string) {
@@ -75,19 +84,20 @@ export class DateEditor {
   }
 
   private emitChange() {
+    const date = this.dateValue();
     this.entry.update(e => {
-      if (!this.dateValue()) {
+      if (!date) {
         e.value.current = null;
       } else if (this.isDateTime()) {
         // Set local time — toISOString() converts back to UTC for the server
         const timeParts = (this.timeValue() || '00:00:00').split(':');
-        const d = new Date(this.dateValue()!);
+        const d = new Date(date);
         d.setHours(parseInt(timeParts[0]) || 0);
         d.setMinutes(parseInt(timeParts[1]) || 0);
         d.setSeconds(parseInt(timeParts[2]) || 0);
         e.value.current = d.toISOString();
       } else {
-        e.value.current = this.dateValue()!.toISOString().split('T')[0];
+        e.value.current = date.toISOString().split('T')[0];
       }
       return { ...e };
     });

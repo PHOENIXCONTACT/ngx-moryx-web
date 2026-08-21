@@ -1,8 +1,10 @@
-import { Component, effect, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Entry } from './models/entry';
 import { EntryPossible } from './models/entry-possible';
 import { EntryUnitType } from './models/entry-unit-type';
 import { EntryValueType } from './models/entry-value-type';
+import { ENTRY_EDITOR_TRANSLATIONS } from './entry-editor-translations';
 import { PrototypeToEntryConverter } from './prototype-to-entry-converter';
 import { BooleanEditor } from './boolean-editor/boolean-editor';
 import { MatLineModule, MatOption } from '@angular/material/core';
@@ -61,14 +63,21 @@ export class EntryEditor {
 
   private currentEntry: Entry | undefined = undefined;
 
+  protected EntryValueType = EntryValueType;
+  protected EntryUnitType = EntryUnitType;
+
   protected possibleListItemTypes = signal<EntryPossible[] | undefined | null>(undefined);
   private prototypes = signal<Entry[]>([]);
   protected selectedListItemType = signal<string | undefined>(undefined);
   private selectedEntryHasPrototypes = signal(true);
 
   private createdCounter?: number;
+  private translate = inject(TranslateService);
 
   constructor() {
+    this.mergeTranslations();
+    this.translate.onLangChange.subscribe(() => this.mergeTranslations());
+
     // ToDo: Replace effect and signals with computed
     effect(() => {
       if(this.currentEntry !== this.entry() ){
@@ -107,10 +116,6 @@ export class EntryEditor {
       return updatedEntry;
     });
   }
-
-  // ToDo: Move to correct place
-  protected EntryValueType = EntryValueType;
-  protected EntryUnitType = EntryUnitType;
 
   protected onDeleteListItem(toBeDeleted: Entry) {
     const entry = this.entry();
@@ -182,6 +187,12 @@ export class EntryEditor {
       this.selectedEntryHasPrototypes.set(true);
       return entry;
     });
+  }
+
+  private mergeTranslations() {
+    for (const [lang, translations] of Object.entries(ENTRY_EDITOR_TRANSLATIONS)) {
+      this.translate.setTranslation(lang, translations, true);
+    }
   }
 
   // ToDo: Remove unnecessary wrapper function

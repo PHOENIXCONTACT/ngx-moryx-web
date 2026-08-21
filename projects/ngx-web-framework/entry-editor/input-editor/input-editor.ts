@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 // ToDo: Format file
 @Component({
@@ -29,12 +31,14 @@ import { MatSliderModule } from '@angular/material/slider';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
+    TranslatePipe,
   ],
   templateUrl: './input-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './input-editor.scss',
 })
 export class InputEditor implements OnDestroy {
+  protected TranslationConstants = TranslationConstants;
   protected inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
   protected isPassword!: boolean;

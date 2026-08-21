@@ -1,8 +1,9 @@
 <div class="full-width-input entry-form-field timespan-editor">
   <div class="timespan-row">
     <mat-form-field class="days-field" appearance="outline" subscriptSizing="dynamic">
-      <mat-label>Days</mat-label>
+      <mat-label>{{ TranslationConstants.DAYS | translate }}</mat-label>
       <input matInput type="number" min="0" [ngModel]="days()" (ngModelChange)="onDaysChange($event)"
+        (blur)="onDaysBlur($event)"
         [disabled]="disabled() || readOnly()" [readonly]="readOnly()" />
     </mat-form-field>
     <mat-form-field class="time-field" appearance="outline" subscriptSizing="dynamic">

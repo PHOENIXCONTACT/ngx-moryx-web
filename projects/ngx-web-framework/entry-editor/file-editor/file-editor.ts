@@ -7,19 +7,33 @@ import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/f
 import { MatInputModule } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [MatFormField, MatLabel, MatPrefix, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    FormsModule,
+    MatError,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconButton,
+    MatIconModule,
+    TranslatePipe
+  ],
   templateUrl: './file-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-editor.scss',
 })
 export class FileEditor {
-  protected inputFormControl!: UntypedFormControl;
-
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+
+  protected TranslationConstants = TranslationConstants;
+  protected inputFormControl!: UntypedFormControl;
 
   constructor() {
     const reference = effect(() => {
@@ -75,8 +89,8 @@ export class FileEditor {
   }
 
 
-  protected onFileSelected(event: any){
-    const file:File = event.target.files[0];
+  protected onFileSelected(event: any) {
+    const file: File = event.target.files[0];
     if (file) {
       this.inputFormControl.setValue(file.name);
       const reader = new FileReader();

@@ -37,7 +37,7 @@ export class TimeEditor {
   protected onTimeChange(value: string) {
     this.timeValue.set(value);
     this.entry.update(e => {
-      e.value.current = value || e.value?.default || null;
+      e.value.current = value;
       return { ...e };
     });
   }
