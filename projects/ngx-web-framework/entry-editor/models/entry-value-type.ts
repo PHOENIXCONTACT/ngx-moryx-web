@@ -17,5 +17,10 @@ export enum EntryValueType {
   Class = 'Class',
   Collection = 'Collection',
   Exception = 'Exception',
-  Stream = 'Stream'
+  Stream = 'Stream',
+  Struct = 'Struct',
+  DateTime = 'DateTime',
+  Date = 'Date',
+  Time = 'Time',
+  TimeSpan = 'TimeSpan'
 }

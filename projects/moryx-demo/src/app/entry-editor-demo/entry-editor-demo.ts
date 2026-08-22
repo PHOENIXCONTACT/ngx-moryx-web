@@ -113,8 +113,8 @@ export class EntryEditorDemo {
         identifier: 'Double Identifier',
         validation: { maximum: 41.5, minimum: -41.5 },
         value: {
-          current: undefined,
-          default: undefined,
+          current: '0',
+          default: '0',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Double,
@@ -572,6 +572,118 @@ export class EntryEditorDemo {
           },
         ],
         prototypes: [],
+      },
+      {
+        // Date
+        displayName: 'Test Date',
+        description: 'Date entry.',
+        identifier: 'TestDate',
+        value: {
+          current: '2025-06-15',
+          default: '2025-01-01',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Date,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Date (readonly)
+        displayName: 'Test Date (ReadOnly)',
+        description: 'Read-only Date entry.',
+        identifier: 'TestDateReadOnly',
+        value: {
+          current: '2024-03-20',
+          default: null,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Date,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Time
+        displayName: 'Test Time',
+        description: 'Time entry.',
+        identifier: 'TestTime',
+        value: {
+          current: '14:30:00',
+          default: '08:00:00',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.Time,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // Time (readonly)
+        displayName: 'Test Time (ReadOnly)',
+        description: 'Read-only Time entry.',
+        identifier: 'TestTimeReadOnly',
+        value: {
+          current: '09:15:42',
+          default: null,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.Time,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // TimeSpan
+        displayName: 'Test TimeSpan',
+        description: 'TimeSpan entry.',
+        identifier: 'TestTimeSpan',
+        value: {
+          current: '00:05:30',
+          default: '00:01:00',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.TimeSpan,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // TimeSpan ReadOnly
+        displayName: 'Test TimeSpan (ReadOnly)',
+        description: 'Read-only TimeSpan entry.',
+        identifier: 'TestTimeSpanReadOnly',
+        value: {
+          current: '3.12:45:00',
+          default: '00:00:00',
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.TimeSpan,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // DateTime
+        displayName: 'Test DateTime',
+        description: 'DateTime entry.',
+        identifier: 'TestDateTime',
+        value: {
+          current: '2025-11-20T14:30:00.000Z',
+          default: null,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.DateTime,
+          unitType: EntryUnitType.None,
+        },
+      },
+      {
+        // DateTime ReadOnly
+        displayName: 'Test DateTime (ReadOnly)',
+        description: 'Read-only DateTime entry.',
+        identifier: 'TestDateTimeReadOnly',
+        value: {
+          current: '2024-06-15T09:00:00.000Z',
+          default: null,
+          isReadOnly: true,
+          possible: undefined,
+          type: EntryValueType.DateTime,
+          unitType: EntryUnitType.None,
+        },
       },
     ],
     value: {},
