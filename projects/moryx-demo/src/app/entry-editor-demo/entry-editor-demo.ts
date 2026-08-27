@@ -75,6 +75,21 @@ export class EntryEditorDemo {
         },
       },
       {
+        // Password
+        displayName: 'Test Password',
+        description: 'This is a password entry.',
+        identifier: 'Password Identifier',
+        validation: {},
+        value: {
+          current: 'SuperSecret123',
+          default: '',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.String,
+          unitType: EntryUnitType.Password,
+        },
+      },
+      {
         // Number
         displayName: 'Test Number Name',
         description: 'This is a Test Number description.',

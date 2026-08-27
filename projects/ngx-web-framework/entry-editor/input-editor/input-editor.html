@@ -25,16 +25,18 @@
     </div>
   </div>
 } @else {
+  @let isPasswordEntry = isPassword();
+  @let isNumberEntry = isNumber();
   <mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ entry().displayName }}</mat-label>
     @if (!useTextArea()) {
       <!--  ToDo: Cleanup placeholder -->
       <input aria-label="Text field for changing an entry value."
-        [type]="isPassword ? 'password' : isNumber ? 'number' : 'text'"
-        [attr.min]="isNumber ? entry().validation?.minimum : null"
-        [attr.max]="isNumber ? entry().validation?.maximum : null"
-        [attr.step]="isNumber ? getSliderStep() : null"
-        [attr.inputmode]="isNumber ? 'decimal' : null"
+        [type]="isPasswordEntry && !showPassword() ? 'password' : isNumberEntry ? 'number' : 'text'"
+        [attr.min]="isNumberEntry ? entry().validation?.minimum : null"
+        [attr.max]="isNumberEntry ? entry().validation?.maximum : null"
+        [attr.step]="isNumberEntry ? getSliderStep() : null"
+        [attr.inputmode]="isNumberEntry ? 'decimal' : null"
         [placeholder]="inputFormControl.value === '' || inputFormControl.value === null || inputFormControl.value === undefined
           ? entry().value.default ?? ''
           : ''"
@@ -81,8 +83,14 @@
           : ''"
         rows="5" [formControl]="inputFormControl"></textarea>
     }
-    @if (!isPassword && !isNumber && !readOnly() && !useTextArea()) {
-      <button mat-icon-button type="button" matSuffix class="code-button"
+    @if (isPasswordEntry) {
+      <button mat-icon-button type="button" matSuffix class="suffix-button"
+        (click)="showPassword.set(!showPassword())">
+        <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    }
+    @if (!isPasswordEntry && !isNumberEntry && !readOnly() && !useTextArea()) {
+      <button mat-icon-button type="button" matSuffix class="suffix-button"
         [disabled]="inputFormControl.disabled" [attr.aria-label]="'html editor'"
         (click)="setTextArea(!useTextArea())">
         <mat-icon>code</mat-icon>
