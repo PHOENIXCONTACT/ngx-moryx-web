@@ -99,8 +99,8 @@ export class EntryEditorDemo {
           minimum: 41
         },
         value: {
-          current: undefined,
-          default: undefined,
+          current: '42',
+          default: '42',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Int32,
@@ -113,8 +113,8 @@ export class EntryEditorDemo {
         description: 'This is a Test Single description.',
         identifier: 'Single Identifier',
         value: {
-          current: undefined,
-          default: undefined,
+          current: '1.5',
+          default: '0',
           isReadOnly: false,
           possible: undefined,
           type: EntryValueType.Single,
@@ -1638,5 +1638,9 @@ export class EntryEditorDemo {
   protected onTcpEntryChange($event: Entry) {
     console.log('TCP Entry changed:', $event);
     this.tcpDriverSampleEntry.set($event);
+  }
+
+  protected onValidChange(valid: boolean) {
+    console.log('validChange:', valid);
   }
 }
