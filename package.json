@@ -1,6 +1,6 @@
 {
   "name": "ngx-moryx-web",
-  "version": "22.4.0",
+  "version": "22.5.0",
   "scripts": {
     "ng": "ng",
     "build": "npm run build:lib && npm run build:schematics",
@@ -37,6 +37,6 @@
     "jsdom": "^29.1.1",
     "ng-packagr": "^22.0.0",
     "typescript": "~6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^5.0.0"
   }
 }
