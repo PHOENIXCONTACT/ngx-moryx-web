@@ -118,15 +118,16 @@ export class EntryEditor {
   }
 
   protected onDeleteListItem(toBeDeleted: Entry) {
-    const entry = this.entry();
-
-    if (entry.subEntries) {
-      var index = entry.subEntries.findIndex(c => c.identifier === toBeDeleted.identifier);
-      if (index > -1) {
-        entry.subEntries.splice(index, 1);
-        this.entry.update(_ => entry);
+    this.entry.update(entry => {
+      if (!entry.subEntries) {
+        return entry;
       }
-    }
+      const updatedSubEntries = entry.subEntries.filter(c => c.identifier !== toBeDeleted.identifier);
+      return {
+        ...entry,
+        subEntries: updatedSubEntries
+      };
+    });
   }
 
   protected addItemToList() {
@@ -156,9 +157,10 @@ export class EntryEditor {
         // ToDo: Add default value to created counter
         if (this.createdCounter) {
           entry.identifier = 'CREATED' + this.createdCounter;
-          currentEntry.subEntries?.push(entry);
-          // ToDo: Use set
-          this.entry.update(_ => currentEntry);
+          this.entry.update(e => ({
+            ...e,
+            subEntries: [...(e.subEntries ?? []), entry]
+          }));
         }
       }
     }
@@ -172,20 +174,18 @@ export class EntryEditor {
 
   private onPatchToSelectedEntryType(keyPair: EntryPossible): void {
     this.entry.update(entry => {
-      entry.subEntries = [];
       const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
       if (!prototype) {
         this.selectedEntryHasPrototypes.set(false);
-        return entry;
+        return { ...entry, subEntries: [] };
       }
       const entryPrototype = PrototypeToEntryConverter.entryFromPrototype(prototype);
       entryPrototype.prototypes = JSON.parse(JSON.stringify(entry.prototypes));
       entryPrototype.value.possible = entry.value.possible;
       entryPrototype.displayName = entry.displayName;
       entryPrototype.identifier = entry.identifier;
-      Object.assign(entry, entryPrototype);
       this.selectedEntryHasPrototypes.set(true);
-      return entry;
+      return { ...entry, ...entryPrototype };
     });
   }
 

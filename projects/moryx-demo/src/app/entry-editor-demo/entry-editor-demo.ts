@@ -75,6 +75,21 @@ export class EntryEditorDemo {
         },
       },
       {
+        // Password
+        displayName: 'Test Password',
+        description: 'This is a password entry.',
+        identifier: 'Password Identifier',
+        validation: {},
+        value: {
+          current: 'SuperSecret123',
+          default: '',
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.String,
+          unitType: EntryUnitType.Password,
+        },
+      },
+      {
         // Number
         displayName: 'Test Number Name',
         description: 'This is a Test Number description.',
@@ -1618,5 +1633,10 @@ export class EntryEditorDemo {
   protected onEntryChange($event: Entry) {
     console.log('Entry changed:', $event);
     this.testEntry.set($event);
+  }
+
+  protected onTcpEntryChange($event: Entry) {
+    console.log('TCP Entry changed:', $event);
+    this.tcpDriverSampleEntry.set($event);
   }
 }
