@@ -1634,4 +1634,9 @@ export class EntryEditorDemo {
     console.log('Entry changed:', $event);
     this.testEntry.set($event);
   }
+
+  protected onTcpEntryChange($event: Entry) {
+    console.log('TCP Entry changed:', $event);
+    this.tcpDriverSampleEntry.set($event);
+  }
 }

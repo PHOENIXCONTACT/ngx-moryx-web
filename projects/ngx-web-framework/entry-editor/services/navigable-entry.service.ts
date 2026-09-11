@@ -23,7 +23,7 @@ export class NavigableEntryService {
    * @returns unique id in order to identify the navigable entry editor
    */
   signIn(entry: WritableSignal<Entry>, queryParam: string | undefined = undefined): number {
-    
+
     const editorId = ++this.biggestEditorId;
 
     // ToDo: Search for usings of 'var' instead of let or const
@@ -65,8 +65,8 @@ export class NavigableEntryService {
   }
 
   /**
-   * If the root entry changes this can either be the result of an outgoing change or an incoming change. In 
-   * the case of an incoming change the navigable entry editor needs to be updated with the new entry data. 
+   * If the root entry changes this can either be the result of an outgoing change or an incoming change. In
+   * the case of an incoming change the navigable entry editor needs to be updated with the new entry data.
    * This method recursively propagates the incoming change down to the stored signals for the path of sub-entries
    * in the NavigableEntryInformation.
   */
@@ -85,7 +85,7 @@ export class NavigableEntryService {
 
     const replacementSubEntry = updatedEntry.subEntries?.find(se => se.identifier === entryToUpdate().identifier);
     if (!replacementSubEntry) {
-      // Break recursion, trim remaining, opened branch, reset current entry and adjust query params, 
+      // Break recursion, trim remaining, opened branch, reset current entry and adjust query params,
       // as the updated entry does not contain a matching sub-entry anymore
       information.entryPath = information.entryPath.slice(0, index);
       information.currentEntry.set(information.entryPath[information.entryPath.length - 1]());
@@ -136,7 +136,7 @@ export class NavigableEntryService {
         if (!queryParams) return;
 
 
-        var newInformation = this.createNavigableEntryInformationAccordingToQueryParam(
+        const newInformation = this.createNavigableEntryInformationAccordingToQueryParam(
           parameters.baseEntry,
           parameters.queryParam,
           queryParams
@@ -227,25 +227,32 @@ export class NavigableEntryService {
     if (!this.entryEditorInformation.has(editorId)) return;
 
     const infos = this.entryEditorInformation.get(editorId);
-    if (!infos) return;
+    if (!infos) {
+      return;
+    }
 
     const parameters = this.entryEditorParameters.get(editorId);
-    if (!parameters) return;
+    if (!parameters)  {
+      return;
+    }
 
     const entrySignal = signal(newEntry);
     infos.entryPath.push(entrySignal);
     infos.currentEntry = entrySignal;
-    if (parameters.queryParam)
+    if (parameters.queryParam) {
       this.setQueryParam(infos, parameters.queryParam);
+    }
   }
 
   private setQueryParam(
     information: NavigableEntryInformation,
     queryParamName: string
   ) {
-    if (!queryParamName) return;
+    if (!queryParamName) {
+      return;
+    }
     let path = '';
-    for (var e of information.entryPath) {
+    for (const e of information.entryPath) {
       path = path + e().identifier + '.';
     }
     path = path.substring(0, path.length - 1);
@@ -259,7 +266,7 @@ export class NavigableEntryService {
     });
   }
 
-  
+
   /**
    * Notify the service about a change of a (sub)entry to propagate the chance up the
    * path of the NavigableEntryInformation for a specific signed-in editor.
@@ -296,8 +303,9 @@ export class NavigableEntryService {
     const parentEntryIndex = entryIndex - 1;
     const parentEntry = entryPath[parentEntryIndex];
     const match = parentEntry().subEntries?.find(x => x.identifier === updatedEntry.identifier);
-    if (!match)
+    if (!match) {
       throw new Error(`Failed to propagate entry change for entry ${updatedEntry.displayName}: Failed to find entry in parent entry's sub entries`);
+    }
 
     const updatedParentEntry = <Entry>{ ...parentEntry(), subEntries: parentEntry().subEntries!.map(se =>
       se.identifier === updatedEntry.identifier ? updatedEntry : se
