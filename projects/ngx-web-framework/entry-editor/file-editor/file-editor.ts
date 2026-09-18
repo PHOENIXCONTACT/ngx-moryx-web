@@ -1,4 +1,4 @@
-import { Component, effect, input, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
@@ -31,6 +31,7 @@ import { TranslationConstants } from '../translation-constants';
 export class FileEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+  validChange = output<boolean>();
 
   protected TranslationConstants = TranslationConstants;
   protected inputFormControl!: UntypedFormControl;
@@ -93,6 +94,7 @@ export class FileEditor {
     const file: File = event.target.files[0];
     if (file) {
       this.inputFormControl.setValue(file.name);
+      this.validChange.emit(this.inputFormControl.valid);
       const reader = new FileReader();
       reader.onloadend = (event) => {
         const result = event.target?.result as String;

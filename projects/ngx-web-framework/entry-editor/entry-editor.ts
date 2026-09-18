@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, model, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, input, model, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Entry } from './models/entry';
 import { EntryPossible } from './models/entry-possible';
@@ -61,7 +61,11 @@ export class EntryEditor {
   /** The entry to display and edit. Changes are propagated back via two-way binding. */
   entry = model.required<Entry>();
 
+  /** Emits whenever the overall validation state of this editor changes. */
+  validChange = output<boolean>();
+
   private currentEntry: Entry | undefined = undefined;
+  private validityMap = new Map<string, boolean>();
 
   protected EntryValueType = EntryValueType;
   protected EntryUnitType = EntryUnitType;
@@ -95,6 +99,12 @@ export class EntryEditor {
         this.selectedListItemType.set(entry.value.default);
       }
     }
+  }
+
+  protected onValidChange(identifier: string, valid: boolean) {
+    this.validityMap.set(identifier, valid);
+    const allValid = [...this.validityMap.values()].every(v => v);
+    this.validChange.emit(allValid);
   }
 
   // Value change violates immutability requirement of signals. This is to currently circumvented by

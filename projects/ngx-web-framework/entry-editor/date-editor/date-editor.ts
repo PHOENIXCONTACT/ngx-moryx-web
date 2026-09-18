@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, input, linkedSignal, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Entry } from '../models/entry';
@@ -31,6 +31,7 @@ import { TranslationConstants } from '../translation-constants';
 export class DateEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+  validChange = output<boolean>();
 
   protected TranslationConstants = TranslationConstants;
 
@@ -73,6 +74,7 @@ export class DateEditor {
 
   protected onDateChange(date: Date | null) {
     this.dateValue.set(date);
+    this.validChange.emit(!!date);
     if (date) {
       this.emitChange();
     }
