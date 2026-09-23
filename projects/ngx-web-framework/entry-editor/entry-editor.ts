@@ -182,9 +182,9 @@ export class EntryEditor {
       entry.value.possible.length > 1;
   }
 
-  private onPatchToSelectedEntryType(keyPair: EntryPossible): void {
+  private onPatchToSelectedEntryType(key: string): void {
     this.entry.update(entry => {
-      const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === keyPair.key);
+      const prototype = entry?.prototypes?.find((proto: Entry) => proto.identifier === key);
       if (!prototype) {
         this.selectedEntryHasPrototypes.set(false);
         return { ...entry, subEntries: [] };
@@ -194,6 +194,7 @@ export class EntryEditor {
       entryPrototype.value.possible = entry.value.possible;
       entryPrototype.displayName = entry.displayName;
       entryPrototype.identifier = entry.identifier;
+      entryPrototype.value.current = key;
       this.selectedEntryHasPrototypes.set(true);
       return { ...entry, ...entryPrototype };
     });
