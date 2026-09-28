@@ -20,7 +20,8 @@
 
   @if (entryInfo.currentEntry(); as current) {
     <entry-editor [editorId]="editorId()" class="navigation-entries" [entry]="current"
-      (entryChange)="onEntryChange($event)" [disabled]="disabled()">
+      (entryChange)="onEntryChange($event)" [disabled]="disabled()"
+      (validChange)="validChange.emit($event)">
     </entry-editor>
   }
 }

@@ -1,4 +1,4 @@
-import { Component, effect, input, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Entry } from '../models/entry';
 import { EntryValueType } from '../models/entry-value-type';
@@ -7,19 +7,34 @@ import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/f
 import { MatInputModule } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 @Component({
   selector: 'entry-file-editor',
-  imports: [MatFormField, MatLabel, MatPrefix, FormsModule, MatError, ReactiveFormsModule, MatInputModule, MatIconButton, MatIconModule],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    FormsModule,
+    MatError,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconButton,
+    MatIconModule,
+    TranslatePipe
+  ],
   templateUrl: './file-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-editor.scss',
 })
 export class FileEditor {
-  protected inputFormControl!: UntypedFormControl;
-
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+  validChange = output<boolean>();
+
+  protected TranslationConstants = TranslationConstants;
+  protected inputFormControl!: UntypedFormControl;
 
   constructor() {
     const reference = effect(() => {
@@ -75,10 +90,11 @@ export class FileEditor {
   }
 
 
-  protected onFileSelected(event: any){
-    const file:File = event.target.files[0];
+  protected onFileSelected(event: any) {
+    const file: File = event.target.files[0];
     if (file) {
       this.inputFormControl.setValue(file.name);
+      this.validChange.emit(this.inputFormControl.valid);
       const reader = new FileReader();
       reader.onloadend = (event) => {
         const result = event.target?.result as String;

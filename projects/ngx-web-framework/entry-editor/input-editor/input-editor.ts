@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, signal, untracked, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, model, OnDestroy, output, signal, untracked, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 // ToDo: Format file
 @Component({
@@ -29,20 +31,26 @@ import { MatSliderModule } from '@angular/material/slider';
     MatIconModule,
     MatButtonModule,
     MatSliderModule,
+    TranslatePipe,
   ],
   templateUrl: './input-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './input-editor.scss',
 })
 export class InputEditor implements OnDestroy {
-  protected inputFormControl!: UntypedFormControl;
-  private formControlSubscription?: Subscription;
-  protected isPassword!: boolean;
-  protected isNumber!: boolean;
-  protected useTextArea = signal(false);
-  protected readOnly = signal<boolean>(false);
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
+  validChange = output<boolean>();
+
+  protected isPassword = signal(false);
+  protected showPassword = signal(false);
+  protected isNumber = signal(false);
+  protected useTextArea = signal(false);
+  protected readOnly = signal<boolean>(false);
+
+  protected TranslationConstants = TranslationConstants;
+  protected inputFormControl!: UntypedFormControl;
+  private formControlSubscription?: Subscription;
   private readonly INLINE_INPUT_RANGE_THRESHOLD = 100;
 
   constructor() {
@@ -76,7 +84,7 @@ export class InputEditor implements OnDestroy {
           }
         } else {
           // Sync Control with Entry-Value:
-          if (this.isNumber) {
+          if (this.isNumber()) {
             const num = parseCultureIndependentFloat(entry.value?.current ?? null);
             const controlVal = this.inputFormControl.value;
             if ((num ?? null) !== (controlVal ?? null)) {
@@ -112,8 +120,11 @@ export class InputEditor implements OnDestroy {
   }
 
   private disableInputFormControl(control: UntypedFormControl, disable: boolean) {
-    if (disable) control.disable();
-    else control.enable();
+    if (disable) {
+      control.disable();
+    } else {
+      control.enable();
+    }
   }
 
   private setupValidators(entry: Entry): ValidatorFn[] {
@@ -122,11 +133,16 @@ export class InputEditor implements OnDestroy {
       return [];
     }
 
-    var validators = [] as ValidatorFn[];
+    const validators: ValidatorFn[] = [];
     validators.push(invalidEntryValueValidator(entry.value.type));
-    if (entry.validation?.isRequired) validators.push(Validators.required);
-    if (this.isNumber) this.addNumberValidators(validators);
-    else this.addTextValidators(validators);
+    if (entry.validation?.isRequired) {
+      validators.push(Validators.required);
+    }
+    if (this.isNumber()) {
+      this.addNumberValidators(validators);
+    } else {
+      this.addTextValidators(validators);
+    }
 
     return validators;
   }
@@ -135,47 +151,55 @@ export class InputEditor implements OnDestroy {
     // Initialvalue: for numbers parse culture independent
     const rawInitial = entry.value?.current ?? entry.value?.default ?? '';
     let initialValue;
-    if (this.isNumber) {
-          const num = parseCultureIndependentFloat(rawInitial);
+    if (this.isNumber()) {
+      const num = parseCultureIndependentFloat(rawInitial);
       initialValue = Number.isFinite(num as number) ? num : null;
     } else {
       initialValue = rawInitial;
     }
 
 
-    const controlOptions: any = this.isNumber ? { validators, updateOn: 'blur' as const } : { validators };
+    const controlOptions: any = this.isNumber() ? { validators, updateOn: 'blur' as const } : { validators };
     const result = new UntypedFormControl(
       {
         value: initialValue,
-        disabled: this.disabled() || (entry.value.isReadOnly ?? false),
+        disabled: this.disabled(),
       },
       controlOptions
     );
 
-    this.formControlSubscription = result.valueChanges.subscribe(value => {
-  if (result.status === 'VALID') {
-    this.entry.update(e => {
-      if (this.isNumber) {
-        const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
-        e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
-      } else {
-        e.value.current = value;
-      }
-      return { ...e };
-    });
-  } else if (this.isNumber) {
-    // For number inputs (updateOn: 'blur'): log on blur when parsing fails (ignore empty)
-    const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
-    const parseFailed = !(num != null && Number.isFinite(num as number));
-    const isEmpty = value == null || String(value).trim() === '';
-    if (parseFailed && !isEmpty) {
-      console.warn('number_parse_failed', {
-        field: this.entry().identifier ?? null,
-        valueType: this.entry().value?.type ?? null,
-      });
+    if (result.status !== 'VALID') {
+      result.markAsTouched();
+      result.markAsDirty();
     }
-  }
-});
+    this.validChange.emit(result.status === 'VALID');
+
+    this.formControlSubscription = result.valueChanges.subscribe(value => {
+      const isValid = result.status === 'VALID';
+      this.validChange.emit(isValid);
+      if (isValid) {
+        this.entry.update(e => {
+          if (this.isNumber()) {
+            const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+            e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
+          } else {
+            e.value.current = value;
+          }
+          return {...e};
+        });
+      } else if (this.isNumber()) {
+        // For number inputs (updateOn: 'blur'): log on blur when parsing fails (ignore empty)
+        const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
+        const parseFailed = !(num != null && Number.isFinite(num as number));
+        const isEmpty = value == null || String(value).trim() === '';
+        if (parseFailed && !isEmpty) {
+          console.warn('number_parse_failed', {
+            field: this.entry().identifier ?? null,
+            valueType: this.entry().value?.type ?? null,
+          });
+        }
+      }
+    });
 
     return result;
   }
@@ -192,8 +216,8 @@ export class InputEditor implements OnDestroy {
   }
 
   private addNumberValidators(validators: ValidatorFn[]) {
-    var typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry().value?.type);
-    var typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry().value?.type);
+    const typeSpecificMaximum = this.getTypeSpecificMaximum(this.entry().value?.type);
+    const typeSpecificMinimum = this.getTypeSpecificMinimum(this.entry().value?.type);
 
     validators.push(
       maxEntryValueValidator(Math.min(typeSpecificMaximum, this.entry().validation?.maximum ?? typeSpecificMaximum))
@@ -264,9 +288,11 @@ export class InputEditor implements OnDestroy {
       EntryValueType.Single === this.entry().value?.type ||
       EntryValueType.Double === this.entry().value?.type ||
       EntryValueType.Byte === this.entry().value?.type
-    )
-      this.isNumber = true;
-    else if (EntryUnitType.Password === this.entry().value?.unitType) this.isPassword = true;
+    ) {
+      this.isNumber.set(true);
+    } else if (EntryUnitType.Password === this.entry().value?.unitType) {
+      this.isPassword.set(true);
+    }
   }
 
   protected setTextArea(value: boolean) {
@@ -278,7 +304,7 @@ export class InputEditor implements OnDestroy {
   }
 
   private defaultSliderCheck(entryData: Entry): boolean {
-    if (!this.isNumber) return false;
+    if (!this.isNumber()) return false;
     const min = entryData.validation?.minimum;
     const max = entryData.validation?.maximum;
     if (min == null || max == null) return false;
@@ -312,6 +338,6 @@ export class InputEditor implements OnDestroy {
   }
 
   protected shouldShowInlineInput(): boolean {
-    return this.isNumber && (this.getRange() > this.INLINE_INPUT_RANGE_THRESHOLD || this.maxDigits() > 3);
+    return this.isNumber() && (this.getRange() > this.INLINE_INPUT_RANGE_THRESHOLD || this.maxDigits() > 3);
   }
 }

@@ -1,4 +1,15 @@
-import { Component, OnDestroy, input, model, inject, computed, WritableSignal, untracked, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  input,
+  model,
+  inject,
+  computed,
+  output,
+  WritableSignal,
+  untracked,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { Entry } from './models/entry';
 import { NavigableEntryService } from './services/navigable-entry.service';
 import { MatChip, MatChipSet } from '@angular/material/chips';
@@ -23,6 +34,9 @@ export class NavigableEntryEditor implements OnDestroy {
 
   /** The root entry to display and edit. Changes are propagated back via two-way binding. */
   entry = model.required<Entry>();
+
+  /** Emits whenever the overall validation state changes. */
+  validChange = output<boolean>();
 
   //id of the navigableEditor in order to be able to use several entry editors at the same time
   protected editorId = computed(() => {

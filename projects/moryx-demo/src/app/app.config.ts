@@ -2,11 +2,11 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { provideMoryxMaterialDefaults } from '@moryx/ngx-web-framework/material';
+import { provideMoryxLocalization } from '@moryx/ngx-web-framework/i18n';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,12 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    provideTranslateService({
-      loader: provideTranslateHttpLoader({
-        prefix: '/assets/i18n/',
-        suffix: '.json'
-      }),
-      fallbackLang: 'en'
-    })
+    provideTranslateService(),
+    provideMoryxLocalization(['en', 'de', 'it', 'zh']),
   ]
 };

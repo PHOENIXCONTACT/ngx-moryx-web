@@ -56,18 +56,18 @@ export class EnumEditor {
     if (Array.isArray(this.formControl.value) && this.formControl.value.length > 0) {
       this.entry.update(e => {
         e.value.current = this.formControl.value.join(",");
-        return e;
+        return { ...e };
       });
     } else if (typeof this.formControl.value === 'string' && this.formControl.value.trim().length > 0) {
       this.entry.update(e => {
         e.value.current = this.formControl.value;
-        return e;
+        return { ...e };
       });
     } else {
       console.warn("EnumEditor: No value selected, value is now set to 0");
       this.entry.update(e => {
         e.value.current = "0";
-        return e;
+        return { ...e };
       });
     }
   }
