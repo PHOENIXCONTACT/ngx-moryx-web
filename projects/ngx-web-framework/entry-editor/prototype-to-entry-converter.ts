@@ -39,8 +39,6 @@ export class PrototypeToEntryConverter {
     let entry = { ...prototype };
     entry.validation = { ...prototype.validation };
     entry.value = { ...prototype.value };
-    entry.description = `${prototype.description}`;
-    entry.displayName = `${prototype.displayName}`;
     if (prototype.subEntries && entry.subEntries) {
       entry.subEntries = [] as Entry[];
       for (let i = 0; i < prototype.subEntries?.length; i++) {

@@ -1,20 +1,9 @@
 @if (EntryValueType.Collection === entry().value.type) {
-  <div class="entry-editor-add-list-item">
-    <mat-form-field class="entry-editor-add-list-item-type-selector" appearance="outline" subscriptSizing="dynamic">
-      <mat-label>Select the type of object</mat-label>
-      <!-- Check for missing readonly integration for disabled fields and create combined/computed field -->
-      <mat-select [(ngModel)]="selectedListItemType" [disabled]="disabled()">
-        @for (pv of possibleListItemTypes(); track pv.key) {
-          <mat-option [value]="pv.key">{{ pv.displayName ?? pv.key }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-icon-button class="entry-editor-add-list-item-button" type="button"
-      (click)="addItemToList()" [disabled]="disabled()" [class.disabled]="disabled()">
-      <mat-icon>playlist_add</mat-icon>
-    </button>
-  </div>
+  <!-- ToDo: Add error message to indicate missing editor id in using application -->
+  @if (editorId()) {
+    <entry-list-editor [editorId]="editorId()!" [(entry)]="entry" [disabled]="disabled()">
+    </entry-list-editor>
+  }
 }
 
 <!-- ToDo: Clarify whether this is only intended for prototype related selections, it is also shown if no prototype exists -->
@@ -23,7 +12,7 @@
     <mat-form-field appearance="outline" class="settable-dropdown-entry-selector" subscriptSizing="dynamic">
       <mat-label>{{ entry().displayName }}</mat-label>
       <mat-select [disabled]="disabled() || (entry().value.isReadOnly ?? false)"
-        [(ngModel)]="entry().value.current" (selectionChange)="dropdownSelectionChanged($event)">
+        [(ngModel)]="entry().value.current" (selectionChange)="onPatchToSelectedEntryType($event.value)">
         @for (pv of entry().value.possible; track pv.key) {
           <mat-option [value]="pv.key" >{{ pv.displayName ?? pv.key }}</mat-option>
         }
@@ -40,19 +29,10 @@
   </div>
 }
 
-@if (entry().subEntries?.length) {
+@if (entry().subEntries?.length && EntryValueType.Collection !== entry().value.type) {
   <mat-list class="entry-editor-subentries-list">
     @for (subEntry of entry().subEntries; track subEntry.identifier) {
-      <!-- ToDo: Use switch on type -->
-      @if (EntryValueType.Collection === entry().value.type) {
-        <!-- ToDo: Add error message to indicate missing editor id in using application -->
-        @if (editorId()) {
-          <entry-list-item matLine class="entry-editor-subentries-list-item" [editorId]="editorId()!"
-            [entry]="subEntry" (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
-            (deleteRequest)="onDeleteListItem($event)">
-          </entry-list-item>
-        }
-      } @else if (EntryValueType.Stream === subEntry.value.type) {
+      @if (EntryValueType.Stream === subEntry.value.type) {
         <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
           (validChange)="onValidChange(subEntry.identifier!, $event)">
