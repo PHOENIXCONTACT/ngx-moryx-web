@@ -1,0 +1,43 @@
+<div class="content">
+  @if (EntryValueType.Stream === entry().value.type) {
+    <entry-file-editor matLine class="value" [entry]="entry()"
+      (entryChange)="entry.set($event)" [disabled]="disabled()" />
+  } @else if (EntryValueType.Class === entry().value.type || EntryValueType.Collection === entry().value.type) {
+    <entry-object-editor matLine class="value" [entry]="entry()"
+      [editorId]="editorId()" [disabled]="disabled()" />
+  } @else if (EntryValueType.Boolean === entry().value.type) {
+    <entry-boolean-editor matLine class="value" [entry]="entry()"
+      (entryChange)="entry.set($event)" [disabled]="disabled()" />
+  } @else if (EntryValueType.Enum === entry().value.type) {
+    <entry-enum-editor matLine class="value" [entry]="entry()"
+      (entryChange)="entry.set($event)" [disabled]="disabled()" />
+  } @else if (EntryValueType.Byte === entry().value.type ||
+              EntryValueType.Int16 === entry().value.type ||
+              EntryValueType.UInt16 === entry().value.type ||
+              EntryValueType.Int32 === entry().value.type ||
+              EntryValueType.UInt32 === entry().value.type ||
+              EntryValueType.Int64 === entry().value.type ||
+              EntryValueType.UInt64 === entry().value.type ||
+              EntryValueType.Single === entry().value.type ||
+              EntryValueType.Double === entry().value.type ||
+              EntryValueType.String === entry().value.type ||
+              EntryValueType.Exception === entry().value.type) {
+    <entry-input-editor matLine class="value" [entry]="entry()"
+      (entryChange)="entry.set($event)" [disabled]="disabled()" />
+  }
+
+  <button mat-icon-button class="action" type="button" (click)="onMoveUp()"
+    [disabled]="disabled() || isFirst()" [class.disabled]="disabled() || isFirst()">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+
+  <button mat-icon-button class="action" type="button" (click)="onMoveDown()"
+    [disabled]="disabled() || isLast()" [class.disabled]="disabled() || isLast()">
+    <mat-icon>arrow_downward</mat-icon>
+  </button>
+
+  <button mat-icon-button class="action" type="button" (click)="onDelete()"
+    [disabled]="disabled()" [class.disabled]="disabled()">
+    <mat-icon>playlist_remove</mat-icon>
+  </button>
+</div>

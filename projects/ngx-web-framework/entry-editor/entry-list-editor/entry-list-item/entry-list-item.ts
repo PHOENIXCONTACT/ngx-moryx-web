@@ -1,11 +1,11 @@
 import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
-import { Entry } from '../models/entry';
-import { EntryValueType } from '../models/entry-value-type';
-import { FileEditor } from '../file-editor/file-editor';
-import { EntryObject} from '../entry-object/entry-object';
-import { BooleanEditor } from '../boolean-editor/boolean-editor';
-import { InputEditor } from '../input-editor/input-editor';
-import { EnumEditor } from '../enum-editor/enum-editor';
+import { Entry } from '../../models/entry';
+import { EntryValueType } from '../../models/entry-value-type';
+import { FileEditor } from '../../file-editor/file-editor';
+import { EntryObject} from '../../entry-object/entry-object';
+import { BooleanEditor } from '../../boolean-editor/boolean-editor';
+import { InputEditor } from '../../input-editor/input-editor';
+import { EnumEditor } from '../../enum-editor/enum-editor';
 import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -32,11 +32,24 @@ export class EntryListItem {
   entry = model.required<Entry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
+  isFirst = input<boolean>(false);
+  isLast = input<boolean>(false);
+
   deleteRequest = output<Entry>();
+  moveUpRequest = output<Entry>();
+  moveDownRequest = output<Entry>();
 
   protected EntryValueType = EntryValueType;
 
   protected onDelete() {
     this.deleteRequest.emit(this.entry());
+  }
+
+  protected onMoveUp() {
+    this.moveUpRequest.emit(this.entry());
+  }
+
+  protected onMoveDown() {
+    this.moveDownRequest.emit(this.entry());
   }
 }

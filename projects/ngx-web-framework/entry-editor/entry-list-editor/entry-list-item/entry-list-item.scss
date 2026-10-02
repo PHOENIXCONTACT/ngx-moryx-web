@@ -1,0 +1,31 @@
+@use "../../style/entry-editor-base" as *;
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: stretch;
+  height: fit-content;
+}
+
+.content {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+
+  .value {
+    flex: 1 1;
+    display: flex;
+    margin-right: 4px;
+  }
+
+  .action {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
