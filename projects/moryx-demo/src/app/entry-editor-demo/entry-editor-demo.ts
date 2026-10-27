@@ -407,8 +407,8 @@ export class EntryEditorDemo {
       },
       {
         // Collection
-        displayName: 'Test Collection Name',
-        description: 'This is a Test Collection description.',
+        displayName: 'Boolean Collection',
+        description: 'A collection of boolean entries.',
         identifier: 'CollectionIdentifier',
         value: {
           default: EntryValueType.Boolean,
@@ -434,27 +434,23 @@ export class EntryEditorDemo {
         ],
         subEntries: [
           {
-            displayName: 'Test List Entry',
-            description: 'Test List Description',
+            displayName: 'Boolean Entry 1',
+            description: 'First boolean in collection',
             identifier: 'List Entry 1',
             value: {
-              current: '',
-              default: '',
-              type: EntryValueType.String,
+              current: 'True',
+              default: 'True',
+              type: EntryValueType.Boolean,
             },
           },
           {
-            // Object
-            displayName: 'Subentry Object Name',
-            description: 'This is a Subentry Object description.',
-            identifier: 'SubentryObjectIdentifier',
+            displayName: 'Boolean Entry 2',
+            description: 'Second boolean in collection',
+            identifier: 'List Entry 2',
             value: {
-              current: undefined,
-              default: undefined,
-              isReadOnly: true,
-              possible: undefined,
-              type: EntryValueType.Class,
-              unitType: EntryUnitType.None,
+              current: 'False',
+              default: 'False',
+              type: EntryValueType.Boolean,
             },
           },
         ],

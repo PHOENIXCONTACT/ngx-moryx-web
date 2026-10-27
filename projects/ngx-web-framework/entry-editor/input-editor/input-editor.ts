@@ -77,10 +77,13 @@ export class InputEditor implements OnDestroy {
           }
 
           if (entry.value?.current !== singlePossibleValue) {
-            this.entry.update(e => {
-              e.value.current = singlePossibleValue;
-              return { ...e };
-            });
+            this.entry.update(e => ({
+              ...e,
+              value: {
+                ...e.value,
+                current: singlePossibleValue
+              },
+            }));
           }
         } else {
           // Sync Control with Entry-Value:
@@ -179,13 +182,14 @@ export class InputEditor implements OnDestroy {
       this.validChange.emit(isValid);
       if (isValid) {
         this.entry.update(e => {
+          let current: string | null | undefined;
           if (this.isNumber()) {
             const num = typeof value === 'number' ? value : parseCultureIndependentFloat(value);
-            e.value.current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
+            current = (num != null && Number.isFinite(num as number)) ? String(num) : null;
           } else {
-            e.value.current = value;
+            current = value;
           }
-          return {...e};
+          return { ...e, value: { ...e.value, current } };
         });
       } else if (this.isNumber()) {
         // For number inputs (updateOn: 'blur'): log on blur when parsing fails (ignore empty)

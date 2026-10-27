@@ -88,8 +88,9 @@ export class DateEditor {
   private emitChange() {
     const date = this.dateValue();
     this.entry.update(e => {
+      let current: string | null;
       if (!date) {
-        e.value.current = null;
+        current = null;
       } else if (this.isDateTime()) {
         // Set local time — toISOString() converts back to UTC for the server
         const timeParts = (this.timeValue() || '00:00:00').split(':');
@@ -97,11 +98,17 @@ export class DateEditor {
         d.setHours(parseInt(timeParts[0]) || 0);
         d.setMinutes(parseInt(timeParts[1]) || 0);
         d.setSeconds(parseInt(timeParts[2]) || 0);
-        e.value.current = d.toISOString();
+        current = d.toISOString();
       } else {
-        e.value.current = date.toISOString().split('T')[0];
+        current = date.toISOString().split('T')[0];
       }
-      return { ...e };
+      return {
+        ...e,
+        value: {
+          ...e.value,
+          current
+        }
+      };
     });
   }
 }

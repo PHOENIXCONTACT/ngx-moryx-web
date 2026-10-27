@@ -53,11 +53,13 @@ export class FileEditor {
   }
 
   private updateCurrentValue(currentValue: EntryValue, value: any) {
-    this.entry.update(e => {
-      let copy = Object.assign({}, e);
-      copy.value.current = value ?? currentValue?.default;
-      return copy;
-    });
+    this.entry.update(e => ({
+      ...e,
+      value: {
+        ...e.value,
+        current: value ?? currentValue?.default
+      },
+    }));
   }
 
   private disableInputFormControl(control: UntypedFormControl, disable: boolean) {
