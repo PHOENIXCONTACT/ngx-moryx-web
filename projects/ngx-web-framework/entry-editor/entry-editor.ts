@@ -118,9 +118,8 @@ export class EntryEditor {
       if (!match)
         throw new Error('Failed to find sub entry with identifier ' + subEntry.identifier + ' to mutate its value');
 
-      const updatedMatch = { ...match, value: subEntry.value };
       const updatedSubEntries = item.subEntries!.map(se =>
-        se.identifier === subEntry.identifier ? updatedMatch : se
+        se.identifier === subEntry.identifier ? subEntry : se
       );
       const updatedEntry = { ...item, subEntries: updatedSubEntries };
       return updatedEntry;
