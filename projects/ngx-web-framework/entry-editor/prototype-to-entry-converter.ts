@@ -3,7 +3,6 @@ import { EntryValueType } from "./models/entry-value-type";
 
 export class PrototypeToEntryConverter {
   static convertToEntry(prototype: Entry) {
-    this.replaceCreated(prototype);
     this.convertEnumsToString(prototype);
   }
 
@@ -24,16 +23,6 @@ export class PrototypeToEntryConverter {
     return entryPrototype;
   }
 
-  private static replaceCreated(prototype: Entry) {
-    if (prototype.identifier?.includes('CREATED')) {
-      prototype.identifier = 'CREATED'
-    }
-    if (prototype.subEntries) {
-      for (let e of prototype.subEntries) {
-        this.replaceCreated(e);
-      }
-    }
-  }
 
   static cloneEntry(prototype: Entry): Entry {
     let entry = { ...prototype };

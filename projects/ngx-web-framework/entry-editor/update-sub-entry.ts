@@ -12,9 +12,8 @@ export function updateSubEntry(parent: Entry, subEntry: Entry): Entry {
     throw new Error('Failed to find sub entry with identifier ' + subEntry.identifier + ' to mutate its value');
   }
 
-  const updatedMatch = { ...match, value: subEntry.value };
   const updatedSubEntries = parent.subEntries!.map(se =>
-    se.identifier === subEntry.identifier ? updatedMatch : se
+    se.identifier === subEntry.identifier ? subEntry : se
   );
   return { ...parent, subEntries: updatedSubEntries };
 }

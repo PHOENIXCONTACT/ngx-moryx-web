@@ -298,7 +298,9 @@ export class NavigableEntryService {
    */
   private propagateEntryChange(entryPath: WritableSignal<Entry>[], entryIndex: number, updatedEntry: Entry) {
     entryPath[entryIndex].set(updatedEntry);
-    if (entryIndex === 0) return;
+    if (entryIndex === 0) {
+      return;
+    }
 
     const parentEntryIndex = entryIndex - 1;
     const parentEntry = entryPath[parentEntryIndex];
