@@ -39,8 +39,6 @@ export class EntryListEditor {
   private prototypes = computed(() => this.entry().prototypes ?? []);
   protected selectedListItemType = signal<string | undefined>(undefined);
 
-  private createdCounter = 0;
-
   protected EntryValueType = EntryValueType;
 
   constructor() {
@@ -106,17 +104,8 @@ export class EntryListEditor {
         }
       }
       if (prototype) {
-        const currentEntry = this.entry();
         const entry = PrototypeToEntryConverter.cloneEntry(prototype);
-        if (currentEntry.subEntries && currentEntry.subEntries.length > 0) {
-          const last = currentEntry.subEntries[currentEntry.subEntries.length - 1];
-          const countPattern = /\d+/;
-          const current = last.identifier ? Number(last.identifier.match(countPattern)) : 0;
-          this.createdCounter = current + 1;
-        } else {
-          this.createdCounter = 1;
-        }
-        entry.identifier = 'CREATED' + this.createdCounter;
+        entry.identifier = 'CREATED-' + crypto.randomUUID().replaceAll('-', '');
         this.entry.update(e => ({
           ...e,
           subEntries: [...(e.subEntries ?? []), entry]
