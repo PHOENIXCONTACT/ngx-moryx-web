@@ -10,6 +10,7 @@ import { MatSelect } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { CdkDropList, CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'entry-list-editor',
@@ -22,6 +23,8 @@ import { MatIcon } from '@angular/material/icon';
     FormsModule,
     MatIconButton,
     MatIcon,
+    CdkDropList,
+    CdkDrag,
   ],
   templateUrl: './entry-list-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -82,6 +85,20 @@ export class EntryListEditor {
       }
       const updated = [...entry.subEntries];
       [updated[index], updated[targetIndex]] = [updated[targetIndex], updated[index]];
+      return { ...entry, subEntries: updated };
+    });
+  }
+
+  protected onDrop(event: CdkDragDrop<Entry[]>) {
+    if (event.previousIndex === event.currentIndex) {
+      return;
+    }
+    this.entry.update(entry => {
+      if (!entry.subEntries) {
+        return entry;
+      }
+      const updated = [...entry.subEntries];
+      moveItemInArray(updated, event.previousIndex, event.currentIndex);
       return { ...entry, subEntries: updated };
     });
   }

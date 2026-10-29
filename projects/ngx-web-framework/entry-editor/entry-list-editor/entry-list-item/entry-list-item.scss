@@ -22,6 +22,21 @@
     margin-right: 4px;
   }
 
+  .drag-handle {
+    cursor: grab;
+    color: var(--mat-sys-on-surface-variant);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
   .action {
     margin: 0;
     display: flex;

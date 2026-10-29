@@ -15,9 +15,9 @@
 </div>
 
 @if (entry().subEntries?.length) {
-  <div class="items">
+  <div class="items" cdkDropList [cdkDropListDisabled]="disabled()" (cdkDropListDropped)="onDrop($event)">
     @for (subEntry of entry().subEntries; track subEntry.identifier) {
-      <entry-list-item class="item" [editorId]="editorId()"
+      <entry-list-item class="item" cdkDrag [editorId]="editorId()"
         [entry]="subEntry" (entryChange)="updateSubEntry($event)"
         [disabled]="disabled()"
         [isFirst]="$first" [isLast]="$last"

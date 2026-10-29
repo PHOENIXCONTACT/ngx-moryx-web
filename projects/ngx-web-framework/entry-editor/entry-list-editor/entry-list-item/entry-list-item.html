@@ -31,6 +31,8 @@
     <mat-icon>more_vert</mat-icon>
   </button>
 
+  <mat-icon class="drag-handle" cdkDragHandle>drag_indicator</mat-icon>
+
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="onMoveUp()" [disabled]="isFirst()">
       <mat-icon>arrow_upward</mat-icon>

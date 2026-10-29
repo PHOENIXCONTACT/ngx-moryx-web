@@ -9,6 +9,7 @@ import { EnumEditor } from '../../enum-editor/enum-editor';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { CdkDragHandle } from '@angular/cdk/drag-drop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationConstants } from '../../translation-constants';
 
@@ -24,6 +25,7 @@ import { TranslationConstants } from '../../translation-constants';
     MatIcon,
     MatMenuModule,
     TranslatePipe,
+    CdkDragHandle,
   ],
   templateUrl: './entry-list-item.html',
   changeDetection: ChangeDetectionStrategy.Eager,
