@@ -1,15 +1,15 @@
 <div class="content">
   @if (EntryValueType.Stream === entry().value.type) {
-    <entry-file-editor matLine class="value" [entry]="entry()"
+    <entry-file-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   } @else if (EntryValueType.Class === entry().value.type || EntryValueType.Collection === entry().value.type) {
-    <entry-object-editor matLine class="value" [entry]="entry()"
+    <entry-object-editor class="value" [entry]="entry()"
       [editorId]="editorId()" [disabled]="disabled()" />
   } @else if (EntryValueType.Boolean === entry().value.type) {
-    <entry-boolean-editor matLine class="value" [entry]="entry()"
+    <entry-boolean-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   } @else if (EntryValueType.Enum === entry().value.type) {
-    <entry-enum-editor matLine class="value" [entry]="entry()"
+    <entry-enum-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   } @else if (EntryValueType.Byte === entry().value.type ||
               EntryValueType.Int16 === entry().value.type ||
@@ -22,7 +22,7 @@
               EntryValueType.Double === entry().value.type ||
               EntryValueType.String === entry().value.type ||
               EntryValueType.Exception === entry().value.type) {
-    <entry-input-editor matLine class="value" [entry]="entry()"
+    <entry-input-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   }
 

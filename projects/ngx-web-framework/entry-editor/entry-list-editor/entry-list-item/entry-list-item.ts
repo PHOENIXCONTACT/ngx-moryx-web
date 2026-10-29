@@ -6,10 +6,8 @@ import { EntryObject} from '../../entry-object/entry-object';
 import { BooleanEditor } from '../../boolean-editor/boolean-editor';
 import { InputEditor } from '../../input-editor/input-editor';
 import { EnumEditor } from '../../enum-editor/enum-editor';
-import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationConstants } from '../../translation-constants';
@@ -22,10 +20,8 @@ import { TranslationConstants } from '../../translation-constants';
     BooleanEditor,
     InputEditor,
     EnumEditor,
-    MatLine,
     MatIconButton,
     MatIcon,
-    MatListModule,
     MatMenuModule,
     TranslatePipe,
   ],

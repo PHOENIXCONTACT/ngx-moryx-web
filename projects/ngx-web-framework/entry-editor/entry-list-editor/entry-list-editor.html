@@ -15,7 +15,7 @@
 </div>
 
 @if (entry().subEntries?.length) {
-  <mat-list class="items">
+  <div class="items">
     @for (subEntry of entry().subEntries; track subEntry.identifier) {
       <entry-list-item class="item" [editorId]="editorId()"
         [entry]="subEntry" (entryChange)="updateSubEntry($event)"
@@ -26,5 +26,5 @@
         (moveDownRequest)="onMoveListItemDown($event)">
       </entry-list-item>
     }
-  </mat-list>
+  </div>
 }
