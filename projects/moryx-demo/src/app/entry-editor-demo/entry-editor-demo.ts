@@ -414,7 +414,6 @@ export class EntryEditorDemo {
           default: EntryValueType.Boolean,
           possible: [
             { key: EntryValueType.Boolean, displayName: EntryValueType.Boolean },
-            { key: EntryValueType.Int64, displayName: EntryValueType.Int64 }
           ],
           type: EntryValueType.Collection,
         },
@@ -424,18 +423,12 @@ export class EntryEditorDemo {
             identifier: 'BooleanPrototype',
             description: 'Boolean Prototype Description',
             value: { default: 'True', type: EntryValueType.Boolean },
-          },
-          {
-            displayName: `${EntryValueType.Int64}`,
-            identifier: 'Int64Prototype',
-            description: 'Int64 Prototype Ddescription',
-            value: { default: '42', type: EntryValueType.Int64 },
-          },
+          }
         ],
         subEntries: [
           {
             displayName: 'Boolean Entry 1',
-            description: 'First boolean in collection',
+            description: null,
             identifier: 'List Entry 1',
             value: {
               current: 'True',
@@ -445,7 +438,7 @@ export class EntryEditorDemo {
           },
           {
             displayName: 'Boolean Entry 2',
-            description: 'Second boolean in collection',
+            description: null,
             identifier: 'List Entry 2',
             value: {
               current: 'False',
