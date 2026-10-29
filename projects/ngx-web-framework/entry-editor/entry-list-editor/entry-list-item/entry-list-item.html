@@ -26,18 +26,23 @@
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   }
 
-  <button mat-icon-button class="action" type="button" (click)="onMoveUp()"
-    [disabled]="disabled() || isFirst()" [class.disabled]="disabled() || isFirst()">
-    <mat-icon>arrow_upward</mat-icon>
-  </button>
-
-  <button mat-icon-button class="action" type="button" (click)="onMoveDown()"
-    [disabled]="disabled() || isLast()" [class.disabled]="disabled() || isLast()">
-    <mat-icon>arrow_downward</mat-icon>
-  </button>
-
-  <button mat-icon-button class="action" type="button" (click)="onDelete()"
+  <button mat-icon-button class="action" type="button" [matMenuTriggerFor]="menu"
     [disabled]="disabled()" [class.disabled]="disabled()">
-    <mat-icon>playlist_remove</mat-icon>
+    <mat-icon>more_vert</mat-icon>
   </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onMoveUp()" [disabled]="isFirst()">
+      <mat-icon>arrow_upward</mat-icon>
+      <span>{{ TranslationConstants.MOVE_UP | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onMoveDown()" [disabled]="isLast()">
+      <mat-icon>arrow_downward</mat-icon>
+      <span>{{ TranslationConstants.MOVE_DOWN | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="onDelete()">
+      <mat-icon>playlist_remove</mat-icon>
+      <span>{{ TranslationConstants.REMOVE | translate }}</span>
+    </button>
+  </mat-menu>
 </div>

@@ -10,6 +10,9 @@ import { MatLine } from '@angular/material/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../../translation-constants';
 
 @Component({
   selector: 'entry-list-item',
@@ -23,6 +26,8 @@ import { MatListModule } from '@angular/material/list';
     MatIconButton,
     MatIcon,
     MatListModule,
+    MatMenuModule,
+    TranslatePipe,
   ],
   templateUrl: './entry-list-item.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -40,6 +45,7 @@ export class EntryListItem {
   moveDownRequest = output<Entry>();
 
   protected EntryValueType = EntryValueType;
+  protected TranslationConstants = TranslationConstants;
 
   protected onDelete() {
     this.deleteRequest.emit(this.entry());
