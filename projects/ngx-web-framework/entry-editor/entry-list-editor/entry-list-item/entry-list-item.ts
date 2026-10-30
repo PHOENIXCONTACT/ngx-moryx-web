@@ -35,6 +35,7 @@ export class EntryListItem {
   entry = model.required<Entry>();
   editorId = input.required<number>();
   disabled = input<boolean>(false);
+  readonly = input<boolean>(false);
   isFirst = input<boolean>(false);
   isLast = input<boolean>(false);
 

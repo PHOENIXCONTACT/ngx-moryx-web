@@ -1,50 +1,54 @@
 <div class="content">
-  @if (EntryValueType.Stream === entry().value.type) {
+  @let valueType = entry().value.type;
+
+  @if (EntryValueType.Stream === valueType) {
     <entry-file-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Class === entry().value.type || EntryValueType.Collection === entry().value.type) {
+  } @else if (EntryValueType.Class === valueType || EntryValueType.Collection === valueType) {
     <entry-object-editor class="value" [entry]="entry()"
       [editorId]="editorId()" [disabled]="disabled()" />
-  } @else if (EntryValueType.Boolean === entry().value.type) {
+  } @else if (EntryValueType.Boolean === valueType) {
     <entry-boolean-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Enum === entry().value.type) {
+  } @else if (EntryValueType.Enum === valueType) {
     <entry-enum-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Byte === entry().value.type ||
-              EntryValueType.Int16 === entry().value.type ||
-              EntryValueType.UInt16 === entry().value.type ||
-              EntryValueType.Int32 === entry().value.type ||
-              EntryValueType.UInt32 === entry().value.type ||
-              EntryValueType.Int64 === entry().value.type ||
-              EntryValueType.UInt64 === entry().value.type ||
-              EntryValueType.Single === entry().value.type ||
-              EntryValueType.Double === entry().value.type ||
-              EntryValueType.String === entry().value.type ||
-              EntryValueType.Exception === entry().value.type) {
+  } @else if (EntryValueType.Byte === valueType ||
+              EntryValueType.Int16 === valueType ||
+              EntryValueType.UInt16 === valueType ||
+              EntryValueType.Int32 === valueType ||
+              EntryValueType.UInt32 === valueType ||
+              EntryValueType.Int64 === valueType ||
+              EntryValueType.UInt64 === valueType ||
+              EntryValueType.Single === valueType ||
+              EntryValueType.Double === valueType ||
+              EntryValueType.String === valueType ||
+              EntryValueType.Exception === valueType) {
     <entry-input-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   }
 
-  <button mat-icon-button class="action" type="button" [matMenuTriggerFor]="menu"
-    [disabled]="disabled()" [class.disabled]="disabled()">
-    <mat-icon>more_vert</mat-icon>
-  </button>
+  @if (!readonly()) {
+    <button mat-icon-button class="action" type="button" [matMenuTriggerFor]="menu"
+      [disabled]="disabled()" [class.disabled]="disabled()">
+      <mat-icon>more_vert</mat-icon>
+    </button>
 
-  <mat-icon class="drag-handle" cdkDragHandle>drag_indicator</mat-icon>
+    <mat-icon class="drag-handle" cdkDragHandle>drag_indicator</mat-icon>
 
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="onMoveUp()" [disabled]="isFirst()">
-      <mat-icon>arrow_upward</mat-icon>
-      <span>{{ TranslationConstants.MOVE_UP | translate }}</span>
-    </button>
-    <button mat-menu-item (click)="onMoveDown()" [disabled]="isLast()">
-      <mat-icon>arrow_downward</mat-icon>
-      <span>{{ TranslationConstants.MOVE_DOWN | translate }}</span>
-    </button>
-    <button mat-menu-item (click)="onDelete()">
-      <mat-icon>playlist_remove</mat-icon>
-      <span>{{ TranslationConstants.REMOVE | translate }}</span>
-    </button>
-  </mat-menu>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onMoveUp()" [disabled]="isFirst()">
+        <mat-icon>arrow_upward</mat-icon>
+        <span>{{ TranslationConstants.MOVE_UP | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="onMoveDown()" [disabled]="isLast()">
+        <mat-icon>arrow_downward</mat-icon>
+        <span>{{ TranslationConstants.MOVE_DOWN | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="onDelete()">
+        <mat-icon>playlist_remove</mat-icon>
+        <span>{{ TranslationConstants.REMOVE | translate }}</span>
+      </button>
+    </mat-menu>
+  }
 </div>

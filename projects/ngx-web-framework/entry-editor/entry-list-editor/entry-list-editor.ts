@@ -38,6 +38,7 @@ export class EntryListEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
+  protected readonly = computed(() => this.entry().value.isReadOnly ?? false);
   protected possibleListItemTypes = computed(() => this.entry().value.possible);
   private prototypes = computed(() => this.entry().prototypes ?? []);
   protected selectedListItemType = signal<string | undefined>(undefined);
