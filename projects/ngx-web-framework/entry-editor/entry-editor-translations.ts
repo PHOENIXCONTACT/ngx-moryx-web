@@ -10,6 +10,7 @@ export const ENTRY_EDITOR_TRANSLATIONS: Record<string, Record<string, Record<str
       MOVE_UP: 'Move up',
       MOVE_DOWN: 'Move down',
       REMOVE: 'Remove',
+      SELECT_TYPE: 'Select the type of object',
     },
   },
   de: {
@@ -23,6 +24,7 @@ export const ENTRY_EDITOR_TRANSLATIONS: Record<string, Record<string, Record<str
       MOVE_UP: 'Nach oben',
       MOVE_DOWN: 'Nach unten',
       REMOVE: 'Entfernen',
+      SELECT_TYPE: 'Objekttyp auswählen',
     },
   },
   it: {
@@ -36,6 +38,7 @@ export const ENTRY_EDITOR_TRANSLATIONS: Record<string, Record<string, Record<str
       MOVE_UP: 'Sposta su',
       MOVE_DOWN: 'Sposta giù',
       REMOVE: 'Rimuovi',
+      SELECT_TYPE: "Seleziona il tipo di oggetto",
     },
   },
   zh: {
@@ -49,6 +52,7 @@ export const ENTRY_EDITOR_TRANSLATIONS: Record<string, Record<string, Record<str
       MOVE_UP: '上移',
       MOVE_DOWN: '下移',
       REMOVE: '移除',
+      SELECT_TYPE: '选择对象类型',
     },
   },
 };

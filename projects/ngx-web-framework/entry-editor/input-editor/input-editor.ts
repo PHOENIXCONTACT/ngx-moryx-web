@@ -283,18 +283,18 @@ export class InputEditor implements OnDestroy {
 
   private determineInputType() {
     if (
-      EntryValueType.Int16 === this.entry().value?.type ||
-      EntryValueType.UInt16 === this.entry().value?.type ||
-      EntryValueType.Int32 === this.entry().value?.type ||
-      EntryValueType.UInt32 === this.entry().value?.type ||
-      EntryValueType.Int64 === this.entry().value?.type ||
-      EntryValueType.UInt64 === this.entry().value?.type ||
-      EntryValueType.Single === this.entry().value?.type ||
-      EntryValueType.Double === this.entry().value?.type ||
-      EntryValueType.Byte === this.entry().value?.type
+      this.entry().value?.type === EntryValueType.Int16 ||
+      this.entry().value?.type === EntryValueType.UInt16 ||
+      this.entry().value?.type === EntryValueType.Int32 ||
+      this.entry().value?.type === EntryValueType.UInt32 ||
+      this.entry().value?.type === EntryValueType.Int64 ||
+      this.entry().value?.type === EntryValueType.UInt64 ||
+      this.entry().value?.type === EntryValueType.Single ||
+      this.entry().value?.type === EntryValueType.Double ||
+      this.entry().value?.type === EntryValueType.Byte
     ) {
       this.isNumber.set(true);
-    } else if (EntryUnitType.Password === this.entry().value?.unitType) {
+    } else if (this.entry().value?.unitType === EntryUnitType.Password) {
       this.isPassword.set(true);
     }
   }

@@ -449,6 +449,50 @@ export class EntryEditorDemo {
         ],
       },
       {
+        // Readonly Collection
+        displayName: 'Readonly Boolean Collection',
+        description: 'A readonly collection of boolean entries.',
+        identifier: 'ReadonlyCollectionIdentifier',
+        value: {
+          default: EntryValueType.Boolean,
+          possible: [
+            { key: EntryValueType.Boolean, displayName: EntryValueType.Boolean },
+          ],
+          type: EntryValueType.Collection,
+          isReadOnly: true,
+        },
+        prototypes: [
+          {
+            displayName: `${EntryValueType.Boolean}`,
+            identifier: 'BooleanPrototype',
+            description: 'Boolean Prototype Description',
+            value: { default: 'True', type: EntryValueType.Boolean },
+          }
+        ],
+        subEntries: [
+          {
+            displayName: 'Readonly Boolean Entry 1',
+            description: null,
+            identifier: 'Readonly List Entry 1',
+            value: {
+              current: 'True',
+              default: 'True',
+              type: EntryValueType.Boolean,
+            },
+          },
+          {
+            displayName: 'Readonly Boolean Entry 2',
+            description: null,
+            identifier: 'Readonly List Entry 2',
+            value: {
+              current: 'False',
+              default: 'False',
+              type: EntryValueType.Boolean,
+            },
+          },
+        ],
+      },
+      {
         displayName: 'Localized Class',
         identifier: 'LocalizedClass',
         description: null,
