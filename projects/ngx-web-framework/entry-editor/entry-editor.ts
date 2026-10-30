@@ -117,16 +117,16 @@ export class EntryEditor {
     return entry.value.type !== EntryValueType.Collection &&
       (entry.value.possible && entry.value.possible.length === 1) ||
       (((entry.value.possible && entry.value.possible.length < 1) || !entry.value.possible) &&
-        (EntryValueType.Byte === entry.value?.type ||
-          EntryValueType.Int16 === entry.value?.type ||
-          EntryValueType.UInt16 === entry.value?.type ||
-          EntryValueType.Int32 === entry.value?.type ||
-          EntryValueType.UInt32 === entry.value?.type ||
-          EntryValueType.Int64 === entry.value?.type ||
-          EntryValueType.UInt64 === entry.value?.type ||
-          EntryValueType.Single === entry.value?.type ||
-          EntryValueType.Double === entry.value?.type ||
-          EntryValueType.String === entry.value?.type ||
-          EntryValueType.Exception === entry.value?.type));
+        (entry.value?.type === EntryValueType.Byte ||
+          entry.value?.type === EntryValueType.Int16 ||
+          entry.value?.type === EntryValueType.UInt16 ||
+          entry.value?.type === EntryValueType.Int32 ||
+          entry.value?.type === EntryValueType.UInt32 ||
+          entry.value?.type === EntryValueType.Int64 ||
+          entry.value?.type === EntryValueType.UInt64 ||
+          entry.value?.type === EntryValueType.Single ||
+          entry.value?.type === EntryValueType.Double ||
+          entry.value?.type === EntryValueType.String ||
+          entry.value?.type === EntryValueType.Exception));
   }
 }

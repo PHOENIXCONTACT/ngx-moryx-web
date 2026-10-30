@@ -1,7 +1,8 @@
-@if (EntryValueType.Collection === entry().value.type) {
+@let currentEditorId = editorId();
+@if (entry().value.type === EntryValueType.Collection) {
   <!-- ToDo: Add error message to indicate missing editor id in using application -->
-  @if (editorId()) {
-    <entry-list-editor [editorId]="editorId()!" [(entry)]="entry" [disabled]="disabled()">
+  @if (currentEditorId) {
+    <entry-list-editor [editorId]="currentEditorId" [(entry)]="entry" [disabled]="disabled()">
     </entry-list-editor>
   }
 }
@@ -29,49 +30,51 @@
   </div>
 }
 
-@if (entry().subEntries?.length && EntryValueType.Collection !== entry().value.type) {
+@if (entry().subEntries?.length && entry().value.type !== EntryValueType.Collection) {
   <mat-list class="entry-editor-subentries-list">
     @for (subEntry of entry().subEntries; track subEntry.identifier) {
-      @if (EntryValueType.Stream === subEntry.value.type) {
+      @let valueType = subEntry.value.type;
+      @let identifier = subEntry.identifier!;
+      @if (valueType === EntryValueType.Stream) {
         <entry-file-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
-          (validChange)="onValidChange(subEntry.identifier!, $event)">
+          (validChange)="onValidChange(identifier, $event)">
         </entry-file-editor>
-      } @else if (EntryValueType.Class === subEntry.value.type || EntryValueType.Collection === subEntry.value.type || EntryValueType.Struct === subEntry.value.type) {
+      } @else if (valueType === EntryValueType.Class || valueType === EntryValueType.Collection || valueType === EntryValueType.Struct) {
         <!-- ToDo: Add error message to indicate missing editor id in using application -->
-        @if (editorId()) {
+        @if (currentEditorId) {
           <entry-object-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
-            [editorId]="editorId()!" [disabled]="disabled()">
+            [editorId]="currentEditorId" [disabled]="disabled()">
           </entry-object-editor>
         }
-      } @else if (EntryValueType.Boolean === subEntry.value.type) {
+      } @else if (valueType === EntryValueType.Boolean) {
         <entry-boolean-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-boolean-editor>
         <!-- ToDo remove isEntryTypeSettable call, which is for class drop downs which are handled elsewhere -->
-      } @else if (EntryValueType.Enum === subEntry.value.type ||
+      } @else if (valueType === EntryValueType.Enum ||
                   ((subEntry.value.possible?.length ?? 0) > 1 &&
                    !isEntryTypeSettable(subEntry))) {
         <entry-enum-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-enum-editor>
-      } @else if (EntryValueType.Date === subEntry.value.type || EntryValueType.DateTime === subEntry.value.type) {
+      } @else if (valueType === EntryValueType.Date || valueType === EntryValueType.DateTime) {
         <entry-date-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
-          (validChange)="onValidChange(subEntry.identifier!, $event)">
+          (validChange)="onValidChange(identifier, $event)">
         </entry-date-editor>
-      } @else if (EntryValueType.Time === subEntry.value.type) {
+      } @else if (valueType === EntryValueType.Time) {
         <entry-time-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-time-editor>
-      } @else if (EntryValueType.TimeSpan === subEntry.value.type) {
+      } @else if (valueType === EntryValueType.TimeSpan) {
         <entry-timespan-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()">
         </entry-timespan-editor>
       } @else if (isPrimitiveType(subEntry)) {
         <entry-input-editor matLine class="entry-editor-subentries-list-item" [entry]="subEntry"
           (entryChange)="updateSubEntry($event)" [disabled]="disabled()"
-          (validChange)="onValidChange(subEntry.identifier!, $event)">
+          (validChange)="onValidChange(identifier, $event)">
         </entry-input-editor>
       }
     }

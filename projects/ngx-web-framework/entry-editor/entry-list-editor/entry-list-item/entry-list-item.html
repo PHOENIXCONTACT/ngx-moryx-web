@@ -1,29 +1,29 @@
 <div class="content">
   @let valueType = entry().value.type;
 
-  @if (EntryValueType.Stream === valueType) {
+  @if (valueType === EntryValueType.Stream) {
     <entry-file-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Class === valueType || EntryValueType.Collection === valueType) {
+  } @else if (valueType === EntryValueType.Class || valueType === EntryValueType.Collection) {
     <entry-object-editor class="value" [entry]="entry()"
       [editorId]="editorId()" [disabled]="disabled()" />
-  } @else if (EntryValueType.Boolean === valueType) {
+  } @else if (valueType === EntryValueType.Boolean) {
     <entry-boolean-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Enum === valueType) {
+  } @else if (valueType === EntryValueType.Enum) {
     <entry-enum-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (EntryValueType.Byte === valueType ||
-              EntryValueType.Int16 === valueType ||
-              EntryValueType.UInt16 === valueType ||
-              EntryValueType.Int32 === valueType ||
-              EntryValueType.UInt32 === valueType ||
-              EntryValueType.Int64 === valueType ||
-              EntryValueType.UInt64 === valueType ||
-              EntryValueType.Single === valueType ||
-              EntryValueType.Double === valueType ||
-              EntryValueType.String === valueType ||
-              EntryValueType.Exception === valueType) {
+  } @else if (valueType === EntryValueType.Byte ||
+              valueType === EntryValueType.Int16 ||
+              valueType === EntryValueType.UInt16 ||
+              valueType === EntryValueType.Int32 ||
+              valueType === EntryValueType.UInt32 ||
+              valueType === EntryValueType.Int64 ||
+              valueType === EntryValueType.UInt64 ||
+              valueType === EntryValueType.Single ||
+              valueType === EntryValueType.Double ||
+              valueType === EntryValueType.String ||
+              valueType === EntryValueType.Exception) {
     <entry-input-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
   }
