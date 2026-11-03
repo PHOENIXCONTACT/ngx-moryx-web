@@ -11,7 +11,7 @@
   align-items: center;
   margin-bottom: 4px;
   height: fit-content;
-  padding-top: 5px;
+  padding-top: 12px;
 
   .type-selector {
     flex: 1 1;
@@ -32,7 +32,7 @@
   justify-content: flex-start;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 8px 0;
+  padding-bottom: 8px;
 
   .item {
     height: fit-content;

@@ -8,4 +8,5 @@ export class TranslationConstants {
   public static readonly MOVE_UP = 'ENTRY_EDITOR.MOVE_UP';
   public static readonly MOVE_DOWN = 'ENTRY_EDITOR.MOVE_DOWN';
   public static readonly REMOVE = 'ENTRY_EDITOR.REMOVE';
+  public static readonly SELECT_TYPE = 'ENTRY_EDITOR.SELECT_TYPE';
 }

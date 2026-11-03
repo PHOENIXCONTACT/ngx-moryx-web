@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CdkDropList, CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslationConstants } from '../translation-constants';
 
 @Component({
   selector: 'entry-list-editor',
@@ -25,6 +27,7 @@ import { CdkDropList, CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk
     MatIcon,
     CdkDropList,
     CdkDrag,
+    TranslatePipe,
   ],
   templateUrl: './entry-list-editor.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -35,11 +38,13 @@ export class EntryListEditor {
   disabled = input<boolean>(false);
   entry = model.required<Entry>();
 
+  protected readonly = computed(() => this.entry().value.isReadOnly ?? false);
   protected possibleListItemTypes = computed(() => this.entry().value.possible);
   private prototypes = computed(() => this.entry().prototypes ?? []);
   protected selectedListItemType = signal<string | undefined>(undefined);
 
   protected EntryValueType = EntryValueType;
+  protected TranslationConstants = TranslationConstants;
 
   constructor() {
     effect(() => {
