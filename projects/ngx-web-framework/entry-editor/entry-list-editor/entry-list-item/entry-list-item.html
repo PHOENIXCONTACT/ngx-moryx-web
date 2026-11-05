@@ -4,7 +4,7 @@
   @if (valueType === EntryValueType.Stream) {
     <entry-file-editor class="value" [entry]="entry()"
       (entryChange)="entry.set($event)" [disabled]="disabled()" />
-  } @else if (valueType === EntryValueType.Class || valueType === EntryValueType.Collection) {
+  } @else if (valueType === EntryValueType.Class || valueType === EntryValueType.Collection || valueType === EntryValueType.Struct) {
     <entry-object-editor class="value" [entry]="entry()"
       [editorId]="editorId()" [disabled]="disabled()" />
   } @else if (valueType === EntryValueType.Boolean) {

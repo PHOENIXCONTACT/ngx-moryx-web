@@ -85,7 +85,8 @@ export class EntryEditor {
   }
 
   protected isEntryTypeSettable(entry: Entry): boolean {
-    return entry?.value?.type === EntryValueType.Class &&
+    const type = entry?.value?.type;
+    return (type === EntryValueType.Class || type === EntryValueType.Struct) &&
       entry.value.possible != null &&
       entry.value.possible.length > 1;
   }
