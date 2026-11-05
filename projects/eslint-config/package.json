@@ -1,0 +1,15 @@
+{
+  "name": "@moryx/eslint-config",
+  "version": "22.6.0",
+  "description": "Shared MORYX ESLint configuration for Angular projects",
+  "type": "module",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "main": "./index.mjs",
+  "peerDependencies": {
+    "angular-eslint": "^22.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "sideEffects": false
+}
