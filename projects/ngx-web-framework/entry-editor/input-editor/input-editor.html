@@ -27,6 +27,11 @@
 } @else {
   @let isPasswordEntry = isPassword();
   @let isNumberEntry = isNumber();
+  <!-- Hidden file input must be in a separate @if from the matSuffix button (NG8011),
+       so we use viewChild to bridge the template ref across scope boundaries. -->
+  @if (isBase64()) {
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #base64FileUpload />
+  }
   <mat-form-field class="full-width-input entry-form-field" appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{ entry().displayName }}</mat-label>
     @if (!useTextArea()) {
@@ -89,7 +94,14 @@
         <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     }
-    @if (!isPasswordEntry && !isNumberEntry && !readOnly() && !useTextArea()) {
+    @if (isBase64() && !readOnly()) {
+      <button mat-icon-button type="button" matSuffix class="suffix-button"
+        [disabled]="inputFormControl.disabled"
+        (click)="triggerBase64Upload()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    }
+    @if (!isPasswordEntry && !isNumberEntry && !isBase64() && !readOnly() && !useTextArea()) {
       <button mat-icon-button type="button" matSuffix class="suffix-button"
         [disabled]="inputFormControl.disabled" [attr.aria-label]="'html editor'"
         (click)="setTextArea(!useTextArea())">

@@ -335,31 +335,45 @@ export class EntryEditorDemo {
         },
       },
       {
-        // File
-        displayName: 'Test File Name',
-        description: 'This is a Test File description.',
-        identifier: 'File Identifier',
+        // FilePath
+        displayName: 'Test File Path',
+        description: 'This is a Test File Path description.',
+        identifier: 'FilePath Identifier',
         value: {
           current: undefined,
           default: undefined,
           isReadOnly: false,
           possible: undefined,
-          type: EntryValueType.Stream,
+          type: EntryValueType.String,
           unitType: EntryUnitType.FilePath,
         },
       },
       {
-        // File
-        displayName: 'Readonly Test File Name',
-        description: 'This is a Readonly Test File description.',
-        identifier: 'Readonly File Identifier',
+        // FilePath
+        displayName: 'Readonly Test File Path',
+        description: 'This is a Readonly Test File Path description.',
+        identifier: 'Readonly FilePath Identifier',
         value: {
           current: undefined,
           default: undefined,
           isReadOnly: true,
           possible: undefined,
-          type: EntryValueType.Stream,
+          type: EntryValueType.String,
           unitType: EntryUnitType.FilePath,
+        },
+      },
+      {
+        // Base64
+        displayName: 'Base64 File Content',
+        description: 'Upload a file to set its base64 content.',
+        identifier: 'Base64 Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.String,
+          unitType: EntryUnitType.Base64,
         },
       },
       {

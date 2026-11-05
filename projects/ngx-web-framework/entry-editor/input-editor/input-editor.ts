@@ -1,4 +1,4 @@
-import { Component, effect, input, model, OnDestroy, output, signal, untracked, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, ElementRef, input, model, OnDestroy, output, signal, untracked, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Entry } from '../models/entry';
@@ -45,6 +45,7 @@ export class InputEditor implements OnDestroy {
   protected isPassword = signal(false);
   protected showPassword = signal(false);
   protected isNumber = signal(false);
+  protected isBase64 = signal(false);
   protected useTextArea = signal(false);
   protected readOnly = signal<boolean>(false);
 
@@ -52,6 +53,9 @@ export class InputEditor implements OnDestroy {
   protected inputFormControl!: UntypedFormControl;
   private formControlSubscription?: Subscription;
   private readonly INLINE_INPUT_RANGE_THRESHOLD = 100;
+
+  // viewChild needed because the file input and matSuffix button must be in separate @if blocks (NG8011)
+  private base64FileInput = viewChild<ElementRef<HTMLInputElement>>('base64FileUpload');
 
   constructor() {
     this.inputFormControl = new UntypedFormControl();
@@ -296,7 +300,30 @@ export class InputEditor implements OnDestroy {
       this.isNumber.set(true);
     } else if (this.entry().value?.unitType === EntryUnitType.Password) {
       this.isPassword.set(true);
+    } else if (this.entry().value?.unitType === EntryUnitType.Base64) {
+      this.isBase64.set(true);
     }
+  }
+
+  protected triggerBase64Upload() {
+    this.base64FileInput()?.nativeElement.click();
+  }
+
+  protected onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      if (result) {
+        const base64String = result.replace('data:', '').replace(/^.+,/, '');
+        this.inputFormControl.setValue(base64String);
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   protected setTextArea(value: boolean) {
