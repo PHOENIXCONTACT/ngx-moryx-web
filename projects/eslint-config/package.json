@@ -1,6 +1,6 @@
 {
   "name": "@moryx/eslint-config",
-  "version": "22.6.0",
+  "version": "22.6.1",
   "description": "Shared MORYX ESLint configuration for Angular projects",
   "type": "module",
   "exports": {
