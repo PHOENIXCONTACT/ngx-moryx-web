@@ -115,7 +115,7 @@ export class EntryListEditor {
     if (this.selectedListItemType() && prototypes) {
       let prototype: Entry | undefined;
       for (let i = 0; i < prototypes.length; i++) {
-        if (prototypes[i].value.type == EntryValueType.Class) {
+        if (prototypes[i].value.type == EntryValueType.Class || prototypes[i].value.type == EntryValueType.Struct) {
           prototype = prototypes.find(x => x.identifier === this.selectedListItemType());
         } else {
           // ToDo: Check why this branch is necessary identifier should always be set for prototypes
