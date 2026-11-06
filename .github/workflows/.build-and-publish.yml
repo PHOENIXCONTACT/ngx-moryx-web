@@ -52,14 +52,22 @@ jobs:
     - name: 🔧 npm install
       run: npm ci
 
-    - name: Set CI version
-      working-directory: ./projects/ngx-web-framework
-      run: npm version $(npm pkg get version | sed -e 's/"//g' )-$(echo ${{ github.ref_name }} | sed -e 's/\//-/g').${{ github.run_number }} --no-git-tag-version --no-commit-hooks
+    - name: Set CI versions
       if: github.ref_type != 'tag'
+      run: |
+        CI_SUFFIX="-$(echo ${{ github.ref_name }} | sed -e 's/\//-/g').${{ github.run_number }}"
+        for pkg in ngx-web-framework eslint-config; do
+          cd projects/$pkg
+          npm version $(npm pkg get version | sed -e 's/"//g')$CI_SUFFIX --no-git-tag-version --no-commit-hooks
+          cd ../..
+        done
 
     - name: 🔨 build `ngx-web-framework`
       working-directory: ./
       run: npm run build
+
+    - name: 📦 Copy `eslint-config` to dist
+      run: cp -r projects/eslint-config dist/eslint-config
 
     - name: ⬆️ Upload artifacts
       uses: actions/upload-artifact@v4
@@ -79,6 +87,11 @@ jobs:
         path: dist/
     - name: 📦 Publish `ngx-web-framework`
       working-directory: ./dist/ngx-web-framework
+      run: |
+        npm config set ${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}:_authToken ${{ secrets.MYGET_API_KEY }}
+        npm publish --registry https:${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}
+    - name: 📦 Publish `eslint-config`
+      working-directory: ./dist/eslint-config
       run: |
         npm config set ${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}:_authToken ${{ secrets.MYGET_API_KEY }}
         npm publish --registry https:${{ needs.Variables.outputs.NPM_PACKAGE_SOURCE }}

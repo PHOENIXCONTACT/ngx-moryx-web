@@ -39,9 +39,13 @@ export class EnumEditor {
         this.formControl.patchValue(value);
       }
 
-      let copy = Object.assign({}, e);
-      copy.value.current = value;
-      return copy;
+      return {
+        ...e,
+        value: {
+          ...e.value,
+          current: value
+        }
+      };
     });
 
     if (disabled) {
@@ -53,23 +57,22 @@ export class EnumEditor {
 
   protected changed(event: any) {
     if (this.entry().value.isReadOnly) return;
+    let current: string;
     if (Array.isArray(this.formControl.value) && this.formControl.value.length > 0) {
-      this.entry.update(e => {
-        e.value.current = this.formControl.value.join(",");
-        return { ...e };
-      });
+      current = this.formControl.value.join(",");
     } else if (typeof this.formControl.value === 'string' && this.formControl.value.trim().length > 0) {
-      this.entry.update(e => {
-        e.value.current = this.formControl.value;
-        return { ...e };
-      });
+      current = this.formControl.value;
     } else {
       console.warn("EnumEditor: No value selected, value is now set to 0");
-      this.entry.update(e => {
-        e.value.current = "0";
-        return { ...e };
-      });
+      current = "0";
     }
+    this.entry.update(e => ({
+      ...e,
+      value: {
+        ...e.value,
+        current
+      }
+    }));
   }
 
   protected isFlagEnum(): boolean {

@@ -20,39 +20,19 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .mat-button-wrapper .mat-icon {
   margin-top: -4px;
 }
 
-.settable-dropdown-entry{
+.settable-dropdown-entry {
   flex: 0;
   padding-top: 5px;
+  margin-bottom: 4px;
 }
-.settable-dropdown-entry-selector{
+
+.settable-dropdown-entry-selector {
   width: 100%;
-}
-
-.entry-editor-add-list-item {
-  display: flex;
-  align-items: center;
-  margin: 0px 0px 1px 0px;
-  height: fit-content;
-  padding-top: 5px;
-}
-
-.entry-editor-add-list-item-type-selector {
-  flex: 1 1;
-  margin-right: 8px;
-}
-
-.entry-editor-add-list-item-button {
-  height: 38px;
-  width: 38px;
-  margin: 2px 4px 4px -2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

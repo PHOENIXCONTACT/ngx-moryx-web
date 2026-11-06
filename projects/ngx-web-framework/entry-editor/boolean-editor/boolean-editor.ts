@@ -38,11 +38,13 @@ export class BooleanEditor {
 
   private checkedUpdated(value: boolean) {
     this.checked.update(e => !e);
-    this.entry.update(e => {
-      let copy = Object.assign({}, e);
-      copy.value.current = this.checked() + '';
-      return copy;
-    });
+    this.entry.update(e => ({
+      ...e,
+      value: {
+        ...e.value,
+        current: this.checked() + ''
+      },
+    }));
   }
 
   protected clickContainer(event: MouseEvent) {

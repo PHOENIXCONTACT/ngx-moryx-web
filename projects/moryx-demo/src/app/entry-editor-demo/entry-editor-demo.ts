@@ -335,31 +335,45 @@ export class EntryEditorDemo {
         },
       },
       {
-        // File
-        displayName: 'Test File Name',
-        description: 'This is a Test File description.',
-        identifier: 'File Identifier',
+        // FilePath
+        displayName: 'Test File Path',
+        description: 'This is a Test File Path description.',
+        identifier: 'FilePath Identifier',
         value: {
           current: undefined,
           default: undefined,
           isReadOnly: false,
           possible: undefined,
-          type: EntryValueType.Stream,
+          type: EntryValueType.String,
           unitType: EntryUnitType.FilePath,
         },
       },
       {
-        // File
-        displayName: 'Readonly Test File Name',
-        description: 'This is a Readonly Test File description.',
-        identifier: 'Readonly File Identifier',
+        // FilePath
+        displayName: 'Readonly Test File Path',
+        description: 'This is a Readonly Test File Path description.',
+        identifier: 'Readonly FilePath Identifier',
         value: {
           current: undefined,
           default: undefined,
           isReadOnly: true,
           possible: undefined,
-          type: EntryValueType.Stream,
+          type: EntryValueType.String,
           unitType: EntryUnitType.FilePath,
+        },
+      },
+      {
+        // Base64
+        displayName: 'Base64 File Content',
+        description: 'Upload a file to set its base64 content.',
+        identifier: 'Base64 Identifier',
+        value: {
+          current: undefined,
+          default: undefined,
+          isReadOnly: false,
+          possible: undefined,
+          type: EntryValueType.String,
+          unitType: EntryUnitType.Base64,
         },
       },
       {
@@ -407,14 +421,13 @@ export class EntryEditorDemo {
       },
       {
         // Collection
-        displayName: 'Test Collection Name',
-        description: 'This is a Test Collection description.',
+        displayName: 'Boolean Collection',
+        description: 'A collection of boolean entries.',
         identifier: 'CollectionIdentifier',
         value: {
           default: EntryValueType.Boolean,
           possible: [
             { key: EntryValueType.Boolean, displayName: EntryValueType.Boolean },
-            { key: EntryValueType.Int64, displayName: EntryValueType.Int64 }
           ],
           type: EntryValueType.Collection,
         },
@@ -424,37 +437,71 @@ export class EntryEditorDemo {
             identifier: 'BooleanPrototype',
             description: 'Boolean Prototype Description',
             value: { default: 'True', type: EntryValueType.Boolean },
-          },
-          {
-            displayName: `${EntryValueType.Int64}`,
-            identifier: 'Int64Prototype',
-            description: 'Int64 Prototype Ddescription',
-            value: { default: '42', type: EntryValueType.Int64 },
-          },
+          }
         ],
         subEntries: [
           {
-            displayName: 'Test List Entry',
-            description: 'Test List Description',
+            displayName: 'Boolean Entry 1',
+            description: null,
             identifier: 'List Entry 1',
             value: {
-              current: '',
-              default: '',
-              type: EntryValueType.String,
+              current: 'True',
+              default: 'True',
+              type: EntryValueType.Boolean,
             },
           },
           {
-            // Object
-            displayName: 'Subentry Object Name',
-            description: 'This is a Subentry Object description.',
-            identifier: 'SubentryObjectIdentifier',
+            displayName: 'Boolean Entry 2',
+            description: null,
+            identifier: 'List Entry 2',
             value: {
-              current: undefined,
-              default: undefined,
-              isReadOnly: true,
-              possible: undefined,
-              type: EntryValueType.Class,
-              unitType: EntryUnitType.None,
+              current: 'False',
+              default: 'False',
+              type: EntryValueType.Boolean,
+            },
+          },
+        ],
+      },
+      {
+        // Readonly Collection
+        displayName: 'Readonly Boolean Collection',
+        description: 'A readonly collection of boolean entries.',
+        identifier: 'ReadonlyCollectionIdentifier',
+        value: {
+          default: EntryValueType.Boolean,
+          possible: [
+            { key: EntryValueType.Boolean, displayName: EntryValueType.Boolean },
+          ],
+          type: EntryValueType.Collection,
+          isReadOnly: true,
+        },
+        prototypes: [
+          {
+            displayName: `${EntryValueType.Boolean}`,
+            identifier: 'BooleanPrototype',
+            description: 'Boolean Prototype Description',
+            value: { default: 'True', type: EntryValueType.Boolean },
+          }
+        ],
+        subEntries: [
+          {
+            displayName: 'Readonly Boolean Entry 1',
+            description: null,
+            identifier: 'Readonly List Entry 1',
+            value: {
+              current: 'True',
+              default: 'True',
+              type: EntryValueType.Boolean,
+            },
+          },
+          {
+            displayName: 'Readonly Boolean Entry 2',
+            description: null,
+            identifier: 'Readonly List Entry 2',
+            value: {
+              current: 'False',
+              default: 'False',
+              type: EntryValueType.Boolean,
             },
           },
         ],

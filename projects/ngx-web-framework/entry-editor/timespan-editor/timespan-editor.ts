@@ -73,9 +73,11 @@ export class TimeSpanEditor {
 
   private emitChange() {
     const value = this.formatTimeSpan();
-    this.entry.update(e => {
-      e.value.current = value;
-      return { ...e };
-    });
+    this.entry.update(e => ({
+      ...e,
+      value: {
+        ...e.value, current: value
+      },
+    }));
   }
 }
