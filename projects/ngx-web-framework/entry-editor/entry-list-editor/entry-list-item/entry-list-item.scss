@@ -36,6 +36,11 @@
     &:active {
       cursor: grabbing;
     }
+
+    &.disabled {
+      color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+      cursor: default;
+    }
   }
 
   .action {
